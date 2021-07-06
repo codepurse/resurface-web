@@ -1,8 +1,15 @@
 import React, { Component, useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
+import Modal from "react-bootstrap/Modal";
+import ModalDialog from "react-bootstrap/ModalDialog";
+import ModalBody from "react-bootstrap/ModalBody";
 
 function appointment() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const appointment_list = [
     {
       id: 1,
@@ -28,28 +35,28 @@ function appointment() {
       notes: "For testing purposes",
     },
     {
-        id: 2,
-        time_start: "2:30 am",
-        time_end: "4:00 pm",
-        date: "06/30/2021",
-        duration: "2:30 min",
-        name: "Session with my patient",
-        type: "Session",
-        location: "Philippines",
-        Host: "Jason Brumback",
-        participants: [
-          {
-            name: "Mike boyer",
-            image: "",
-          },
-          {
-            name: "Matt cheney",
-            image: "",
-          },
-        ],
-        commentary: "asdasdasadasdsadasdasdasdasd",
-        notes: "For testing purposes",
-      },
+      id: 2,
+      time_start: "2:30 am",
+      time_end: "4:00 pm",
+      date: "06/30/2021",
+      duration: "2:30 min",
+      name: "Session with my patient",
+      type: "Session",
+      location: "Philippines",
+      Host: "Jason Brumback",
+      participants: [
+        {
+          name: "Mike boyer",
+          image: "",
+        },
+        {
+          name: "Matt cheney",
+          image: "",
+        },
+      ],
+      commentary: "asdasdasadasdsadasdasdasdasd",
+      notes: "For testing purposes",
+    },
   ];
 
   return (
@@ -72,7 +79,7 @@ function appointment() {
                     ></img>
                     Search
                   </button>
-                  <button className="btnAdd">
+                  <button className="btnAdd" onClick={handleShow}>
                     <img
                       className="img-fluid"
                       src="../Image/icon/add.png"
@@ -130,7 +137,7 @@ function appointment() {
                             src="../Image/profile.jpg"
                             className="img-fluid"
                           ></img>
-                           <img
+                          <img
                             src="../Image/images.jpg"
                             className="img-fluid"
                           ></img>
@@ -144,6 +151,17 @@ function appointment() {
           </Container>
         </Col>
       </Row>
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Body>
+          <p className="pModalheader">Create event</p>
+          <p className="pModalheadersub">
+            Please put all the details of your events.
+          </p>
+          <div className="modal-details">
+            <p className="pModalheadertext">Event Name</p>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

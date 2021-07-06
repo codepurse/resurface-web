@@ -8,10 +8,10 @@ function index() {
   const [newmess, setNewmess] = React.useState(2);
   const [appointment, setAppointment] = React.useState(0);
 
-    function setActive(e) {
-        $(".ulDashboard>li").removeClass("activeUl");
-        $(e.currentTarget).addClass("activeUl");
-    }
+  function setActive(e) {
+    $(".ulDashboard>li").removeClass("activeUl");
+    $(e.currentTarget).addClass("activeUl");
+  }
 
   return (
     <>
@@ -30,13 +30,13 @@ function index() {
         <Row>
           <Col lg={12}>
             <ul className="ulDashboard">
-              <li onClick = {setActive} className = "activeUl">
+              <li onClick={setActive} className="activeUl">
                 Appointments
               </li>
-              <li onClick = {setActive}>Time Entries</li>
-              <li onClick = {setActive}>Profile</li>
+              <li onClick={setActive}>Time Entries</li>
+              <li onClick={setActive}>Profile</li>
             </ul>
-            <hr className = "hrDashboard"></hr>
+            <hr className="hrDashboard"></hr>
           </Col>
         </Row>
         <Appointment></Appointment>
