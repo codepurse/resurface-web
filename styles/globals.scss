@@ -351,27 +351,46 @@ body {
 	padding: 25px;
 
 	.modal-details {
-		margin-top: 20px;
+		margin-top: 10px;
+		padding: 0px;
 
 		.pModalheadertext {
-			color: $font-color-blue;
+			color: #616161;
 			font-family: 'Roboto';
 			font-size: 14px;
-			font-weight: 700;
+			font-weight: 600;
 			margin-left: 2px;
+			margin-bottom: 2px;
+			margin-top: 10px;
+		}
+
+		.txtInput {
+			padding: 8px;
+			border-radius: 5px;
+			font-family: 'Roboto';
+			font-size: 15px;
+			width: 100%;
+			background: #F7F8FA;
+			border: 2px solid #EEEEEE;
+			outline: none;
+
+			&:focus {
+				border-color: #003171;
+				transition-delay: 0.1s;
+			}
 		}
 	}
 
 	.pModalheader {
-		color: $font-color-black;
+		color: #3E3D42;
 		font-family: 'Inter';
-		font-size: 1.7rem;
+		font-size: 1.5rem;
 		font-weight: 700;
 		margin-bottom: 2px;
 	}
 
 	.pModalheadersub {
-		color: #313131;
+		color: #757575;
 		font-family: 'Inter';
 		font-size: 14px;
 		font-weight: 500;
@@ -449,5 +468,49 @@ table {
 			margin-top: -5px;
 			margin-right: 2px;
 		}
+	}
+}
+
+.react-datepicker-wrapper {
+	background: #F7F8FA;
+	border: 2px solid #EEEEEE;
+	padding: 8px;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.react-datepicker__input-container {
+	background: #F7F8FA;
+	border: 2px solid #EEEEEE;
+	padding: 8px;
+	border-radius: 5px;
+	width: 100%;
+
+	&:focus {
+		border: 2px solid $font-color-blue;
+	}
+
+	input {
+		background-color: transparent;
+		font-size: 15px;
+		font-family: 'Roboto';
+		border: 0px;
+		outline: none !important;
+
+	}
+}
+
+textarea {
+	padding: 8px;
+	border-radius: 5px;
+	font-family: 'Roboto';
+	font-size: 15px;
+	width: 100%;
+	background: #F7F8FA;
+	border: 2px solid #EEEEEE;
+	outline: none;
+	margin-bottom: -2px;
+	&:focus {
+		border: 2px solid $font-color-blue;
 	}
 }

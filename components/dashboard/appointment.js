@@ -4,12 +4,17 @@ import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import ModalDialog from "react-bootstrap/ModalDialog";
 import ModalBody from "react-bootstrap/ModalBody";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Select from "react-select";
 
 function appointment() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const [startDate, setStartDate] = useState(new Date());
+  const [startTime, setStartTime] = useState(new Date());
+  const [endTime, setEndTime] = useState(new Date());
   const appointment_list = [
     {
       id: 1,
@@ -58,6 +63,35 @@ function appointment() {
       notes: "For testing purposes",
     },
   ];
+
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
+
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      background: "#F7F8FA",
+      color: "#212121",
+      border: "2px solid #EEEEEE",
+      boxShadow: "none",
+      borderRadius: "5px",
+      width: "100%",
+      padding: "1px",
+      marginTop: "5px",
+      fontFamily: "Roboto",
+      boxShadow: state.isFocused ? "#003171" : null,
+      "&:hover": {
+        borderColor: state.isFocused ? "#003171" : "",
+      },
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "#212121",
+    }),
+  };
 
   return (
     <>
@@ -155,11 +189,71 @@ function appointment() {
         <Modal.Body>
           <p className="pModalheader">Create event</p>
           <p className="pModalheadersub">
-            Please put all the details of your events.
+            This section contains all basic details of your events.
           </p>
-          <div className="modal-details">
-            <p className="pModalheadertext">Event Name</p>
-          </div>
+          <Container className="modal-details">
+            <Row>
+              <Col lg={12}>
+                <p className="pModalheadertext">Event Name</p>
+                <input type="text" className="txtInput"></input>
+              </Col>
+              <Col lg={4}>
+                <p className="pModalheadertext">Date</p>
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                />
+              </Col>
+              <Col lg={4}>
+                <p className="pModalheadertext">Start</p>
+                <DatePicker
+                  selected={startTime}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={15}
+                  timeCaption="Time"
+                  dateFormat="h:mm aa"
+                  onChange={(date) => setStartTime(date)}
+                />
+              </Col>
+              <Col lg={4}>
+                <p className="pModalheadertext">End</p>
+                <DatePicker
+                  selected={endTime}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={15}
+                  timeCaption="Time"
+                  dateFormat="h:mm aa"
+                  onChange={(date) => setEndTime(date)}
+                />
+              </Col>
+              <Col lg={6}>
+                <p className="pModalheadertext">Location</p>
+                <input type="text" className="txtInput"></input>
+              </Col>
+              <Col lg={6}>
+                <p className="pModalheadertext">Host</p>
+                <Select options={options} styles={customStyles} />
+              </Col>
+              <Col lg={12}>
+                <p className="pModalheadertext">Participants</p>
+                <Select options={options} styles={customStyles} isMulti />
+              </Col>
+              <Col lg={12}>
+                <p className="pModalheadertext">Commentary</p>
+                <textarea rows="2" cols="50">
+                 
+                </textarea>
+              </Col>
+              <Col lg={12}>
+                <p className="pModalheadertext">Notes</p>
+                <textarea rows="2" cols="50">
+                 
+                </textarea>
+              </Col>
+            </Row>
+          </Container>
         </Modal.Body>
       </Modal>
     </>
