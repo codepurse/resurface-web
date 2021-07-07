@@ -3,6 +3,7 @@ import Sidebar from "../components/sidebar";
 import Navbar from "../components/navbar";
 import Appointment from "../components/dashboard/appointment";
 import TimeEntry from "../components/dashboard/time_entry";
+import DocuTable from "../components/documents/table";
 
 import { Container, Row, Col } from "react-bootstrap";
 function index() {
@@ -27,7 +28,7 @@ function index() {
     <>
       <Sidebar></Sidebar>
       <Navbar></Navbar>
-      <Container fluid className="divDashboard">
+      <Container fluid className="divDashboard divHidden">
         <Row>
           <Col lg={12}>
             <p className="pWelcome">Welcome, {fname} </p>
@@ -59,6 +60,9 @@ function index() {
         <div className="divTimeEntry">
           <TimeEntry></TimeEntry>
         </div>
+      </Container>
+      <Container fluid className="divDocuments divHidden" id = "divDocuments">
+        <DocuTable></DocuTable>
       </Container>
     </>
   );

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&display=swap');
 
 
@@ -41,6 +41,16 @@ body {
 		image-rendering: -moz-crisp-edges;
 		image-rendering: crisp-edges;
 
+	}
+	.divLine {
+		position: absolute;
+		top:160px;
+		left: 0px;
+		width: 4px;
+		height: 30px;
+		background-color: rgb(79,169,177);
+		border-radius: 5px;
+		transition: all 0.2s;
 	}
 
 	.txtSearch {
@@ -232,18 +242,18 @@ body {
 	margin-top: 85px;
 
 	.pWelcome {
-		font-size: 30px;
-		font-family: 'Roboto', 'Inter';
-		color: #081333;
-		font-weight: 500;
+		font-size: 40px;
+		font-family: 'Inter';
+		color: $font-color-black;
+		font-weight: 800;
 		margin-bottom: 3px;
 	}
 
 	.pNew {
 		font-size: 14px;
-		font-family: 'Roboto', 'Inter';
-		color: #313131;
-		font-weight: 500;
+		font-family: Inter;
+		color: $font-color-gray;
+		font-weight: 600;
 		margin-left: 2px;
 	}
 	.divTimeEntry {
@@ -539,5 +549,45 @@ textarea {
 
 	&:focus {
 		border: 2px solid $font-color-blue;
+	}
+}
+
+.divDocuments {
+	padding-left: 270px;
+	display: none;
+	margin-top: 85px;
+	p {
+		font-size: 40px;
+		font-family: 'Inter';
+		color: $font-color-black;
+		font-weight: 800;
+		margin-bottom: 3px;
+		&:not(:first-child) {
+			font-size: 14px;
+			font-weight: 500;
+			font-family: 'Inter';
+			color: $font-color-gray;
+			text-overflow: ellipsis;
+			width: 500px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;;
+			line-clamp: 2;
+			-webkit-line-clamp: 2;
+			display: block;
+		}
+	}
+	.btnCreateDocu {
+		padding: 9px 13px;
+		border: 2px solid #EEEEEE;
+		border-radius: 8px;
+		background-color: #fff;
+		color: $font-color-blue;
+		font-family: 'Roboto';
+		margin-top: 12px;
+		margin-right: 10px;
+		margin-left: 15px;
+		outline: none !important;
+		float: right;
 	}
 }
