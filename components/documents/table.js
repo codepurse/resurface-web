@@ -10,15 +10,80 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../../services/api";
 
 function table() {
+  var options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  var today  = new Date();
+
+  function newdate(datetable){
+    var new_date = new Date(datetable);
+    return new_date
+  }
+
   return (
     <>
       <Row>
         <Col lg={6}>
           <p>Documents</p>
-          <p>All Documents relating to the app are stored here.You will find updated documents or create one. </p>
+          <p>
+            All Documents relating to the app are stored here.You will find
+            updated documents or create one.{" "}
+          </p>
         </Col>
-        <Col lg = {6}>
-            <button className = "btnCreateDocu">Create document</button>
+        <Col lg={6}>
+          <div className="form-inline float-right">
+            <input
+              type="text"
+              className="txtSearch"
+              placeholder="Search .."
+            ></input>
+            <button className="btnCreateDocu">Create document</button>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <Table className="tableDocu" responsive borderless>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Owner</th>
+                <th>Size</th>
+              </tr>
+            </thead>
+            <tbody>
+              {documents_files.map((event) => (
+                <tr>
+                  <td>
+                    <p className="pItemName">
+                      <img
+                        className="img-fluid"
+                        src={
+                          event.type == "folder"
+                            ? "../Image/icon/folder_colored.png"
+                            : ""
+                        }
+                      />
+                      {event.name}
+                    </p>
+                  </td>
+                  <td>
+                    <p>{newdate(event.date_created).toLocaleDateString("en-US", options)}</p>
+                  </td>
+                  <td>
+                    <p>{newdate(event.date_update).toLocaleDateString("en-US", options)}</p>
+                  </td>
+                  <td></td>
+                  <td><p className = "pSize">{event.size}</p></td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </Col>
       </Row>
     </>

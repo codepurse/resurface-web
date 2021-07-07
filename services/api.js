@@ -79,3 +79,22 @@ time_entry = [
       "The initial visit is a period for you and your therapist to get to know each other and get an idea of how to proceed.",
   },
 ];
+
+documents_files = [
+  {
+    id: 1,
+    type: "folder",
+    name: "Los Angeles",
+    date_created: "12/12/2021",
+    date_update: "12/12/2021",
+    size: "9.0 MB",
+  },
+  {
+    id: 2,
+    type: "folder",
+    name: "Orange country",
+    date_created: "12/12/2021",
+    date_update: "10/10/2021",
+    size: "5.3 MB"
+  }
+]
