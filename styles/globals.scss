@@ -246,6 +246,9 @@ body {
 		font-weight: 500;
 		margin-left: 2px;
 	}
+	.divTimeEntry {
+		display: none;
+	}
 }
 
 .ulDashboard {
@@ -459,18 +462,28 @@ table {
 			}
 		}
 
+		.tableNotes {
+			display: block;
+			width: 400px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;;
+			font-size: 14px;
+			margin-top: 3px;
+		}
+
 		.pBuss {
 			color: #FC883B;
 			width: max-content;
 			border-radius: 5px;
-			margin-top: -5px;
+			
 		}
 
 		.pSession {
 			color: #6B5BCC;
 			width: max-content;
 			border-radius: 5px;
-			margin-top: -5px;
+		
 		}
 
 		img {
