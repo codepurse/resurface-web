@@ -134,3 +134,24 @@ emr_list = [
     count: "2"
   }
 ]
+
+directory_list = [
+  {
+    id:"1",
+    name: "Jason Brumback",
+    location: "Orange country",
+    email: "jason@theresurfacegroup.com",
+    type: "Super Admin",
+    status: "Active",
+    image: "http://localhost:3000/Image/profile.jpg"
+  },
+  {
+    id: "2",
+    name: "Rex R Ferguson",
+    location: "Los Angeles",
+    email: "Rex@resurfacegroup.com",
+    type: "Clinician",
+    status: "Draft",
+    image: "http://localhost:3000/Image/images.jpg"
+  }
+]

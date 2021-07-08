@@ -5,7 +5,9 @@ import Appointment from "../components/dashboard/appointment";
 import TimeEntry from "../components/dashboard/time_entry";
 import DocuTable from "../components/documents/table";
 import Emr from "../components/emr/emr";
+import Directory from "../components/directory/directory";
 import { Container, Row, Col } from "react-bootstrap";
+
 function index() {
   const [fname, setFname] = React.useState("Jason");
   const [newmess, setNewmess] = React.useState(2);
@@ -66,6 +68,9 @@ function index() {
       </Container>
       <Container fluid className = "divEmr divHidden" id = "divEmr">
         <Emr></Emr>
+      </Container>
+      <Container fluid className = "divDirectory divHidden" id = "divDirectory">
+        <Directory></Directory>
       </Container>
     </>
   );

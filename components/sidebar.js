@@ -82,7 +82,7 @@ function sidebar() {
                 ></img>
                 <span>Time reporting</span>
               </li>
-              <li onClick = {setPage}>
+              <li onClick = {setPage} id = "divDirectory">
                 <img
                   src="Image/icon/folder.png"
                   className="img-fluid imgSidebar"
