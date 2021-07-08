@@ -24,7 +24,16 @@ body {
 
 * {
 	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: unset;
+	-moz-osx-font-smoothing: grayscale;
+	font-smoothing: antialiased;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+	text-rendering: optimizeLegibility !important;
 }
+
 
 
 #sidebar {
@@ -42,13 +51,14 @@ body {
 		image-rendering: crisp-edges;
 
 	}
+
 	.divLine {
 		position: absolute;
-		top:160px;
+		top: 160px;
 		left: 0px;
 		width: 4px;
 		height: 30px;
-		background-color: rgb(79,169,177);
+		background-color: rgb(79, 169, 177);
 		border-radius: 5px;
 		transition: all 0.2s;
 	}
@@ -242,7 +252,7 @@ body {
 	margin-top: 85px;
 
 	.pWelcome {
-		font-size: 40px;
+		font-size: 35px;
 		font-family: 'Inter';
 		color: $font-color-black;
 		font-weight: 800;
@@ -256,9 +266,76 @@ body {
 		font-weight: 600;
 		margin-left: 2px;
 	}
+
 	.divTimeEntry {
 		display: none;
+		thead {
+			tr {
+				th {
+					font-family: 'Inter';
+					padding-bottom: 25px;
+					border-bottom: 2px solid #EEEEEE !important;
+				}
+			}
+		}
 	}
+
+	.divSearch {
+		background-color: #fff;
+		width: 100%;
+		height: 70px;
+		border-radius: 10px;
+		border: 2px solid $bg-color-hover-white;
+		box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+		.txtSearch {
+			padding: 8px;
+			padding-left: 40px;
+			border: 2px solid #F5F5F5;
+			font-family: 'Inter', 'Roboto';
+			font-weight: 500;
+			width: 75%;
+			color: $font-color-black;
+			outline: none !important;
+			border-radius: 8px;
+			margin-top: 12px;
+			margin-left: 10px;
+			margin-right: 20px;
+			background: $bg-color-hover-white url(../public/Image/icon/loupe_blue.png) left no-repeat;
+			background-size: 18px;
+			background-position: 10px;
+		}
+	
+		.btnSearch,
+		.btnAdd {
+			padding: 7px 13px;
+			border: 2px solid #F5F5F5;
+			border-radius: 8px;
+			background-color: #fafafa;
+			color: $font-color-blue;
+			font-family: 'Roboto';
+			margin-top: 12px;
+			margin-right: 10px;
+			margin-left: 15px;
+			outline: none !important;
+	
+			img {
+				margin-right: 8px;
+			}
+	
+			&:hover {
+				box-shadow: rgba(0, 49, 113, 0.1) 0px 6px 24px 0px, rgba(0, 49, 113, 0.1) 0px 0px 0px 1px;
+	
+			}
+		.btnAdd {
+			margin-right: 0px !important;
+		}
+		}
+	
+		.btnAdd {
+			margin-left: 0px !important;
+		}
+	}
+	
 }
 
 .ulDashboard {
@@ -307,58 +384,6 @@ body {
 	margin-left: 5px;
 }
 
-.divSearch {
-	background-color: #fff;
-	width: 100%;
-	height: 70px;
-	border-radius: 10px;
-	border: 2px solid $bg-color-hover-white;
-
-	.txtSearch {
-		padding: 8px;
-		padding-left: 40px;
-		border: 2px solid #F5F5F5;
-		font-family: 'Inter', 'Roboto';
-		font-weight: 500;
-		width: 100%;
-		color: $font-color-black;
-		outline: none !important;
-		border-radius: 8px;
-		margin-top: 12px;
-		margin-left: 5px;
-		max-width: 70%;
-		background: $bg-color-hover-white url(../public/Image/icon/loupe_blue.png) left no-repeat;
-		background-size: 18px;
-		background-position: 10px;
-	}
-
-	.btnSearch,
-	.btnAdd {
-		padding: 7px 13px;
-		border: 2px solid #F5F5F5;
-		border-radius: 8px;
-		background-color: #fafafa;
-		color: $font-color-blue;
-		font-family: 'Roboto';
-		margin-top: 12px;
-		margin-right: 10px;
-		margin-left: 15px;
-		outline: none !important;
-
-		img {
-			margin-right: 8px;
-		}
-
-		&:hover {
-			box-shadow: rgba(0, 49, 113, 0.1) 0px 6px 24px 0px, rgba(0, 49, 113, 0.1) 0px 0px 0px 1px;
-
-		}
-	}
-
-	.btnAdd {
-		margin-left: 0px !important;
-	}
-}
 
 .modal-body {
 	padding: 25px;
@@ -432,10 +457,20 @@ body {
 
 }
 
+
+
 table {
 	margin-top: 20px;
 	border-collapse: separate;
 	border-spacing: 0 4px;
+
+	tbody {
+		tr {
+			&:hover {
+				background-color: #F3F2EE;
+			}
+		}
+	}
 
 	th {
 		color: $font-color-gray;
@@ -448,11 +483,7 @@ table {
 		padding: 2px;
 		border-radius: 5px;
 
-		&:hover {
-			border-radius: 5px;
-			background-color: $bg-color-hover-white;
-			box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-		}
+
 	}
 
 	td {
@@ -477,7 +508,8 @@ table {
 			width: 400px;
 			overflow: hidden;
 			white-space: nowrap;
-			text-overflow: ellipsis;;
+			text-overflow: ellipsis;
+			;
 			font-size: 14px;
 			margin-top: 3px;
 		}
@@ -486,14 +518,14 @@ table {
 			color: #FC883B;
 			width: max-content;
 			border-radius: 5px;
-			
+
 		}
 
 		.pSession {
 			color: #6B5BCC;
 			width: max-content;
 			border-radius: 5px;
-		
+
 		}
 
 		img {
@@ -535,6 +567,8 @@ table {
 	}
 }
 
+
+
 textarea {
 	padding: 8px;
 	border-radius: 5px;
@@ -552,16 +586,42 @@ textarea {
 	}
 }
 
+.tableAppointment {
+	thead {
+		tr {
+			th {
+				font-family: 'Inter';
+				padding-bottom: 20px;
+				border-bottom: 2px solid #EEEEEE !important;
+			}
+		}
+	}
+
+	tbody {
+		tr {
+			&:hover {
+				background-color: #F3F2EE;
+			}
+
+			td {
+				padding: 30x auto;
+			}
+		}
+	}
+}
+
 .divDocuments {
 	padding-left: 270px;
 	display: none;
 	margin-top: 85px;
+
 	p {
-		font-size: 40px;
+		font-size: 35px;
 		font-family: 'Inter';
 		color: $font-color-black;
 		font-weight: 800;
 		margin-bottom: 3px;
+
 		&:not(:first-child) {
 			font-size: 14px;
 			font-weight: 500;
@@ -571,6 +631,7 @@ textarea {
 			display: block;
 		}
 	}
+
 	.txtSearch {
 		padding: 8px;
 		padding-left: 40px;
@@ -587,11 +648,12 @@ textarea {
 		background-size: 18px;
 		background-position: 10px;
 		transition: all 0.1s;
+
 		&:focus {
 			border-color: rgba(0, 49, 113, 0.5)
-			
 		}
 	}
+
 	.btnCreateDocu {
 		padding: 9px 13px;
 		border: 2px solid #EEEEEE;
@@ -604,6 +666,7 @@ textarea {
 		margin-left: 15px;
 		outline: none !important;
 		float: right;
+
 		&:hover {
 			box-shadow: rgba(0, 49, 113, 0.1) 0px 6px 24px 0px, rgba(0, 49, 113, 0.1) 0px 0px 0px 1px;
 		}
@@ -611,43 +674,202 @@ textarea {
 }
 
 .tableDocu {
+
+
 	thead {
 		tr {
 			th {
+				font-family: 'Inter';
 				padding-left: 0px;
-				padding-bottom: 20px;
-				border-bottom: 2px solid $font-color-black !important;
+				padding-bottom: 25px;
+				border-bottom: 2px solid #424242 !important;
 			}
 		}
 	}
+
 	tbody {
 		tr {
+
 			td {
-				padding-left: 0px;
 				vertical-align: middle;
+				border-bottom: 1px solid #E3E2E2;
+
 				p {
 					font-size: 14px;
 					color: $font-color-black;
 					font-family: "Roboto";
+
 				}
+
 				.pItemName {
 					color: $font-color-black;
 					font-family: "Roboto";
 					font-weight: 600 !important;
 					font-size: 15px;
+
 					img {
-						width: 40px !important;
+						width: 35px !important;
 						border-radius: 0px !important;
 						margin-right: 15px;
 					}
 				}
+
 				.pSize {
 					background-color: #E5E5E5;
 					padding: 5px;
 					color: gray;
 					text-align: center;
 					max-width: 80px;
+					border-radius: 4px;
 				}
+			}
+		}
+	}
+}
+
+
+.divEmr {
+	padding-left: 270px;
+	display: none;
+	margin-top: 85px;
+
+	p {
+		font-size: 35px;
+		font-family: 'Inter';
+		color: $font-color-black;
+		font-weight: 800;
+		margin-bottom: 3px;
+
+		&:not(:first-child) {
+			font-size: 14px;
+			font-weight: 500;
+			font-family: 'Inter';
+			color: $font-color-gray;
+			width: 550px;
+			display: block;
+		}
+	}
+
+	button {
+		padding: 7px 16px;
+		border: 2px solid #F5F5F5;
+		border-radius: 8px;
+		background-color: #fafafa;
+		color: $font-color-blue;
+		font-family: 'Roboto';
+		margin-top: 12px;
+		margin-right: 5px;
+		margin-left: 15px;
+		outline: none !important;
+
+		img {
+			margin-right: 8px;
+		}
+
+		&:hover {
+			box-shadow: rgba(0, 49, 113, 0.1) 0px 6px 24px 0px, rgba(0, 49, 113, 0.1) 0px 0px 0px 1px;
+
+		}
+	}
+
+	.divSearch {
+		margin-top: 25px;
+		background-color: #fff;
+		width: 100%;
+		height: 68px;
+		border-radius: 10px;
+		border: 2px solid $bg-color-hover-white;
+		box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+		.txtSearch {
+			padding: 8px;
+			padding-left: 40px;
+			border: 2px solid $border-color-white;
+			font-family: 'Inter', 'Roboto';
+			font-weight: 500;
+			width: 48% !important;
+			color: $font-color-black;
+			outline: none !important;
+			border-radius: 8px;
+			margin-top: 4px;
+			margin-left: 5px;
+			margin-right: 40px;
+			background: $bg-color-hover-white url(../public/Image/icon/loupe_blue.png) left no-repeat;
+			background-size: 18px;
+			background-position: 10px;
+		}
+
+		.react-datepicker-wrapper {
+			background: transparent !important;
+			border: none !important;
+			padding: 8px;
+			border-radius: 5px;
+			width: 150px;
+			margin-top: 4px;
+			margin-left: -5px;
+		}
+
+		.react-datepicker__input-container {
+			background: #F7F8FA;
+			border: 2px solid $border-color-white;
+			padding: 5px;
+			border-radius: 5px;
+			width: 100%;
+
+			&:focus {
+				border: 2px solid $font-color-blue;
+			}
+
+			input {
+				background-color: transparent;
+				font-size: 15px;
+				font-family: 'Inter';
+				font-weight: 500;
+				border: 0px;
+				outline: none !important;
+
+			}
+		}
+
+		button {
+			margin-top: 5px !important;
+			width: 120px;
+		}
+	}
+}
+.conEmrtable {
+		background-color: white;
+		border: 2px solid $border-color-white;
+		border-radius: 10px;
+		margin-top: 20px;
+		box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+		padding: 0px;
+	}
+
+.tableEmr {
+	thead {
+		tr {
+			th {
+				font-family: 'Inter';
+				padding-bottom: 25px;
+				border-bottom: 2px solid #EEEEEE !important;
+			}
+		}
+	}
+	
+	tbody {
+		tr {
+
+			td {
+				vertical-align: middle;
+		
+
+				p {
+					font-size: 14px;
+					color: $font-color-black;
+					font-family: "Roboto";
+
+				}
+
 			}
 		}
 	}

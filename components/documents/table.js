@@ -16,12 +16,22 @@ function table() {
     month: "long",
     day: "numeric",
   };
-  var today  = new Date();
 
-  function newdate(datetable){
+  function newdate(datetable) {
     var new_date = new Date(datetable);
-    return new_date
+    return new_date;
   }
+
+  const fileType = (value) => {
+    switch (value) {
+      case "folder":
+        return "../Image/icon/folder_colored.png";
+      case "jpg":
+        return "../Image/icon/jpg.png";
+      case "docx":
+        return "../Image/icon/doc.png";
+    }
+  };
 
   return (
     <>
@@ -52,7 +62,7 @@ function table() {
                 <th>Name</th>
                 <th>Created</th>
                 <th>Updated</th>
-                <th>Owner</th>
+                <th>Type</th>
                 <th>Size</th>
               </tr>
             </thead>
@@ -61,25 +71,30 @@ function table() {
                 <tr>
                   <td>
                     <p className="pItemName">
-                      <img
-                        className="img-fluid"
-                        src={
-                          event.type == "folder"
-                            ? "../Image/icon/folder_colored.png"
-                            : ""
-                        }
-                      />
+                      <img className="img-fluid" src={fileType(event.type)} />
                       {event.name}
                     </p>
                   </td>
                   <td>
-                    <p>{newdate(event.date_created).toLocaleDateString("en-US", options)}</p>
+                    <p>
+                      {newdate(event.date_created).toLocaleDateString(
+                        "en-US",
+                        options
+                      )}
+                    </p>
                   </td>
                   <td>
-                    <p>{newdate(event.date_update).toLocaleDateString("en-US", options)}</p>
+                    <p>
+                      {newdate(event.date_update).toLocaleDateString(
+                        "en-US",
+                        options
+                      )}
+                    </p>
                   </td>
-                  <td></td>
-                  <td><p className = "pSize">{event.size}</p></td>
+                  <td><p>{event.type}</p></td>
+                  <td>
+                    <p className="pSize">{event.size}</p>
+                  </td>
                 </tr>
               ))}
             </tbody>

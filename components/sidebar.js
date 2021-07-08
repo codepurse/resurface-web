@@ -36,7 +36,7 @@ function sidebar() {
                 ></img>
                 <span>Dashboard</span>
               </li>
-              <li onClick = {setPage}>
+              <li onClick = {setPage} id ="divEmr">
                 <img
                   src="Image/icon/emr.png"
                   className="img-fluid imgSidebar"

@@ -61,7 +61,7 @@ time_entry = [
     event_type: "Session",
     time: "11:11 am",
     notes:
-      "A fresh take on undergraduate medical revision: concise lectures, realistic clinical cases, applied self-assessment.",
+      "A fresh take on undergraduate meFacal revision: concise lectures, realistic clinical cases, applied self-assessment.",
   },
   {
     id: 2,
@@ -96,5 +96,41 @@ documents_files = [
     date_created: "12/12/2021",
     date_update: "10/10/2021",
     size: "5.3 MB"
+  },
+  {
+    id: 3,
+    type: "jpg",
+    name: "Screenshot.jpg",
+    date_created: "05/06/2021",
+    date_update: "05/06/2021",
+    size: "1.0 MB"
+  },
+  {
+    id: 4,
+    type: "docx",
+    name: "Session.docx",
+    date_created: "01/05/2021",
+    date_update: "02/06/2021",
+    size: "3.5 MB"
+  }
+]
+
+
+emr_list = [
+  {
+    id: "1",
+    family: "Collins Family",
+    location: "Orange Country",
+    date_created: "01/05/2021",
+    date_update: "01/05/2021",
+    count: "3"
+  },
+  {
+    id: "2",
+    family: "Burtin Family",
+    location: "Los Angeles",
+    date_created: "03/05/2022",
+    date_update: "05/06/2022",
+    count: "2"
   }
 ]

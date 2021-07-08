@@ -25,7 +25,7 @@ function timeEntry() {
                   <input
                     type="text"
                     className="txtSearch"
-                    placeholder="Search for clients, event types ..."
+                    placeholder="Search .."
                   ></input>
                   <button className="btnSearch">
                     <img
@@ -39,14 +39,16 @@ function timeEntry() {
                       className="img-fluid"
                       src="../Image/icon/add.png"
                     ></img>
-                    New time entry
+                    Time entry
                   </button>
                 </div>
               </Col>
             </Row>
-            <Row>
+          </Container>
+          <Container fluid className = "conEmrtable">
+          <Row>
               <Col lg={12}>
-                <Table responsive borderless>
+                <Table className = "tableTime" responsive borderless>
                   <thead>
                     <tr>
                       <th>Date</th>

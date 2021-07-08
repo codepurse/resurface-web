@@ -4,7 +4,7 @@ import Navbar from "../components/navbar";
 import Appointment from "../components/dashboard/appointment";
 import TimeEntry from "../components/dashboard/time_entry";
 import DocuTable from "../components/documents/table";
-
+import Emr from "../components/emr/emr";
 import { Container, Row, Col } from "react-bootstrap";
 function index() {
   const [fname, setFname] = React.useState("Jason");
@@ -61,8 +61,11 @@ function index() {
           <TimeEntry></TimeEntry>
         </div>
       </Container>
-      <Container fluid className="divDocuments divHidden" id = "divDocuments">
+      <Container fluid className="divDocuments divHidden" id="divDocuments">
         <DocuTable></DocuTable>
+      </Container>
+      <Container fluid className = "divEmr divHidden" id = "divEmr">
+        <Emr></Emr>
       </Container>
     </>
   );
