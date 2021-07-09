@@ -915,18 +915,70 @@ textarea {
 		border-radius: 8px;
 		background-color: white;
 		color: $font-color-blue;
-		font-family: 'Roboto';
+		font-family: 'Inter';
 		margin-top: 12px;
 		margin-right: 5px;
 		margin-left: 15px;
 		outline: none !important;
 		float: right;
+		font-size: 15px;
+		font-weight: 600;
 
 		&:hover {
 			box-shadow: rgba(0, 49, 113, 0.1) 0px 6px 24px 0px, rgba(0, 49, 113, 0.1) 0px 0px 0px 1px;
 
 		}
 	}
+	.conAdduser {
+		.ulDashboard {
+			margin-top: 30px;
+		}
+		.conAdd {
+			background-color: white;
+			border: 2px solid $border-color-white;
+			border-radius: 10px;
+			margin-top: 20px;
+			box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+			padding: 20px;
+			.pHeaderAdd {
+				font-family: 'Inter';
+				margin-bottom: 2px;
+				font-size: 1rem;
+				font-weight: 600;
+				margin-left: 5px;
+				color: $font-color-gray;
+			}
+			.pHeaderAddsub {
+				font-family: 'Inter';
+				margin-bottom: 10px;
+				font-size: 0.9rem;
+				font-weight: 500;
+				margin-left: 5px;
+				color: $font-color-gray;
+			}
+			.txtInput {
+				padding: 8px;
+				border-radius: 5px;
+				font-family: 'Roboto';
+				font-size: 15px;
+				width: 100%;
+				background: #F7F8FA;
+				border: 2px solid #EEEEEE;
+				outline: none;
+	
+				&:focus {
+					border-color: #003171;
+					transition-delay: 0.1s;
+				}
+			}
+		}
+		
+	}
+
+}
+
+.rowDirectory {
+	display: none;
 }
 
 .tableDirectory {
@@ -950,6 +1002,7 @@ textarea {
 
 			td {
 				vertical-align: middle;
+
 				.form-inline {
 					img {
 						width: 45px;
@@ -963,6 +1016,7 @@ textarea {
 					font-family: "Roboto";
 					font-weight: 500;
 				}
+
 				.pAdmin {
 					background-color: #EBF8F5;
 					padding: 5px 10px;
@@ -970,6 +1024,7 @@ textarea {
 					border-radius: 5px;
 					width: max-content;
 				}
+
 				.pClinician {
 					background-color: #F2F4F8;
 					padding: 5px 10px;
@@ -977,18 +1032,20 @@ textarea {
 					border-radius: 5px;
 					width: max-content;
 				}
+
 				.pActive {
 					color: #2FB182;
 				}
+
 				.pDraft {
 					color: #DA3059;
 				}
 
 				span {
 					color: $font-color-blue;
-					font-family: 'Roboto';
+					font-family: 'Inter';
 					font-size: 15px;
-					font-weight: 600;
+					font-weight: 700;
 
 					span {
 						font-size: 14px;
@@ -997,6 +1054,7 @@ textarea {
 						color: $font-color-gray;
 					}
 				}
+
 				button {
 					border: 2px solid $border-color-white;
 					background-color: #F9F9FB;
@@ -1007,12 +1065,61 @@ textarea {
 
 			}
 
-			
+
 		}
 	}
+
+
 }
 
 .imgAction {
 	border-radius: 0px !important;
 	width: 18px !important;
+	margin-left: 4px;
+}
+
+.pModalTitle {
+	font-size: 1.1rem;
+	font-weight: 600;
+	font-family: 'Inter';
+	color: $font-color-black;
+	margin-bottom: 6px;
+
+	img {
+		width: 24px;
+		margin-right: 10px;
+		margin-top: -2px;
+	}
+}
+
+.pModalTitleSub {
+	font-size: 15px;
+	font-weight: 500;
+	font-family: 'Inter';
+	color: $font-color-gray;
+	margin-bottom: 0px;
+	margin-left: 35px;
+}
+
+.btnDeleteAccount {
+	padding: 7px 13px;
+	border: 2px solid #F5F5F5;
+	border-radius: 8px;
+	background-color: #fafafa;
+	color: $font-color-blue;
+	font-family: 'Inter';
+	margin-top: 12px;
+	margin-right: 15px;
+	margin-left: 15px;
+	outline: none !important;
+	min-width: 150px;
+	&:first-child {
+		background-color: #362D64;
+		color: white;
+		margin-left: 30px;
+	}
+	&:hover {
+		box-shadow: rgba(0, 49, 113, 0.1) 0px 6px 24px 0px, rgba(0, 49, 113, 0.1) 0px 0px 0px 1px;
+
+	}
 }

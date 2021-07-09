@@ -3,35 +3,39 @@ import { Container, Row, Col } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import "react-datepicker/dist/react-datepicker.css";
-import Select from "react-select";
-import DatePicker from "react-datepicker";
-import { useTable, useExpanded } from "react-table";
-
+import Adduser from "../../components/directory/adduser";
 /* Fake data */
 import "../../services/api";
 
- const permission = (value) => {
-    switch (value) {
-      case "Super Admin":
-        return "pAdmin";
-      case "Clinician":
-        return "pClinician";
-    }
-  };
+const permission = (value) => {
+  switch (value) {
+    case "Super Admin":
+      return "pAdmin";
+    case "Clinician":
+      return "pClinician";
+  }
+};
 
-  const status = (value) => {
-    switch (value) {
-      case "Active":
-        return "pActive";
-      case "Draft":
-        return "pDraft";
-    }
-  };
+const status = (value) => {
+  switch (value) {
+    case "Active":
+      return "pActive";
+    case "Draft":
+      return "pDraft";
+  }
+};
 
 function directory() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  function addNew() {
+    $(".rowDirectory").hide();
+  }
   return (
     <>
-      <Row>
+      <Row className="rowDirectory">
         <Col lg={6}>
           <p>Clinician Directory</p>
           <p>
@@ -40,11 +44,11 @@ function directory() {
           </p>
         </Col>
         <Col lg={6}>
-          <button>Add New User</button>
+          <button onClick={addNew}>Add New User</button>
         </Col>
       </Row>
-      <Container fluid className="conEmrtable">
-        <Row>
+      <Container fluid className="conEmrtable rowDirectory">
+        <Row className="rowDirectory">
           <Col lg={12}>
             <Table responsive borderless className="tableDirectory">
               <thead>
@@ -65,22 +69,62 @@ function directory() {
                         <span>
                           {event.name}
                           <br></br>
-                         <span> {event.location}</span>
+                          <span> {event.location}</span>
                         </span>
                       </div>
                     </td>
                     <td>
                       <p>{event.email}</p>
                     </td>
-                    <td><p className = {permission(event.type)}>{event.type}</p></td>
-                    <td><p className = {status(event.status)}>{event.status}</p></td>
-                  <td><button><img className = "imgAction" src = "Image/icon/trash.png"></img></button></td>
+                    <td>
+                      <p className={permission(event.type)}>{event.type}</p>
+                    </td>
+                    <td>
+                      <p className={status(event.status)}>{event.status}</p>
+                    </td>
+                    <td>
+                      <button onClick={handleShow}>
+                        <img
+                          className="imgAction"
+                          src="Image/icon/delete.png"
+                        ></img>
+                      </button>
+                      <button>
+                        <img
+                          className="imgAction"
+                          src="Image/icon/edit.png"
+                        ></img>
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </Table>
           </Col>
         </Row>
+        <Modal show={show} onHide={handleClose} centered>
+          <Modal.Body>
+            <Container>
+              <Row>
+                <Col lg={12}>
+                  <p className="pModalTitle">
+                    <img src="Image/icon/trash.png"></img>Delete account
+                  </p>
+                  <p className="pModalTitleSub">
+                    Are you sure you want to delete this account?
+                  </p>
+                </Col>
+                <Col lg={12}>
+                  <button className="btnDeleteAccount">Delete</button>
+                  <button className="btnDeleteAccount">Cancel</button>
+                </Col>
+              </Row>
+            </Container>
+          </Modal.Body>
+        </Modal>
+      </Container>
+      <Container fluid className = "conAdduser">
+      <Adduser></Adduser>
       </Container>
     </>
   );
