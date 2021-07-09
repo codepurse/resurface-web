@@ -20,7 +20,9 @@ body {
 	margin: 0;
 	background-color: $bg-color-darkwhite;
 	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	scroll-behavior: smooth;
 }
+
 
 * {
 	box-sizing: border-box;
@@ -44,7 +46,7 @@ body {
 	width: 250px;
 	background-color: $bg-color-blue;
 	border-right: 2px solid $bg-color-hover-white;
-	z-index: 1;
+	z-index: 3;
 
 	#logo {
 		image-rendering: -moz-crisp-edges;
@@ -167,7 +169,7 @@ body {
 	border-bottom: 2px solid $bg-color-hover-white;
 	color: #fff;
 	background-color: #fff;
-
+	z-index: 2;
 	#dropdown-basic-button {
 		float: right;
 		margin-top: 14px;
@@ -891,7 +893,7 @@ textarea {
 	padding-left: 270px;
 	display: none;
 	margin-top: 85px;
-
+	padding-bottom: 40px;
 	p {
 		font-size: 35px;
 		font-family: 'Inter';
@@ -965,12 +967,43 @@ textarea {
 				background: #F7F8FA;
 				border: 2px solid #EEEEEE;
 				outline: none;
+				margin-bottom: 15px;
 	
 				&:focus {
 					border-color: #003171;
 					transition-delay: 0.1s;
 				}
 			}
+			.imgProfile {
+				width: 150px;
+			}
+			.btnDeletePhone {
+				background-color: #1C1D2E;
+				color: white;
+				width: 100%;
+				font-family: 'Inter';
+				font-weight: 500;
+				padding: 10px;
+				margin-top: 25px;
+			}
+			.divUpload {
+				background-color: #F7F8FA;
+				background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23EEEEEEFF' stroke-width='6' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e");
+				width: 100%;
+				height: 150px;
+				display: flex;
+				align-items: center;
+				 p {
+					font-family: 'Inter';
+					font-weight: 500;
+					font-size: 14px;
+					text-align: center !important;
+					width: 100% !important;
+					cursor: pointer;
+					margin-top: 10px;
+				 }
+			}
+			
 		}
 		
 	}
@@ -978,6 +1011,10 @@ textarea {
 }
 
 .rowDirectory {
+	
+}
+
+.conAdduser {
 	display: none;
 }
 

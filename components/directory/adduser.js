@@ -19,7 +19,7 @@ function addUser() {
       $(".divTimeEntry").hide();
     }
   }
-  
+
   const options_type = [
     { value: "Super Admin", label: "Super Admin" },
     { value: "Clinician", label: "Clincian" },
@@ -31,7 +31,6 @@ function addUser() {
     { value: "Archive", label: "Archive" },
   ];
 
-  
   const options_location = [
     { value: "Orange country", label: "Orange country" },
     { value: "Los angeles", label: "Los angeles" },
@@ -58,7 +57,7 @@ function addUser() {
       ...provided,
       color: "#212121",
       fontFamily: "Inter",
-      fontWeight: "600"
+      fontWeight: "600",
     }),
   };
   return (
@@ -95,24 +94,108 @@ function addUser() {
               <p className="pHeaderAdd">Administrative controls</p>
               <hr></hr>
             </Col>
-            <Col lg = {4}>
-                <p className = "pHeaderAddsub">User Type</p>
-                <Select options={options_type} styles={customStyles} placeholder = "Select .." />
+            <Col lg={4}>
+              <p className="pHeaderAddsub">User Type</p>
+              <Select
+                options={options_type}
+                styles={customStyles}
+                placeholder="Select .."
+              />
             </Col>
-            <Col lg = {4}>
-                <p className = "pHeaderAddsub">User Status</p>
-                <Select options={options_status} styles={customStyles} placeholder = "Select .." />
+            <Col lg={4}>
+              <p className="pHeaderAddsub">User Status</p>
+              <Select
+                options={options_status}
+                styles={customStyles}
+                placeholder="Select .."
+              />
             </Col>
-            <Col lg = {4}>
-                <p className = "pHeaderAddsub">Location</p>
-                <Select options={options_location} styles={customStyles} placeholder = "Select .." isMulti />
+            <Col lg={4}>
+              <p className="pHeaderAddsub">Location</p>
+              <Select
+                options={options_location}
+                styles={customStyles}
+                placeholder="Select .."
+                isMulti
+              />
             </Col>
 
             <Col lg={12}>
-                <br></br>
+              <br></br>
               <p className="pHeaderAdd">User Information</p>
               <hr></hr>
             </Col>
+          </Row>
+          <Row>
+            <Col lg={6}>
+              <Row>
+                <Col lg={4}>
+                  <p className="pHeaderAddsub">First Name</p>
+                  <input type="text" className="txtInput"></input>
+                </Col>
+                <Col lg={4}>
+                  <p className="pHeaderAddsub">Middle Name</p>
+                  <input type="text" className="txtInput"></input>
+                </Col>
+                <Col lg={4}>
+                  <p className="pHeaderAddsub">Last Name</p>
+                  <input type="text" className="txtInput"></input>
+                </Col>
+              </Row>
+            </Col>
+            <Col lg={6}>
+              <p className="pHeaderAddsub">Email Address</p>
+              <input type="text" className="txtInput"></input>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={4}>
+              <p className="pHeaderAddsub">Staf Image</p>
+              <div className="divUpload">
+                <div className = "mx-auto">
+                  <img
+                    src="Image/icon/upload.png"
+                    className="img-fluid mx-auto d-flex"
+                  ></img>
+                  <p>Browse your files here</p>
+                </div>
+              </div>
+            </Col>
+            <Col lg={8}>
+              <Row>
+                <Col lg={5}>
+                  <p className="pHeaderAddsub">Phone Number</p>
+                  <input type="text" className="txtInput"></input>
+                </Col>
+                <Col lg={4}>
+                  <p className="pHeaderAddsub">Type</p>
+                  <Select
+                    options={options_status}
+                    styles={customStyles}
+                    placeholder="Select .."
+                  />
+                </Col>
+                <Col lg={3}>
+                  <button className="btnDeletePhone">Delete</button>
+                </Col>
+              </Row>
+              <Row>
+                <Col lg={6}>
+                  <p className="pHeaderAddsub">Password</p>
+                  <input type="text" className="txtInput"></input>
+                </Col>
+                <Col lg={6}>
+                  <p className="pHeaderAddsub">Confirm Password</p>
+                  <input type="text" className="txtInput"></input>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Row>
+              <Col lg = {12}>
+                  <button>Save</button>
+                  <button>Cancel</button>
+              </Col>
           </Row>
         </Container>
       </Row>

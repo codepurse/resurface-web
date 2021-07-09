@@ -32,6 +32,7 @@ function directory() {
 
   function addNew() {
     $(".rowDirectory").hide();
+    $(".conAdduser").fadeIn();
   }
   return (
     <>

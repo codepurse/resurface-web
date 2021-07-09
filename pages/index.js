@@ -30,7 +30,8 @@ function index() {
     <>
       <Sidebar></Sidebar>
       <Navbar></Navbar>
-      <Container fluid className="divDashboard divHidden">
+     <div>
+     <Container fluid className="divDashboard divHidden">
         <Row>
           <Col lg={12}>
             <p className="pWelcome">Welcome, {fname} </p>
@@ -72,6 +73,7 @@ function index() {
       <Container fluid className = "divDirectory divHidden" id = "divDirectory">
         <Directory></Directory>
       </Container>
+     </div>
     </>
   );
 }
