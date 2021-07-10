@@ -4048,7 +4048,7 @@
   "resolved" "https://registry.npmjs.org/tty-browserify/-/tty-browserify-0.0.1.tgz"
   "version" "0.0.1"
 
-"tui-calendar@^1.12.5":
+"tui-calendar@^1.12.5", "tui-calendar@^1.13.1":
   "integrity" "sha512-6d+/JMQyPK4fAudrbsUClIAPsjZqPoY4xrYP7d624Ix2bAkmVbFpnp6UHaBVO7wHOEh6BVzoN88sUiZPcMY8rA=="
   "resolved" "https://registry.npmjs.org/tui-calendar/-/tui-calendar-1.13.1.tgz"
   "version" "1.13.1"
