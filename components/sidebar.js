@@ -68,7 +68,7 @@ function sidebar() {
                 ></img>
                 <span>Messaging</span>
               </li>
-              <li onClick = {setPage}>
+              <li onClick = {setPage} id = "divEvents">
                 <img
                   src="Image/icon/calendar.png"
                   className="img-fluid imgSidebar"
