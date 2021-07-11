@@ -1206,27 +1206,134 @@ textarea {
 		}
 	}
 
-	button {
-		padding: 7px 16px;
-		border: 2px solid #F5F5F5;
-		border-radius: 8px;
-		background-color: #fafafa;
-		color: $font-color-blue;
-		font-family: 'Roboto';
-		margin-top: 12px;
-		margin-right: 5px;
-		margin-left: 15px;
-		outline: none !important;
-
-		img {
-			margin-right: 8px;
+	.conCalendar {
+		background-color: #fff;
+		border: 1px solid $border-color-white;
+		border-radius: 4px;
+		padding: 0px;
+		margin-top: 40px;
+		.rbc-header {
+			font-size: 1rem;
+			font-family: 'Inter';
+			color: $font-color-gray;
+			padding: 10px;
+			font-weight: 600;
 		}
-
-		&:hover {
-			box-shadow: rgba(0, 49, 113, 0.1) 0px 6px 24px 0px, rgba(0, 49, 113, 0.1) 0px 0px 0px 1px;
-
+		.rbc-date-cell {
+			text-align: center;
+			font-family: 'Inter';
+			font-size: 0.9rem;
+			color: #424242;
+		}
+		.rbc-off-range-bg {
+			background-color: #F5F8FA;
+		}
+		.rbc-current {
+			color: $font-color-blue;
+		}
+		.rbc-today {
+			background-color: transparent;
+		}
+		.rbc-event {
+			background-color: #E6FFFF;
+			border-radius: 0px;
+			border-left: 2px solid #14BDD3;
+		}
+		.rbc-event-content {
+			color: rgb(22,117,135);
+			padding: 4px 4px;
+			font-family: 'Inter';
+			font-weight: 600;
+			
+			font-size: 0.9rem;
 		}
 	}
 
-}
+	.conToolbar {
+		padding-top: 20px;
 
+		.form-inline {
+
+			p {
+				font-size: 22px;
+				font-family: 'Roboto';
+				margin-bottom: 20px;
+				font-weight: 500;
+				margin-right: 7px;
+
+				img {
+					width: 15px;
+					margin-right: 14px;
+					margin-top: -5px;
+					display: none;
+				}
+			}
+
+			button {
+				border: 0px;
+				background-color: transparent;
+				margin-top: -20px;
+				padding: 5px;
+				padding-top: 4px;
+				border-radius: 50%;
+				margin-right: -8px;
+				width: 35px;
+				outline: none !important;
+
+				&:hover {
+					filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(237deg) brightness(104%) contrast(101%);
+				}
+
+				img {
+					width: 12px;
+				}
+			}
+		}
+
+		.btnNav {
+			background-color: transparent;
+			font-size: 14px;
+			font-family: 'Inter';
+			border-radius: 5px;
+			color: $font-color-gray;
+			padding: 5px;
+			width: 100px;
+			border: 1px solid #E0E0E0;
+			margin-right: 10px;
+			outline: none !important;
+			&:hover {
+				color: $font-color-blue;
+				background-color: $bg-color-hover-white;
+			}
+		}
+
+		.btn-group {
+			border: 1px solid #E0E0E0;
+			border-radius: 5px;
+			margin-top: -2px;
+			outline: none !important;
+			&:focus {
+				box-shadow: none !important;
+			}
+			button {
+				background-color: transparent;
+				font-size: 14px;
+				font-family: 'Inter';
+				color: $font-color-gray;
+				padding: 5px;
+				width: 100px;
+				border: 0px;
+				outline: none !important;
+				&:hover {
+					color: $font-color-blue;
+					background-color: $bg-color-hover-white;
+				}
+				&:focus {
+					box-shadow: none !important;
+				}
+			}
+		}
+	}
+
+
+}
