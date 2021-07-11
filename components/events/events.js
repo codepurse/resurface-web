@@ -8,7 +8,7 @@ import toolbar from "react-big-calendar";
 export default function App() {
   const date = new Date();
   const month = date.toLocaleString("default", { month: "long" });
-  const [selectedView , setSelectedview] = useState("month");
+  const [selectedView, setSelectedview] = useState("month");
 
   function customToolbar(toolbar) {
     const goToBack = () => {
@@ -21,20 +21,21 @@ export default function App() {
 
     const goToDay = () => {
       toolbar.onNavigate("TODAY");
-    }
+    };
+    
 
-    const goWeek = () => {
-      setSelectedview("week")
-    }
+    const goWeek = (e) => {
+      $(".btnweek").attr('style','color: blue !important');
+      setSelectedview("week");
+      
+     };
 
-     const goMonth = () => {
-      setSelectedview("month")
-    }
+    const goMonth = () => {
+      setSelectedview("month");
+    };
     const goDay = () => {
-      setSelectedview("day")
-    }
-
-
+      setSelectedview("day");
+    };
 
     return (
       <Container fluid className="conToolbar">
@@ -55,19 +56,33 @@ export default function App() {
           </Col>
           <Col lg={6}>
             <div className="float-right">
-              <button className="btnNav" onClick = {goToDay}>Today</button>
+              <button className="btnNav" onClick={goToDay}>
+                Today
+              </button>
               <div
                 className="btn-group"
                 role="group"
                 aria-label="Basic example"
               >
-                <button type="button" onClick = {goMonth} className="btn btn-secondary">
+                <button
+                  type="button"
+                  onClick={goMonth}
+                  className="btn btn-secondary"
+                >
                   Month
                 </button>
-                <button type="button" onClick = {goWeek} className="btn btn-secondary">
+                <button
+                  type="button"
+                  onClick={goWeek}
+                  className="btn btn-secondary btnweek"
+                >
                   Week
                 </button>
-                <button type="button" onClick = {goDay} className="btn btn-secondary">
+                <button
+                  type="button"
+                  onClick={goDay}
+                  className="btn btn-secondary"
+                >
                   Day
                 </button>
               </div>
@@ -76,6 +91,23 @@ export default function App() {
         </Row>
       </Container>
     );
+  }
+  const EventT = ({ event }) => {
+    return (
+      <span>
+        {event.title}
+        <br />
+        <span className="spanTime">{timeNow(event.start)} - {timeNow(event.end)}</span>
+      </span>
+    );
+  };
+  function timeNow(timestart) {
+    return (
+       new Date(timestart).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    )
   }
   const localizer = momentLocalizer(moment);
   return (
@@ -94,12 +126,19 @@ export default function App() {
         <Calendar
           localizer={localizer}
           events={event}
-          view = {selectedView}
+          view={selectedView}
           startAccessor="start"
           endAccessor="end"
           style={{ height: 800 }}
           components={{
             toolbar: customToolbar,
+            event: EventT,
+          }}
+          onSelectEvent={(event) => {
+            alert(event.title);
+          }}
+          tooltipAccessor={(event) => {
+            return event.title + " " + event.start;
           }}
         />
       </Container>

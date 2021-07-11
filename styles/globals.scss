@@ -1211,19 +1211,28 @@ textarea {
 		border: 1px solid $border-color-white;
 		border-radius: 4px;
 		padding: 0px;
-		margin-top: 40px;
+		margin-top: 20px;
+		box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+		margin-bottom: 20px;
 		.rbc-header {
-			font-size: 1rem;
+			font-size: 15px;
 			font-family: 'Inter';
 			color: $font-color-gray;
 			padding: 10px;
-			font-weight: 600;
+			font-weight: 600; 
+			height: 50px;
+			a{
+				span {
+					padding-bottom: 10px !important;
+				}
+			}
 		}
 		.rbc-date-cell {
 			text-align: center;
 			font-family: 'Inter';
-			font-size: 0.9rem;
+			font-size: 13px;
 			color: #424242;
+			margin-top: 7px;
 		}
 		.rbc-off-range-bg {
 			background-color: #F5F8FA;
@@ -1235,17 +1244,22 @@ textarea {
 			background-color: transparent;
 		}
 		.rbc-event {
-			background-color: #E6FFFF;
+			background-color: #EAF4F5;
 			border-radius: 0px;
-			border-left: 2px solid #14BDD3;
+			border-left: 2px solid #55ABAC;
 		}
 		.rbc-event-content {
-			color: rgb(22,117,135);
+			color: #4F576E;
 			padding: 4px 4px;
 			font-family: 'Inter';
 			font-weight: 600;
 			
-			font-size: 0.9rem;
+			font-size: 1rem;
+		}
+		.spanTime {
+			color: #50A8AA !important;
+			margin-top: 10px;
+			font-size: 14px !important;
 		}
 	}
 
