@@ -6,6 +6,7 @@ import TimeEntry from "../components/dashboard/time_entry";
 import DocuTable from "../components/documents/table";
 import Emr from "../components/emr/emr";
 import Directory from "../components/directory/directory";
+import Events from "../components/events/events"
 import { Container, Row, Col } from "react-bootstrap";
 
 function index() {
@@ -72,6 +73,9 @@ function index() {
       </Container>
       <Container fluid className = "divDirectory divHidden" id = "divDirectory">
         <Directory></Directory>
+      </Container>
+      <Container fluid className = "divEvents divHidden" id = "divEvents">
+    <Events></Events>
       </Container>
      </div>
     </>

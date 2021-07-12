@@ -33,7 +33,10 @@ function directory() {
   function addNew() {
     $(".rowDirectory").hide();
     $(".conAdduser").fadeIn();
-  }
+  }const myTheme = {
+    // Theme object to extends default dark theme.
+  };
+  
   return (
     <>
       <Row className="rowDirectory">

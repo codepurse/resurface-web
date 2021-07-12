@@ -18,6 +18,7 @@ body {
 	position: relative;
 	padding: 0;
 	margin: 0;
+	height: 100%;
 	background-color: $bg-color-darkwhite;
 	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 	scroll-behavior: smooth;
@@ -170,6 +171,7 @@ body {
 	color: #fff;
 	background-color: #fff;
 	z-index: 2;
+
 	#dropdown-basic-button {
 		float: right;
 		margin-top: 14px;
@@ -894,6 +896,7 @@ textarea {
 	display: none;
 	margin-top: 85px;
 	padding-bottom: 40px;
+
 	p {
 		font-size: 35px;
 		font-family: 'Inter';
@@ -931,10 +934,12 @@ textarea {
 
 		}
 	}
+
 	.conAdduser {
 		.ulDashboard {
 			margin-top: 30px;
 		}
+
 		.conAdd {
 			background-color: white;
 			border: 2px solid $border-color-white;
@@ -942,6 +947,7 @@ textarea {
 			margin-top: 20px;
 			box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
 			padding: 20px;
+
 			.pHeaderAdd {
 				font-family: 'Inter';
 				margin-bottom: 2px;
@@ -950,6 +956,7 @@ textarea {
 				margin-left: 5px;
 				color: $font-color-gray;
 			}
+
 			.pHeaderAddsub {
 				font-family: 'Inter';
 				margin-bottom: 10px;
@@ -958,6 +965,7 @@ textarea {
 				margin-left: 5px;
 				color: $font-color-gray;
 			}
+
 			.txtInput {
 				padding: 8px;
 				border-radius: 5px;
@@ -968,15 +976,17 @@ textarea {
 				border: 2px solid #EEEEEE;
 				outline: none;
 				margin-bottom: 15px;
-	
+
 				&:focus {
 					border-color: #003171;
 					transition-delay: 0.1s;
 				}
 			}
+
 			.imgProfile {
 				width: 150px;
 			}
+
 			.btnDeletePhone {
 				background-color: #1C1D2E;
 				color: white;
@@ -986,6 +996,7 @@ textarea {
 				padding: 10px;
 				margin-top: 25px;
 			}
+
 			.divUpload {
 				background-color: #F7F8FA;
 				background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23EEEEEEFF' stroke-width='6' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e");
@@ -993,7 +1004,8 @@ textarea {
 				height: 150px;
 				display: flex;
 				align-items: center;
-				 p {
+
+				p {
 					font-family: 'Inter';
 					font-weight: 500;
 					font-size: 14px;
@@ -1001,18 +1013,16 @@ textarea {
 					width: 100% !important;
 					cursor: pointer;
 					margin-top: 10px;
-				 }
+				}
 			}
-			
+
 		}
-		
+
 	}
 
 }
 
-.rowDirectory {
-	
-}
+.rowDirectory {}
 
 .conAdduser {
 	display: none;
@@ -1150,13 +1160,194 @@ textarea {
 	margin-left: 15px;
 	outline: none !important;
 	min-width: 150px;
+
 	&:first-child {
 		background-color: #362D64;
 		color: white;
 		margin-left: 30px;
 	}
+
 	&:hover {
 		box-shadow: rgba(0, 49, 113, 0.1) 0px 6px 24px 0px, rgba(0, 49, 113, 0.1) 0px 0px 0px 1px;
 
 	}
+}
+
+
+.divEvents {
+	padding-left: 270px;
+	display: none;
+	margin-top: 85px;
+
+	.divCalendar {
+		background-color: white;
+		border: 2px solid $border-color-white;
+		border-radius: 10px;
+		margin-top: 20px;
+		box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+		padding: 10px !important;
+		height: 900px;
+	}
+
+	p {
+		font-size: 35px;
+		font-family: 'Inter';
+		color: $font-color-black;
+		font-weight: 800;
+		margin-bottom: 3px;
+
+		&:not(:first-child) {
+			font-size: 14px;
+			font-weight: 500;
+			font-family: 'Inter';
+			color: $font-color-gray;
+			width: 550px;
+			display: block;
+		}
+	}
+
+	.conCalendar {
+		background-color: #fff;
+		border: 1px solid $border-color-white;
+		border-radius: 4px;
+		padding: 0px;
+		margin-top: 20px;
+		box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+		margin-bottom: 20px;
+		.rbc-header {
+			font-size: 15px;
+			font-family: 'Inter';
+			color: $font-color-gray;
+			padding: 10px;
+			font-weight: 600; 
+			height: 50px;
+			a{
+				span {
+					padding-bottom: 10px !important;
+				}
+			}
+		}
+		.rbc-date-cell {
+			text-align: center;
+			font-family: 'Inter';
+			font-size: 13px;
+			color: #424242;
+			margin-top: 7px;
+		}
+		.rbc-off-range-bg {
+			background-color: #F5F8FA;
+		}
+		.rbc-current {
+			color: $font-color-blue;
+		}
+		.rbc-today {
+			background-color: transparent;
+		}
+		.rbc-event {
+			background-color: #EAF4F5;
+			border-radius: 0px;
+			border-left: 2px solid #55ABAC;
+		}
+		.rbc-event-content {
+			color: #4F576E;
+			padding: 4px 4px;
+			font-family: 'Inter';
+			font-weight: 600;
+			
+			font-size: 1rem;
+		}
+		.spanTime {
+			color: #50A8AA !important;
+			margin-top: 10px;
+			font-size: 14px !important;
+		}
+	}
+
+	.conToolbar {
+		padding-top: 20px;
+
+		.form-inline {
+
+			p {
+				font-size: 22px;
+				font-family: 'Roboto';
+				margin-bottom: 20px;
+				font-weight: 500;
+				margin-right: 7px;
+
+				img {
+					width: 15px;
+					margin-right: 14px;
+					margin-top: -5px;
+					display: none;
+				}
+			}
+
+			button {
+				border: 0px;
+				background-color: transparent;
+				margin-top: -20px;
+				padding: 5px;
+				padding-top: 4px;
+				border-radius: 50%;
+				margin-right: -8px;
+				width: 35px;
+				outline: none !important;
+
+				&:hover {
+					filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(237deg) brightness(104%) contrast(101%);
+				}
+
+				img {
+					width: 12px;
+				}
+			}
+		}
+
+		.btnNav {
+			background-color: transparent;
+			font-size: 14px;
+			font-family: 'Inter';
+			border-radius: 5px;
+			color: $font-color-gray;
+			padding: 5px;
+			width: 100px;
+			border: 1px solid #E0E0E0;
+			margin-right: 10px;
+			outline: none !important;
+			&:hover {
+				color: $font-color-blue;
+				background-color: $bg-color-hover-white;
+			}
+		}
+
+		.btn-group {
+			border: 1px solid #E0E0E0;
+			border-radius: 5px;
+			margin-top: -2px;
+			outline: none !important;
+			&:focus {
+				box-shadow: none !important;
+			}
+			button {
+				background-color: transparent;
+				font-size: 14px;
+				font-family: 'Inter';
+				color: $font-color-gray;
+				padding: 5px;
+				width: 100px;
+				border: 0px;
+				outline: none !important;
+				&:hover {
+					color: $font-color-blue;
+					background-color: $bg-color-hover-white;
+				}
+				&:focus {
+					box-shadow: none !important;
+				}
+			}
+		}
+	}
+
+
 }
