@@ -21,15 +21,17 @@ const handleLogin = (values) => {
   })
     .then(function (response) {
       //handle success
-      console.log(response.data);
+      console.log(response.data.data);
 
       // Login to dashboard with admin role
-      if (response.data.data.roles == "admin") {
+      if (response.data.data.user.roles[0] == "admin") {
         console.log("Admin Account");
+        localStorage.setItem('token', response.data.data.token);
       }
       // Login to Dashboard with Clinician Role
-      else if (response.data.data.roles == "clincian") {
+      else if (response.data.data.user.roles[0] == "clinician") {
         console.log("Clinician Account");
+        localStorage.setItem('token', response.data.data.token);
       } else {
         console.log("No Role");
       }
