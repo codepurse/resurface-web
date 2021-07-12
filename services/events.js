@@ -4,8 +4,8 @@ export default [
   {
     id: 0,
     title: "All Day Event very long title",
-    start: new Date("2021-07-11T14:46:06.403Z"), // 10.00 AM
-    end: new Date("2021-07-11T14:50:06.403Z"), // 2.00 PM
+    start: new Date("2021-07-02 00:00:00"), // 10.00 AM
+    end: new Date("2021-07-03 10:00:00"), // 2.00 PM
   },
   {
     id: 1,

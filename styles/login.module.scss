@@ -1,0 +1,26 @@
+
+$error-color:#FF0000;
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: auto;
+    
+}
+.error_msg{
+    color: $error-color;
+}
+
+.button{
+    width: 20%;
+    margin-top: 20px;
+}
+
