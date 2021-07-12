@@ -6,8 +6,8 @@ import axios from "axios";
 import appglobal from "../services/api.service";
 import style from "../styles/login.module.scss";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope,faLock } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 
 // Login Function
 const handleLogin = (values) => {
@@ -73,69 +73,63 @@ const login = () => (
         <div className={style.bg}>
           <div className={style.row}>
             <div className={style.column}>
-
-            <div className={style.container}>
-               <img src="Image/Logo-white.png" className={style.photo} />
-               </div>
+              <div className={style.container}>
+                <img src="Image/Logo-white.png" className={style.photo} />
+              </div>
             </div>
 
             <div className={style.column}>
-      
               <div className={style.container}>
-            
                 <form onSubmit={handleSubmit} className={style.form}>
-               
+                  <div className={style.inputcontainer}>
+                    <FontAwesomeIcon
+                      icon={faEnvelope}
+                      size="lg"
+                      className={style.icon}
+                    />
+                    <input
+                      name="email"
+                      type="text"
+                      placeholder="Email Address"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={style.inputfield}
+                    />
+                    {errors.email && touched.email && (
+                      <div className={style.error_msg}>{errors.email}</div>
+                    )}
+                  </div>
 
-                <div className={style.inputcontainer}>
-                  <FontAwesomeIcon icon={faEnvelope} size="lg" className={style.icon}/>
-                  <input
-                    name="email"
-                    type="text"
-                    placeholder="Email Address"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    className={style.inputfield}
-                  />
-                  {errors.email && touched.email && (
-                    <div className={style.error_msg}>{errors.email}</div>
-                  )}
-               </div>
-
-               
-               <div className={style.inputcontainer}>
-                  <FontAwesomeIcon icon={faLock} size="lg" className={style.icon}/>
-                  <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // className={styles.input}
-                  />
-                  {errors.password && touched.password && (
-                    <div className={style.error_msg}>{errors.password}</div>
-                  )}
-               </div>
+                  <div className={style.inputcontainer}>
+                    <FontAwesomeIcon
+                      icon={faLock}
+                      size="lg"
+                      className={style.icon}
+                    />
+                    <input
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                      value={values.password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      // className={styles.input}
+                    />
+                    {errors.password && touched.password && (
+                      <div className={style.error_msg}>{errors.password}</div>
+                    )}
+                  </div>
 
                   <button type="submit" className={style.button}>
                     Login
                   </button>
 
-                  <div className={style.text}>
-                   Forgot Password?
-                  </div>
+                  <div className={style.text}>Forgot Password?</div>
 
-                  <div className={style.text}>
-                   Sign Up
-                  </div>
-                  
+                  <div className={style.text}>Sign Up</div>
                 </form>
-
-                
               </div>
-              
             </div>
           </div>
         </div>

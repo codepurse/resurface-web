@@ -5,18 +5,13 @@ import Modal from "react-bootstrap/Modal";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import Adduser from "../../components/directory/adduser";
-/* Fake data */
 import appglobal from "../../services/api.service";
-import "../../services/api";
-
-
-
 
 const permission = (value) => {
   switch (value) {
-    case "Super Admin":
+    case "admin":
       return "pAdmin";
-    case "Clinician":
+    case "clinician":
       return "pClinician";
   }
 };
@@ -27,18 +22,25 @@ const status = (value) => {
       return "pActive";
     case "Draft":
       return "pDraft";
+    case "Archive":
+      return "pDraft";
   }
 };
 
 function directory() {
   const [show, setShow] = useState(false);
+  const [clinicians,setClinicians] = useState(null)
+  const [clinicianId,setClinicianId] = useState(null)
+  const [deleteUserTrigger,setDeleteUserTrigger] = useState(true)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+
+
+  // Get All User
   useEffect(() => {
 
     const token = localStorage.getItem('token')
-  
     axios({
       method: "get",
       url: appglobal.api.base_api + appglobal.api.get_all_clinicians,
@@ -51,13 +53,39 @@ function directory() {
       .then(function (response) {
         //handle success
         console.log(response.data.data);
+        setClinicians(response.data.data)
       })
       .catch(function (response) {
-        //handle error
-        // console.log(response.response.data.error.email[0]);
-        // alert(response.response.data.error.email[0])
+        console.log( "Get All User", response)
       });
-  }, []);
+  }, [deleteUserTrigger]);
+
+  
+
+  // Delete User
+  const handleDeleteUser = (value) =>{
+    const token = localStorage.getItem('token')
+    axios({
+      method: "delete",
+      url: appglobal.api.base_api + appglobal.api.delete_clinician + clinicianId,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response.data);
+        setDeleteUserTrigger(!deleteUserTrigger)
+        handleClose()
+      })
+      .catch(function (response) {
+        console.log( "HandleDeleteUser", response)
+        //handle error
+      });
+
+  }
 
 
   function addNew() {
@@ -96,32 +124,33 @@ function directory() {
                 </tr>
               </thead>
               <tbody>
-                {directory_list.map((event) => (
+                {clinicians !== null && clinicians.map((event) => (
                   <tr>
                     <td>
                       <div className="form-inline">
                         <img src={event.image}></img>
                         <span>
-                          {event.name}
+                          {event.first_name}
                           <br></br>
                           <span> {event.location}</span>
                         </span>
                       </div>
                     </td>
                     <td>
-                      <p>{event.email}</p>
+                      <p>{event.user.email}</p>
                     </td>
                     <td>
-                      <p className={permission(event.type)}>{event.type}</p>
+                      <p className={permission(event.user.roles[0].name)}>{event.user.roles[0].name == "admin" ?"Admin" : "Clinician" }</p>
                     </td>
                     <td>
-                      <p className={status(event.status)}>{event.status}</p>
+                      <p className={status(event.status == 1 ? "Active" : event.status == 2 ?"Draft" :"Archive")}>{event.status == 1 ? "Active" : event.status == 2 ?"Draft" :"Archive"}</p>
                     </td>
                     <td>
                       <button onClick={handleShow}>
                         <img
                           className="imgAction"
                           src="Image/icon/delete.png"
+                          onClick={()=>{setClinicianId(event.user_id)}}
                         ></img>
                       </button>
                       <button>
@@ -150,8 +179,8 @@ function directory() {
                   </p>
                 </Col>
                 <Col lg={12}>
-                  <button className="btnDeleteAccount">Delete</button>
-                  <button className="btnDeleteAccount">Cancel</button>
+                  <button onClick={()=>{handleDeleteUser()}} className="btnDeleteAccount">Delete</button>
+                  <button onClick={()=>{handleClose()}}  className="btnDeleteAccount">Cancel</button>
                 </Col>
               </Row>
             </Container>
