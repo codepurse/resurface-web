@@ -3,8 +3,11 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
-import style from "../styles/login.module.scss";
 import appglobal from "../services/api.service";
+import style from "../styles/login.module.scss";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 
 // Register Function
 const handleRegister = (values) => {
@@ -26,24 +29,25 @@ const handleRegister = (values) => {
     .then(function (response) {
       //handle success
       console.log(response.data.status);
-      alert(response.data.status)
-
-
+      alert(response.data.status);
     })
     .catch(function (response) {
       //handle error
       // console.log(response.response.data.error.email[0]);
       // alert(response.response.data.error.email[0])
     });
-
-
 };
-
-
 
 const register = () => (
   <Formik
-    initialValues={{ email: "", userName: "",firstName:"",middleName:"",lastName:"", password: "" }}
+    initialValues={{
+      email: "",
+      userName: "",
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      password: "",
+    }}
     onSubmit={(values) => {
       handleRegister(values);
     }}
@@ -70,90 +74,102 @@ const register = () => (
         handleSubmit,
       } = props;
       return (
-        <div className={style.container}>
-          <form onSubmit={handleSubmit} className={style.form}>
-            <label htmlFor="email">Email</label>
-            <input
-              name="email"
-              type="text"
-              placeholder="Enter email"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            // className={styles.input}
-            />
-            {errors.email && touched.email && (
-              <div className={style.error_msg}>{errors.email}</div>
-            )}
-            <label htmlFor="email">Username</label>
-            <input
-              name="userName"
-              type="text"
-              placeholder="Enter Username"
-              value={values.userName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            // className={styles.input}
-            />
-            {errors.userName && touched.userName && (
-              <div className={style.error_msg}>{errors.userName}</div>
-            )}
-            <label htmlFor="email">First Name</label>
-            <input
-              name="firstName"
-              type="text"
-              placeholder="Enter First Name"
-              value={values.firstName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              // className={styles.input}
-            />
-            {errors.firstName && touched.firstName && (
-              <div className={style.error_msg}>{errors.firstName}</div>
-            )}
-            <label htmlFor="email">Middle Name</label>
-            <input
-              name="middleName"
-              type="text"
-              placeholder="Enter Middle Name"
-              value={values.middleName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              // className={styles.input}
-            />
-            {errors.middleName && touched.middleName && (
-              <div className={style.error_msg}>{errors.middleName}</div>
-            )}
-            <label htmlFor="email">last Name</label>
-            <input
-              name="lastName"
-              type="text"
-              placeholder="Enter last Name"
-              value={values.lastName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              // className={styles.input}
-            />
-            {errors.lastName && touched.lastName && (
-              <div className={style.error_msg}>{errors.lastName}</div>
-            )}
-            <label htmlFor="email">Password</label>
-            <input
-              name="password"
-              type="password"
-              placeholder="Enter password"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            // className={styles.input}
-            />
-            {errors.password && touched.password && (
-              <div className={style.error_msg}>{errors.password}</div>
-            )}
-            <button type="submit" className={style.button}>
-              Register
-            </button>
-          </form>
+        <div className={style.bg}>
+          <div className={style.row}>
+            <div className={style.column}>
+              <div className={style.container}>
+                <img src="Image/Logo-white.png" className={style.photo} />
+              </div>
+            </div>
+
+            <div className={style.column}>
+              <div className={style.container}>
+                <form onSubmit={handleSubmit} className={style.form}>
+                  <div className={style.inputcontainer}>
+                    <input
+                      name="email"
+                      type="text"
+                      placeholder="Email Address"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={style.inputfield}
+                    />
+                    {errors.email && touched.email && (
+                      <div className={style.error_msg}>{errors.email}</div>
+                    )}
+                  </div>
+                  <input
+                    name="userName"
+                    type="text"
+                    placeholder="Enter Username"
+                    value={values.userName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  // className={styles.input}
+                  />
+                  {errors.userName && touched.userName && (
+                    <div className={style.error_msg}>{errors.userName}</div>
+                  )}
+                  <input
+                    name="firstName"
+                    type="text"
+                    placeholder="Enter First Name"
+                    value={values.firstName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  // className={styles.input}
+                  />
+                  {errors.firstName && touched.firstName && (
+                    <div className={style.error_msg}>{errors.firstName}</div>
+                  )}
+                  <input
+                    name="middleName"
+                    type="text"
+                    placeholder="Enter Middle Name"
+                    value={values.middleName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  // className={styles.input}
+                  />
+                  {errors.middleName && touched.middleName && (
+                    <div className={style.error_msg}>{errors.middleName}</div>
+                  )}
+                  <input
+                    name="lastName"
+                    type="text"
+                    placeholder="Enter last Name"
+                    value={values.lastName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  // className={styles.input}
+                  />
+                  {errors.lastName && touched.lastName && (
+                    <div className={style.error_msg}>{errors.lastName}</div>
+                  )}
+
+                  <div className={style.inputcontainer}>
+                    <input
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                      value={values.password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    // className={styles.input}
+                    />
+                    {errors.password && touched.password && (
+                      <div className={style.error_msg}>{errors.password}</div>
+                    )}
+                  </div>
+
+                  <button type="submit" className={style.button}>
+                    Login
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       );
     }}
