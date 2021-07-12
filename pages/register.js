@@ -11,7 +11,10 @@ const handleRegister = (values) => {
   // Send Data Via Form-data Format
   const formData = new FormData();
   formData.append("email", values.email);
-  formData.append("name", values.username);
+  formData.append("name", values.userName);
+  formData.append("first_name", values.firstName);
+  formData.append("middle_name", values.middleName);
+  formData.append("last_name", values.lastName);
   formData.append("password", values.password);
 
   axios({
@@ -25,13 +28,14 @@ const handleRegister = (values) => {
       console.log(response.data.status);
       alert(response.data.status)
 
-   
+
     })
     .catch(function (response) {
       //handle error
-      console.log(response.response.data.error.email[0]);
-      alert(response.response.data.error.email[0])
+      // console.log(response.response.data.error.email[0]);
+      // alert(response.response.data.error.email[0])
     });
+
 
 };
 
@@ -39,14 +43,17 @@ const handleRegister = (values) => {
 
 const register = () => (
   <Formik
-    initialValues={{ email: "",username:"", password: "" }}
+    initialValues={{ email: "", userName: "",firstName:"",middleName:"",lastName:"", password: "" }}
     onSubmit={(values) => {
       handleRegister(values);
     }}
     // Validation in form field
     validationSchema={Yup.object().shape({
       email: Yup.string().email().required("Email Required"),
-      username: Yup.string().required("Username Required"),
+      userName: Yup.string().required("Username Required"),
+      firstName: Yup.string().required("First Name Required"),
+      middleName: Yup.string().required("Middle Name Required"),
+      lastName: Yup.string().required("Last Name Required"),
       password: Yup.string()
         .required("Password Required")
         .min(8, "Password is too short - should be 8 chars minimum.")
@@ -73,23 +80,62 @@ const register = () => (
               value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              // className={styles.input}
+            // className={styles.input}
             />
             {errors.email && touched.email && (
               <div className={style.error_msg}>{errors.email}</div>
             )}
-             <label htmlFor="email">Username</label>
+            <label htmlFor="email">Username</label>
             <input
-              name="username"
+              name="userName"
               type="text"
               placeholder="Enter Username"
-              value={values.username}
+              value={values.userName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            // className={styles.input}
+            />
+            {errors.userName && touched.userName && (
+              <div className={style.error_msg}>{errors.userName}</div>
+            )}
+            <label htmlFor="email">First Name</label>
+            <input
+              name="firstName"
+              type="text"
+              placeholder="Enter First Name"
+              value={values.firstName}
               onChange={handleChange}
               onBlur={handleBlur}
               // className={styles.input}
             />
-            {errors.username && touched.username && (
-              <div className={style.error_msg}>{errors.username}</div>
+            {errors.firstName && touched.firstName && (
+              <div className={style.error_msg}>{errors.firstName}</div>
+            )}
+            <label htmlFor="email">Middle Name</label>
+            <input
+              name="middleName"
+              type="text"
+              placeholder="Enter Middle Name"
+              value={values.middleName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              // className={styles.input}
+            />
+            {errors.middleName && touched.middleName && (
+              <div className={style.error_msg}>{errors.middleName}</div>
+            )}
+            <label htmlFor="email">last Name</label>
+            <input
+              name="lastName"
+              type="text"
+              placeholder="Enter last Name"
+              value={values.lastName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              // className={styles.input}
+            />
+            {errors.lastName && touched.lastName && (
+              <div className={style.error_msg}>{errors.lastName}</div>
             )}
             <label htmlFor="email">Password</label>
             <input
@@ -99,7 +145,7 @@ const register = () => (
               value={values.password}
               onChange={handleChange}
               onBlur={handleBlur}
-              // className={styles.input}
+            // className={styles.input}
             />
             {errors.password && touched.password && (
               <div className={style.error_msg}>{errors.password}</div>

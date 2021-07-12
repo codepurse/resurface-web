@@ -3,9 +3,14 @@ import { Container, Row, Col } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
 import Adduser from "../../components/directory/adduser";
 /* Fake data */
+import appglobal from "../../services/api.service";
 import "../../services/api";
+
+
+
 
 const permission = (value) => {
   switch (value) {
@@ -30,13 +35,39 @@ function directory() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  useEffect(() => {
+
+    const token = localStorage.getItem('token')
+  
+    axios({
+      method: "get",
+      url: appglobal.api.base_api + appglobal.api.get_all_clinicians,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response.data.data);
+      })
+      .catch(function (response) {
+        //handle error
+        // console.log(response.response.data.error.email[0]);
+        // alert(response.response.data.error.email[0])
+      });
+  }, []);
+
+
   function addNew() {
     $(".rowDirectory").hide();
     $(".conAdduser").fadeIn();
-  }const myTheme = {
+  }
+  const myTheme = {
     // Theme object to extends default dark theme.
   };
-  
+
   return (
     <>
       <Row className="rowDirectory">
@@ -127,8 +158,8 @@ function directory() {
           </Modal.Body>
         </Modal>
       </Container>
-      <Container fluid className = "conAdduser">
-      <Adduser></Adduser>
+      <Container fluid className="conAdduser">
+        <Adduser></Adduser>
       </Container>
     </>
   );
