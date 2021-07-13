@@ -10,6 +10,8 @@ module.exports = appglobal = {
     get_all_clinicians:"/api/auth/clinicians",
     delete_clinician:"/api/auth/clinicians/",
     get_events: "/api/auth/events",
-    add_event:"/api/auth/events"
+    add_event:"/api/auth/events",
+    delete_event:"/api/auth/events/",
+    update_event:"/api/auth/events/"
   },
 };

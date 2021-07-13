@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import Eventadd from "../dashboard/eventAdd";
 import axios from "axios";
 // import event from "../../services/events";
+import appglobal from "../../services/api.service";
 
 export default function App() {
   const date = new Date();
@@ -13,6 +14,7 @@ export default function App() {
   const [selectedView, setSelectedview] = useState("month");
   const [show, setShow] = useState(false);
   const [showEvent, setShowevent] = useState(false);
+  const [trigger,setTrigger] = useState(true)
   const handleClose = () => setShow(false);
   const handleCloseEvent = () => setShowevent(false);
   const handleShow = () => setShow(true);
@@ -38,11 +40,12 @@ export default function App() {
     console.log(event);
   });
 
-  
+  // Get All event
   const getEvents = async () => {
+    const id = localStorage.getItem('id')
    await axios({
       method: "get",
-      url: appglobal.api.base_api + appglobal.api.get_events + '?clinician_id=5',
+      url: appglobal.api.base_api + appglobal.api.get_events + '?clinician_id=' + id,
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then(function (response) {
@@ -56,8 +59,36 @@ export default function App() {
 
   useEffect(()=>{
     getEvents()
- },[])
+ },[trigger])
 
+//  Delete Event
+const deleteEvent = async() =>{
+  const token = localStorage.getItem('token')
+    axios({
+      method: "delete",
+      url: appglobal.api.base_api + appglobal.api.delete_event + calendarlist.id,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response.data);
+        setTrigger(!trigger)
+        handleClose()
+      })
+      .catch(function (response) {
+        console.log( "HandleDeleteUser", response)
+        //handle error
+      });
+
+
+}
+
+// Edit Event
+ 
 
   function customToolbar(toolbar) {
     const goToBack = () => {
@@ -271,7 +302,7 @@ export default function App() {
                 </Col>
                 <Col lg={12}>
                   <button>Edit</button>
-                  <button>Delete</button>
+                  <button onClick={()=>{deleteEvent()}} >Delete</button>
                 </Col>
                 <Col lg={6}>
                   
@@ -284,6 +315,8 @@ export default function App() {
           <Modal.Body>
             <Eventadd
               handleCloseEvent = {handleCloseEvent}
+              trigger = {trigger}
+              setTrigger = {setTrigger}
             />
           </Modal.Body>
         </Modal>

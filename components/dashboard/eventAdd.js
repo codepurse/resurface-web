@@ -9,7 +9,7 @@ import { useFormik, Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import appglobal from "../../services/api.service";
 
-function eventAdd({ handleCloseEvent }) {
+function eventAdd({ handleCloseEvent,trigger,setTrigger }) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [participants, setParticipants] = useState([])
@@ -33,6 +33,7 @@ function eventAdd({ handleCloseEvent }) {
       .then(function (response) {
         //handle success
         setParticipants(response.data.data)
+        
       })
       .catch(function (response) {
         console.log(" get all Participants", response)
@@ -41,49 +42,53 @@ function eventAdd({ handleCloseEvent }) {
 
   // Handle Add event
   const handleAddEvent = (values) => {
-    const token = localStorage.getItem('token')
-    const id = localStorage.getItem('id')
-    const participantValue = participantsId.map(participantId=>(participantId.value))
-    // console.log(participantValue)
-    // // Send Data Via Form-data Format
-    const formData = new FormData();
-    formData.append("clinician_id", id);
-    formData.append("date_from", moment(startDate).format("YYYY/MM/DD h:mm:ss"));
-    formData.append("date_to", moment(startDate).format("YYYY/MM/DD h:mm:ss"));
-    formData.append("subject", values.event_name);
-    formData.append("location", values.location);
-    formData.append("notes", values.notes);
-    formData.append("event_type", eventType.value);
-    formData.append("description", values.commentary);
-    for (let i = 0; i < participantValue.length; i++) {
-      formData.append(`participants[${i}][clinician_id]`, participantValue[i]);
-    }
-
-    // console.log(Array.from(formData));
-    // console.log(participantValue)
-
-
-
-    axios({
-      method: "post",
-      url: appglobal.api.base_api + appglobal.api.add_event,
-      data: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then(function (response) {
-        //handle success
-        console.log(response);
+  if(participantsId >= 0){
+    alert("Please add participants")
+  }else{
+    if(participantsId !== 0){
+      const token = localStorage.getItem('token')
+      const id = localStorage.getItem('id')
+      const participantValue = participantsId.map(participantId=>(participantId.value))
+      // console.log(participantValue)
+      // // Send Data Via Form-data Format
+      const formData = new FormData();
+      formData.append("clinician_id", id);
+      formData.append("date_from", moment(startDate).format("YYYY/MM/DD h:mm:ss"));
+      formData.append("date_to", moment(startDate).format("YYYY/MM/DD h:mm:ss"));
+      formData.append("subject", values.event_name);
+      formData.append("location", values.location);
+      formData.append("notes", values.notes);
+      formData.append("event_type", eventType.value);
+      formData.append("description", values.commentary);
+      for (let i = 0; i < participantValue.length; i++) {
+        formData.append(`participants[${i}][clinician_id]`, participantValue[i]);
+      }
+  
+  
+      axios({
+        method: "post",
+        url: appglobal.api.base_api + appglobal.api.add_event,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + token,
+        },
       })
-      .catch(function (response) {
-        //handle error
-        console.log(response.response);
-      });
-    
-
-    
+        .then(function (response) {
+          //handle success
+          console.log(response);
+          setTrigger(!trigger)
+          handleCloseEvent()
+        })
+        .catch(function (response) {
+          //handle error
+          console.log(response.response);
+        });
+      
+     }else{
+       alert("Please add participants")
+     }
+  }
   
   };
 
@@ -208,7 +213,7 @@ function eventAdd({ handleCloseEvent }) {
                 </Col>
                 <Col lg={6}>
                   <p className="pModalheadertext">Event Type</p>
-                  <Select options={options} styles={customStyles} onChange={(e)=>{setEventType(e)}}  />
+                  <Select defaultValue={{value: 'Session', label: 'Session'}} options={options} styles={customStyles} onChange={(e)=>{setEventType(e)}}  />
                 </Col>
                 <Col lg={12}>
                   <p className="pModalheadertext">Participants</p>
