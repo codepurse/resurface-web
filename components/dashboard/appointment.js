@@ -7,7 +7,7 @@ import Eventadd from "../dashboard/eventAdd";
 import axios from "axios";
 import moment from "moment";
 {
-  /* Fake data */
+  //* Fake data */
 }
 import "../../services/api";
 
