@@ -2,6 +2,7 @@ import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import Link from 'next/link'
 
 import appglobal from "../services/api.service";
 import style from "../styles/login.module.scss";
@@ -164,8 +165,11 @@ const register = () => (
                   </div>
 
                   <button type="submit" className={style.button}>
-                    Login
+                    Register
                   </button>
+                  <Link href="/login">
+                    <div className={style.text}>Already have an account?</div>
+                  </Link>
                 </form>
               </div>
             </div>
