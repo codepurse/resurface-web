@@ -172,7 +172,7 @@ export default function App() {
   };
 
   const createEvent = ({ start, end }) => {
-   setShowevent(true);
+    setShowevent(true);
   };
 
   const localizer = momentLocalizer(moment);
@@ -269,12 +269,18 @@ export default function App() {
                     } catch (e) {}
                   })()}
                 </Col>
-                <button className>Edit event</button>
+                <Col lg={12}>
+                  <button>Edit</button>
+                  <button>Delete</button>
+                </Col>
+                <Col lg={6}>
+                  
+                </Col>
               </Row>
             </Container>
           </Modal.Body>
         </Modal>
-        <Modal show={showEvent}  onHide={handleCloseEvent} centered>
+        <Modal show={showEvent} onHide={handleCloseEvent} centered>
           <Modal.Body>
             <Eventadd></Eventadd>
           </Modal.Body>

@@ -982,6 +982,18 @@ textarea {
 					transition-delay: 0.1s;
 				}
 			}
+			.pAddnum {
+				font-family: 'Inter';
+				color: $font-color-blue;
+				font-size: 0.9rem;
+				font-weight: 600;
+				cursor: pointer;
+				margin-top: -5px;
+				margin-bottom: 10px;
+				&:hover {
+					text-decoration: underline;
+				}
+			}
 
 			.imgProfile {
 				width: 150px;
@@ -1004,7 +1016,8 @@ textarea {
 				height: 150px;
 				display: flex;
 				align-items: center;
-
+				transition: all 0.2s;
+				cursor: pointer;
 				p {
 					font-family: 'Inter';
 					font-weight: 500;
@@ -1013,6 +1026,13 @@ textarea {
 					width: 100% !important;
 					cursor: pointer;
 					margin-top: 10px;
+				}
+
+				&:hover {
+					p {
+						color: $font-color-blue;
+						font-weight: 600;
+					}
 				}
 			}
 
@@ -1236,6 +1256,14 @@ textarea {
 			font-size: 13px;
 			color: #424242;
 			margin-top: 7px;
+		}
+
+		.rbc-day-bg {
+			transition: all 0.2s;
+			cursor: pointer;
+			&:hover {
+				background-color: #9FA8DA;
+			}
 		}
 
 		.rbc-off-range-bg {
@@ -1469,11 +1497,8 @@ textarea {
 				margin-left: 37px;
 				margin-top: -5px;
 			}
+
 			button {
-				border: 0px;
-				border-radius: 5px;
-				background-color: #6B5BCC;
-				color: white;
 				padding: 8px 15px;
 				outline: none;
 				font-size: 0.9rem;
@@ -1481,8 +1506,26 @@ textarea {
 				font-family: 'Inter';
 				width: 100%;
 				margin-top: 15px;
+				width: 45%;
+
 				box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+				border: 0px;
+				border-radius: 5px;
+
+				&:first-child {
+
+					background-color: #6B5BCC !important;
+					color: white;
+					margin-right: 20px;
+				}
+
+				&:last-child {
+					background-color: #DA3059;
+					color: white;
+				}
 			}
+
+
 		}
 	}
 }
