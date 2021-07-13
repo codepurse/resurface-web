@@ -3,12 +3,38 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import { Container, Row, Col } from "react-bootstrap";
 import moment from "moment";
 import event from "../../services/events";
-import toolbar from "react-big-calendar";
+import Modal from "react-bootstrap/Modal";
+import Eventadd from "../dashboard/eventAdd";
 
 export default function App() {
   const date = new Date();
   const month = date.toLocaleString("default", { month: "long" });
   const [selectedView, setSelectedview] = useState("month");
+  const [show, setShow] = useState(false);
+  const [showEvent, setShowevent] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleCloseEvent = () => setShowevent(false);
+  const handleShow = () => setShow(true);
+  const showAddevent = () => setShowevent(true);
+
+  const [calendarlist, setCalendarlist] = useState([]);
+
+  useEffect(() => {
+    if (selectedView == "week") {
+      $(".btnweek").attr(
+        "style",
+        "color: #003171 !important; font-weight: 600"
+      );
+    } else if (selectedView == "month") {
+      $(".btnmonth").attr(
+        "style",
+        "color: #003171 !important; font-weight: 600"
+      );
+    } else {
+      $(".btnday").attr("style", "color: #003171 !important; font-weight: 600");
+    }
+    console.log(event);
+  });
 
   function customToolbar(toolbar) {
     const goToBack = () => {
@@ -22,13 +48,10 @@ export default function App() {
     const goToDay = () => {
       toolbar.onNavigate("TODAY");
     };
-    
 
     const goWeek = (e) => {
-      $(".btnweek").attr('style','color: blue !important');
       setSelectedview("week");
-      
-     };
+    };
 
     const goMonth = () => {
       setSelectedview("month");
@@ -67,7 +90,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={goMonth}
-                  className="btn btn-secondary"
+                  className="btn btn-secondary btnmonth"
                 >
                   Month
                 </button>
@@ -81,7 +104,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={goDay}
-                  className="btn btn-secondary"
+                  className="btn btn-secondary btnday"
                 >
                   Day
                 </button>
@@ -95,20 +118,40 @@ export default function App() {
   const EventT = ({ event }) => {
     return (
       <span>
-        {event.title}
+        {event.subject}
         <br />
-        <span className="spanTime">{timeNow(event.start)} - {timeNow(event.end)}</span>
+        <span className="spanTime">
+          {timeNow(event.date_from)} - {timeNow(event.date_to)}
+        </span>
       </span>
     );
   };
   function timeNow(timestart) {
-    return (
-       new Date(timestart).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    )
+    return new Date(timestart).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   }
+
+  function showModal(eventdata) {
+    setShow(true);
+    setCalendarlist(eventdata);
+    console.log(eventdata);
+  }
+
+  const eventType = (value) => {
+    switch (value) {
+      case "Sessions":
+        return "pSession";
+      case "Business":
+        return "pBusiness";
+    }
+  };
+
+  const createEvent = ({ start, end }) => {
+   setShowevent(true);
+  };
+
   const localizer = momentLocalizer(moment);
   return (
     <>
@@ -124,23 +167,95 @@ export default function App() {
       </Row>
       <Container fluid className="conCalendar">
         <Calendar
+          selectable
           localizer={localizer}
           events={event}
           view={selectedView}
-          startAccessor="start"
-          endAccessor="end"
+          startAccessor="date_from"
+          endAccessor="date_to"
           style={{ height: 800 }}
           components={{
             toolbar: customToolbar,
             event: EventT,
           }}
           onSelectEvent={(event) => {
-            alert(event.title);
+            showModal(event);
           }}
           tooltipAccessor={(event) => {
-            return event.title + " " + event.start;
+            return event.subject + " " + event.date_from;
           }}
+          onSelectSlot={createEvent}
         />
+        <Modal show={show} size="sm" onHide={handleClose} centered>
+          <Modal.Body className="divModal">
+            <Container>
+              <Row>
+                <Col lg={12}>
+                  <p className="pHeader">{calendarlist.subject}</p>
+                </Col>
+              </Row>
+
+              <Row className="row2nd">
+                <Col lg={1}>
+                  <img src="Image/icon/clock_events.png" />
+                </Col>
+                <Col lg={10}>
+                  <p className="pTime">
+                    {timeNow(calendarlist.date_from)} -{" "}
+                    {timeNow(calendarlist.date_to)}
+                  </p>
+                  <p className="pDate">
+                    {moment(calendarlist.date_from).format("dddd")}{" "}
+                    {moment(calendarlist.date_from).format("MMMM")}
+                  </p>
+                </Col>
+              </Row>
+              <Row>
+                <Col lg={1}>
+                  <img src="Image/icon/menu.png" />
+                </Col>
+                <Col lg={10}>
+                  <p className="pDesc">{calendarlist.description}</p>
+                </Col>
+              </Row>
+              <Row>
+                <Col lg={1}>
+                  <img src="Image/icon/event_type.png" />
+                </Col>
+                <Col lg={10}>
+                  <p className={eventType(calendarlist.event_type)}>
+                    {calendarlist.event_type}
+                  </p>
+                </Col>
+              </Row>
+              <Row className="rowMembers">
+                <Col lg={12}>
+                  <p>Members</p>
+                  {(() => {
+                    try {
+                      return (
+                        <>
+                          <p className="pHost">
+                            <img src="Image/icon/user.png"></img>{" "}
+                            {calendarlist.clinicians.first_name}{" "}
+                            {calendarlist.clinicians.last_name}
+                          </p>
+                          <p className="pHostsub">organizer</p>
+                        </>
+                      );
+                    } catch (e) {}
+                  })()}
+                </Col>
+                <button className>Edit event</button>
+              </Row>
+            </Container>
+          </Modal.Body>
+        </Modal>
+        <Modal show={showEvent}  onHide={handleCloseEvent} centered>
+          <Modal.Body>
+            <Eventadd></Eventadd>
+          </Modal.Body>
+        </Modal>
       </Container>
     </>
   );
