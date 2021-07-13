@@ -10,35 +10,21 @@ import style from "../styles/login.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 
-// Login Function
-const handleLogin = (values) => {
+// Forgot Password Function
+const handleForgotPassword = (values) => {
   // Send Data Via Form-data Format
   const formData = new FormData();
   formData.append("email", values.email);
-  formData.append("password", values.password);
 
   axios({
     method: "post",
-    url: appglobal.api.base_api + appglobal.api.login,
+    url: appglobal.api.base_api + appglobal.api.forgot_password,
     data: formData,
     headers: { "Content-Type": "multipart/form-data" },
   })
     .then(function (response) {
       //handle success
       console.log(response.data.data);
-
-      // Login to dashboard with admin role
-      if (response.data.data.user.roles[0] == "admin") {
-        console.log("Admin Account");
-        localStorage.setItem("token", response.data.data.token);
-      }
-      // Login to Dashboard with Clinician Role
-      else if (response.data.data.user.roles[0] == "clinician") {
-        console.log("Clinician Account");
-        localStorage.setItem("token", response.data.data.token);
-      } else {
-        console.log("No Role");
-      }
     })
     .catch(function (response) {
       //handle error
@@ -46,7 +32,7 @@ const handleLogin = (values) => {
     });
 };
 
-const login = () => (
+const forgotPassword = () => (
   <Formik
     initialValues={{ email: "", password: "" }}
     onSubmit={(values) => {
@@ -55,10 +41,6 @@ const login = () => (
     // Validation in form field
     validationSchema={Yup.object().shape({
       email: Yup.string().email().required("Email Required"),
-      password: Yup.string()
-        .required("Password Required")
-        .min(8, "Password is too short - should be 8 chars minimum.")
-        // .matches(/(?=.*[0-9])/, "Password must contain a number."),
     })}
   >
     {(props) => {
@@ -102,37 +84,9 @@ const login = () => (
                     )}
                   </div>
 
-                  <div className={style.inputcontainer}>
-                    <FontAwesomeIcon
-                      icon={faLock}
-                      size="lg"
-                      className={style.icon}
-                    />
-                    <input
-                      name="password"
-                      type="password"
-                      placeholder="Password"
-                      value={values.password}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    // className={styles.input}
-                    />
-                    {errors.password && touched.password && (
-                      <div className={style.error_msg}>{errors.password}</div>
-                    )}
-                  </div>
-
                   <button type="submit" className={style.button}>
-                    Login
+                    Submit
                   </button>
-                      
-                  <Link href="/forgotPassword">
-                  <div className={style.text}>Forgot Password?</div>
-                  </Link>
-
-                  <Link href="/register">
-                    <div className={style.text}>Sign Up</div>
-                  </Link>
 
                 </form>
               </div>
@@ -144,4 +98,4 @@ const login = () => (
   </Formik>
 );
 
-export default login;
+export default forgotPassword;
