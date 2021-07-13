@@ -3,114 +3,261 @@ import { Container, Row, Col } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
+import axios from "axios";
+import moment from "moment";
+import { useFormik, Formik, Form, Field, ErrorMessage } from "formik";
+import * as yup from "yup";
+import appglobal from "../../services/api.service";
 
-function eventAdd() {
-    const [startDate, setStartDate] = useState(new Date());
-    const [startTime, setStartTime] = useState(new Date());
-    const [endTime, setEndTime] = useState(new Date());
+function eventAdd({ handleCloseEvent }) {
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [participants, setParticipants] = useState([])
+  const [participantsId,setParticipantsId] = useState([])
+  const [eventType,setEventType] = useState([])
 
-    const options = [
-        { value: "chocolate", label: "Chocolate" },
-        { value: "strawberry", label: "Strawberry" },
-        { value: "vanilla", label: "Vanilla" },
-      ];
+
+  // Gett all Participants
+  useEffect(() => {
+
+    const token = localStorage.getItem('token')
+    axios({
+      method: "get",
+      url: appglobal.api.base_api + appglobal.api.get_all_clinicians,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then(function (response) {
+        //handle success
+        setParticipants(response.data.data)
+      })
+      .catch(function (response) {
+        console.log(" get all Participants", response)
+      });
+  }, []);
+
+  // Handle Add event
+  const handleAddEvent = (values) => {
+    const token = localStorage.getItem('token')
+    const id = localStorage.getItem('id')
+    const participantValue = participantsId.map(participantId=>(participantId.value))
+    // console.log(participantValue)
+    // // Send Data Via Form-data Format
+    const formData = new FormData();
+    formData.append("clinician_id", id);
+    formData.append("date_from", moment(startDate).format("YYYY/MM/DD h:mm:ss"));
+    formData.append("date_to", moment(startDate).format("YYYY/MM/DD h:mm:ss"));
+    formData.append("subject", values.event_name);
+    formData.append("location", values.location);
+    formData.append("notes", values.notes);
+    formData.append("event_type", eventType.value);
+    formData.append("description", values.commentary);
+    for (let i = 0; i < participantValue.length; i++) {
+      formData.append(`participants[${i}][clinician_id]`, participantValue[i]);
+    }
+
+    // console.log(Array.from(formData));
+    // console.log(participantValue)
+
+
+
+    axios({
+      method: "post",
+      url: appglobal.api.base_api + appglobal.api.add_event,
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response);
+      })
+      .catch(function (response) {
+        //handle error
+        console.log(response.response);
+      });
     
-      const customStyles = {
-        control: (base, state) => ({
-          ...base,
-          background: "#F7F8FA",
-          color: "#212121",
-          border: "2px solid #EEEEEE",
-          boxShadow: "none",
-          borderRadius: "5px",
-          width: "100%",
-          padding: "1px",
-          marginTop: "5px",
-          fontFamily: "Roboto",
-          boxShadow: state.isFocused ? "#003171" : null,
-          "&:hover": {
-            borderColor: state.isFocused ? "#003171" : "",
-          },
-        }),
-        singleValue: (provided) => ({
-          ...provided,
-          color: "#212121",
-        }),
-      };
 
-    return (
+    
+  
+  };
+
+  const options = [
+    { value: 'Session', label: 'Session' },
+    { value: 'Business', label: 'Business' },
+  ]
+
+
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      background: "#F7F8FA",
+      color: "#212121",
+      border: "2px solid #EEEEEE",
+      boxShadow: "none",
+      borderRadius: "5px",
+      width: "100%",
+      padding: "1px",
+      marginTop: "5px",
+      fontFamily: "Roboto",
+      boxShadow: state.isFocused ? "#003171" : null,
+      "&:hover": {
+        borderColor: state.isFocused ? "#003171" : "",
+      },
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "#212121",
+    }),
+  };
+
+  return (
+    <Formik
+      initialValues={{
+        event_name: "",
+
+        location: "",
+
+        commentary: "",
+
+        notes: "",
+      }}
+      validationSchema={yup.object({
+        event_name: yup
+          .string()
+
+          .required("Please Enter Event Name"),
+
+        location: yup
+          .string()
+
+          .required("Please Enter Location"),
+        commentary: yup
+          .string()
+
+          .required("Please Enter Commentary"),
+        notes: yup
+          .string()
+
+          .required("Please Enter Notes"),
+      })}
+      onSubmit={(values) => {
+        // alert(JSON.stringify(values));
+        handleAddEvent(values);
+      }}
+    >
+      {(props) => (
         <>
-        <p className="pModalheader">Create event</p>
+          <p className="pModalheader">Create event</p>
           <p className="pModalheadersub">
             This section contains all basic details of your events.
           </p>
           <Container className="modal-details">
-            <Row>
-              <Col lg={12}>
-                <p className="pModalheadertext">Event Name</p>
-                <input type="text" className="txtInput"></input>
-              </Col>
-              <Col lg={4}>
-                <p className="pModalheadertext">Date</p>
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                />
-              </Col>
-              <Col lg={4}>
-                <p className="pModalheadertext">Start</p>
-                <DatePicker
-                  selected={startTime}
-                  showTimeSelect
-                  showTimeSelectOnly
-                  timeIntervals={15}
-                  timeCaption="Time"
-                  dateFormat="h:mm aa"
-                  onChange={(date) => setStartTime(date)}
-                />
-              </Col>
-              <Col lg={4}>
-                <p className="pModalheadertext">End</p>
-                <DatePicker
-                  selected={endTime}
-                  showTimeSelect
-                  showTimeSelectOnly
-                  timeIntervals={15}
-                  timeCaption="Time"
-                  dateFormat="h:mm aa"
-                  onChange={(date) => setEndTime(date)}
-                />
-              </Col>
-              <Col lg={6}>
-                <p className="pModalheadertext">Location</p>
-                <input type="text" className="txtInput"></input>
-              </Col>
-              <Col lg={6}>
-                <p className="pModalheadertext">Host</p>
-                <Select options={options} styles={customStyles} />
-              </Col>
-              <Col lg={12}>
-                <p className="pModalheadertext">Participants</p>
-                <Select options={options} styles={customStyles} isMulti />
-              </Col>
-              <Col lg={12}>
-                <p className="pModalheadertext">Commentary</p>
-                <textarea rows="2" cols="50"></textarea>
-              </Col>
-              <Col lg={12}>
-                <p className="pModalheadertext">Notes</p>
-                <textarea rows="2" cols="50"></textarea>
-              </Col>
-              <Col lg={12}>
-                <div className="form-inline float-right">
-                  <button className = "btnCancelEvent">Cancel</button>
-                  <button className="btnSaveEvent">Save</button>
-                </div>
-              </Col>
-            </Row>
+            <Form>
+              <Row>
+                <Col lg={12}>
+                  <p className="pModalheadertext">Event Name</p>
+                  <Field
+                    name="event_name"
+                    type="text"
+                    className="txtInput"
+                  ></Field>
+                  <div className="text-danger">
+                    <ErrorMessage name="event_name"></ErrorMessage>
+                  </div>
+                </Col>
+                <Col lg={6}>
+                  <p className="pModalheadertext">Start Date </p>
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    timeInputLabel="Time:"
+                    dateFormat="MM/dd/yyyy h:mm aa"
+                    showTimeInput
+                    minDate={new Date()}
+                  />
+                </Col>
+                <Col lg={6}>
+                  <p className="pModalheadertext">End Date </p>
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    timeInputLabel="Time:"
+                    dateFormat="MM/dd/yyyy h:mm aa"
+                    showTimeInput
+                    minDate={new Date()}
+                  />
+                </Col>
+                <Col lg={6}>
+                  <p className="pModalheadertext">Location</p>
+                  <Field
+                    name="location"
+                    type="text"
+                    className="txtInput"
+                  ></Field>
+                  <div className="text-danger">
+                    <ErrorMessage name="location"></ErrorMessage>
+                  </div>
+                </Col>
+                <Col lg={6}>
+                  <p className="pModalheadertext">Event Type</p>
+                  <Select options={options} styles={customStyles} onChange={(e)=>{setEventType(e)}}  />
+                </Col>
+                <Col lg={12}>
+                  <p className="pModalheadertext">Participants</p>
+                  <Select onChange={(e)=>{setParticipantsId(e)}} options={participants.map(participant => ({ label: participant.first_name, value: participant.id }))} styles={customStyles} isMulti />
+                </Col>
+                <Col lg={12}>
+                  <p className="pModalheadertext">Commentary</p>
+                  <Field
+                    as="textarea"
+                    name="commentary"
+                    type="text"
+                    className="txtInput"
+                  ></Field>
+                  <div className="text-danger">
+                    <ErrorMessage name="commentary"></ErrorMessage>
+                  </div>
+                </Col>
+                <Col lg={12}>
+                  <p className="pModalheadertext">Notes</p>
+                  <Field
+                    as="textarea"
+                    name="notes"
+                    type="text"
+                    className="txtInput"
+                  ></Field>
+                  <div className="text-danger">
+                    <ErrorMessage name="notes"></ErrorMessage>
+                  </div>
+                </Col>
+                <Col lg={12}>
+                  <div className="form-inline float-right">
+                    <button
+                      onClick={() => {
+                        handleCloseEvent();
+                      }}
+                      className="btnCancelEvent"
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className="btnSaveEvent">
+                      Save
+                    </button>
+                  </div>
+                </Col>
+              </Row>
+            </Form>
           </Container>
         </>
-    )
+      )}
+    </Formik>
+  );
 }
 
 export default eventAdd;
