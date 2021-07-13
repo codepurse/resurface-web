@@ -33,6 +33,7 @@
     "sass": "^1.35.1",
     "styled-components": "^5.3.0",
     "tui-calendar": "^1.13.1",
+    "uuid": "^8.3.1",
     "yup": "^0.32.9"
   },
   "devDependencies": {

@@ -5,8 +5,30 @@ import Modal from "react-bootstrap/Modal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
+import { v4 as uuidv4 } from "uuid";
 
 function addUser() {
+  const inputFileRef = useRef(null);
+  const onBtnClick = () => {
+    inputFileRef.current.click();
+  };
+
+  const [inputFields, setInputFields] = useState([
+    { id: uuidv4(), phonenumber: "", type: "" },
+  ]);
+
+  const handleAddFields = () => {
+    setInputFields([
+      ...inputFields,
+      { id: uuidv4(), firstName: "", lastName: "" },
+    ]);
+  };
+  const handleRemoveFields = id => {
+    const values  = [...inputFields];
+    values.splice(values.findIndex(value => value.id === id), 1);
+    setInputFields(values);
+  }
+
   function setActive(e) {
     $(".ulDashboard>li").removeClass("activeUl");
     $(e.currentTarget).addClass("activeUl");
@@ -60,6 +82,7 @@ function addUser() {
       fontWeight: "600",
     }),
   };
+
   return (
     <>
       <Row>
@@ -151,8 +174,16 @@ function addUser() {
           <Row>
             <Col lg={4}>
               <p className="pHeaderAddsub">Staf Image</p>
-              <div className="divUpload">
-                <div className = "mx-auto">
+              <input
+                onChange={(e) => handleFile(e)}
+                ref={inputFileRef}
+                id="file-upload"
+                type="file"
+                accept=".jpg, .png, .jpeg|image"
+                className="d-none"
+              />
+              <div className="divUpload" onClick={onBtnClick}>
+                <div className="mx-auto">
                   <img
                     src="Image/icon/upload.png"
                     className="img-fluid mx-auto d-flex"
@@ -163,20 +194,29 @@ function addUser() {
             </Col>
             <Col lg={8}>
               <Row>
-                <Col lg={5}>
-                  <p className="pHeaderAddsub">Phone Number</p>
-                  <input type="text" className="txtInput"></input>
-                </Col>
-                <Col lg={4}>
-                  <p className="pHeaderAddsub">Type</p>
-                  <Select
-                    options={options_status}
-                    styles={customStyles}
-                    placeholder="Select .."
-                  />
-                </Col>
-                <Col lg={3}>
-                  <button className="btnDeletePhone">Delete</button>
+                <Col lg={12}>
+                  {inputFields.map((inputField) => (
+                    <Row>
+                      <Col lg={5}>
+                        <p className="pHeaderAddsub">Phone Number</p>
+                        <input type="text"  value={inputField.phonenumber} className="txtInput"></input>
+                      </Col>
+                      <Col lg={4}>
+                        <p className="pHeaderAddsub">Type</p>
+                        <Select
+                          options={options_status}
+                          styles={customStyles}
+                          placeholder="Select .."
+                        />
+                      </Col>
+                      <Col lg={3}>
+                        <button className="btnDeletePhone" onClick={() => handleRemoveFields(inputField.id)}>Delete</button>
+                      </Col>
+                    </Row>
+                  ))}
+                  <p className="pAddnum" onClick={handleAddFields}>
+                    Add phone number
+                  </p>
                 </Col>
               </Row>
               <Row>
@@ -192,10 +232,10 @@ function addUser() {
             </Col>
           </Row>
           <Row>
-              <Col lg = {12}>
-                  <button>Save</button>
-                  <button>Cancel</button>
-              </Col>
+            <Col lg={12}>
+              <button>Save</button>
+              <button>Cancel</button>
+            </Col>
           </Row>
         </Container>
       </Row>
