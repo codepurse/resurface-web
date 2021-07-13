@@ -282,7 +282,9 @@ export default function App() {
         </Modal>
         <Modal show={showEvent} onHide={handleCloseEvent} centered>
           <Modal.Body>
-            <Eventadd></Eventadd>
+            <Eventadd
+              handleCloseEvent = {handleCloseEvent}
+            />
           </Modal.Body>
         </Modal>
       </Container>

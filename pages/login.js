@@ -36,6 +36,7 @@ const handleLogin = (values) => {
       else if (response.data.data.user.roles[0] == "clinician") {
         console.log("Clinician Account");
         localStorage.setItem("token", response.data.data.token);
+        localStorage.setItem("id", response.data.data.user.id);
       } else {
         console.log("No Role");
       }
@@ -58,7 +59,7 @@ const login = () => (
       password: Yup.string()
         .required("Password Required")
         .min(8, "Password is too short - should be 8 chars minimum.")
-        // .matches(/(?=.*[0-9])/, "Password must contain a number."),
+        .matches(/(?=.*[0-9])/, "Password must contain a number."),
     })}
   >
     {(props) => {
