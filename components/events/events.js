@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import { Container, Row, Col } from "react-bootstrap";
 import moment from "moment";
-import event from "../../services/events";
 import Modal from "react-bootstrap/Modal";
 import Eventadd from "../dashboard/eventAdd";
+import axios from "axios";
+// import event from "../../services/events";
 
 export default function App() {
   const date = new Date();
@@ -18,6 +19,7 @@ export default function App() {
   const showAddevent = () => setShowevent(true);
 
   const [calendarlist, setCalendarlist] = useState([]);
+  const [event, setEventlist] = useState([]);
 
   useEffect(() => {
     if (selectedView == "week") {
@@ -35,6 +37,27 @@ export default function App() {
     }
     console.log(event);
   });
+
+  
+  const getEvents = async () => {
+   await axios({
+      method: "get",
+      url: appglobal.api.base_api + appglobal.api.get_events + '?clinician_id=5',
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then(function (response) {
+        setEventlist(response.data.data);
+        console.log(response.data.data);
+      })
+      .catch(function (response) {
+        console.log(response.response);
+      });
+  };
+
+  useEffect(()=>{
+    getEvents()
+ },[])
+
 
   function customToolbar(toolbar) {
     const goToBack = () => {
@@ -115,16 +138,16 @@ export default function App() {
       </Container>
     );
   }
-  const EventT = ({ event }) => {
-    return (
-      <span>
-        {event.subject}
-        <br />
-        <span className="spanTime">
-          {timeNow(event.date_from)} - {timeNow(event.date_to)}
-        </span>
-      </span>
-    );
+  const EventT = ({event}) => {
+     return (
+       <span>
+         {event.subject}
+         <br/>
+         <span className="spanTime">
+           {timeNow(event.date_from)} - {timeNow(event.date_to)}
+         </span>
+       </span>
+     );
   };
   function timeNow(timestart) {
     return new Date(timestart).toLocaleTimeString([], {

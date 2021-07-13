@@ -4,6 +4,7 @@ import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import "react-datepicker/dist/react-datepicker.css";
 import Eventadd from "../dashboard/eventAdd";
+import axios from "axios";
 
 {
   /* Fake data */
@@ -14,10 +15,30 @@ function appointment() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [event, setEventlist] = useState([]);
+
+  const getEvents = async () => {
+    await axios({
+       method: "get",
+       url: appglobal.api.base_api + appglobal.api.get_events + '?clinician_id=5',
+       headers: { "Content-Type": "multipart/form-data" },
+     })
+       .then(function (response) {
+         setEventlist(response.data.data);
+         console.log(response.data.data);
+       })
+       .catch(function (response) {
+         console.log(response.response);
+       });
+   };
+ 
+   useEffect(()=>{
+     getEvents()
+  },[])
+
 
   return (
     <>
-    
       <Row>
         <Col lg={12}>
           <Container fluid className="divSearch">

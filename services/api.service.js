@@ -5,6 +5,7 @@ module.exports = appglobal = {
     register:"/api/auth/signup",
     logout:"/api/auth/logout",
     get_all_clinicians:"/api/auth/clinicians",
-    delete_clinician:"/api/auth/clinicians/"
+    delete_clinician:"/api/auth/clinicians/",
+    get_events: "/api/auth/events",
   },
 };
