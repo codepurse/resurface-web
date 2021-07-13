@@ -127,6 +127,8 @@ function eventAdd({ handleCloseEvent }) {
 
         notes: "",
       }}
+      validateOnChange={false}
+      validateOnBlur={false}
       validationSchema={yup.object({
         event_name: yup
           .string()

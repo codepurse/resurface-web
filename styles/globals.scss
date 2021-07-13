@@ -982,6 +982,7 @@ textarea {
 					transition-delay: 0.1s;
 				}
 			}
+
 			.pAddnum {
 				font-family: 'Inter';
 				color: $font-color-blue;
@@ -990,6 +991,7 @@ textarea {
 				cursor: pointer;
 				margin-top: -5px;
 				margin-bottom: 10px;
+
 				&:hover {
 					text-decoration: underline;
 				}
@@ -1018,6 +1020,7 @@ textarea {
 				align-items: center;
 				transition: all 0.2s;
 				cursor: pointer;
+
 				p {
 					font-family: 'Inter';
 					font-weight: 500;
@@ -1261,6 +1264,7 @@ textarea {
 		.rbc-day-bg {
 			transition: all 0.2s;
 			cursor: pointer;
+
 			&:hover {
 				background-color: #9FA8DA;
 			}
@@ -1532,4 +1536,11 @@ textarea {
 
 .modal-backdrop {
 	background-color: transparent;
+}
+
+.text-danger {
+	font-size: 0.8rem;
+	font-weight: 500;
+	font-family: 'Inter';
+	margin-top: 5px;
 }

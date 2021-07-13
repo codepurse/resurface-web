@@ -49,6 +49,8 @@ const handleLogin = (values) => {
 
 const login = () => (
   <Formik
+  validateOnChange={false}
+  validateOnBlur={false}
     initialValues={{ email: "", password: "" }}
     onSubmit={(values) => {
       handleLogin(values);
