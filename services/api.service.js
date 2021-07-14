@@ -9,6 +9,7 @@ module.exports = appglobal = {
     reset_password:"/reset",
     get_all_clinicians:"/api/auth/clinicians",
     delete_clinician:"/api/auth/clinicians/",
+    get_events: "/api/auth/events",
     add_event:"/api/auth/events"
   },
 };
