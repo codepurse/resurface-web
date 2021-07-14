@@ -315,7 +315,7 @@ export default function App() {
         <Modal show={showEvent} onHide={handleCloseEvent} centered>
           <Modal.Body>
             <Eventadd
-              handleCloseEvent={handleCloseEvent}
+              handleClose={handleCloseEvent}
               trigger={trigger}
               setTrigger={setTrigger}
               editable = {editable}

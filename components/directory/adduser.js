@@ -6,8 +6,52 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+import appglobal from "../../services/api.service";
 
 function addUser() {
+
+  const handleSubmit = () =>{
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
+    formData.append("first_name", clinician_id);
+    formData.append("middle_name", values.event_name);
+    formData.append("last_name", values.location);
+    formData.append("username", values.notes);
+    formData.append("email", eventType.value);
+    formData.append("password", values.commentary);
+    formData.append("role", values.commentary);
+    formData.append("photo", values.commentary);
+x
+
+
+    for (var pair of formData.entries()) {
+      console.log(pair[0]+ ' - ' + pair[1]); 
+  }
+
+  axios({
+    method: "post",
+    url: appglobal.api.base_api + appglobal.api.add_clinician,
+    data: formData,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: "Bearer " + token,
+    },
+  })
+    .then(function (response) {
+      //handle success
+      console.log(response);
+      setTrigger(!trigger);
+      handleCloseEvent();
+    })
+    .catch(function (response) {
+      //handle error
+      console.log(response.response);
+    });
+
+
+  }
+
   const inputFileRef = useRef(null);
   const onBtnClick = () => {
     inputFileRef.current.click();
@@ -173,7 +217,7 @@ function addUser() {
           </Row>
           <Row>
             <Col lg={4}>
-              <p className="pHeaderAddsub">Staff Image</p>
+              <p className="pHeaderAddsub">Staf Image</p>
               <input
                 onChange={(e) => handleFile(e)}
                 ref={inputFileRef}
@@ -233,7 +277,7 @@ function addUser() {
           </Row>
           <Row>
             <Col lg={12}>
-              <button>Save</button>
+              <button onClick={()=>{handleSubmit()}} >Save</button>
               <button>Cancel</button>
             </Col>
           </Row>
