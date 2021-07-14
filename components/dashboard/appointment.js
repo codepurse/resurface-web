@@ -19,31 +19,33 @@ function appointment() {
   const [searchquery, setSearchQuery] = useState("");
 
   const getEvents = async () => {
-    const token = localStorage.getItem('token')
+    const id = localStorage.getItem('id')
+    const clinician_id = localStorage.getItem("clinician_id");
     await axios({
-      method: "get",
-      url:
-        appglobal.api.base_api + appglobal.api.get_events + "?clinician_id=5",
-      headers: { 
-        "Content-Type": "multipart/form-data",
-         Authorization: "Bearer " + token
-       },
-    })
-      .then(function (response) {
-        setEventlist(response.data.data);
-        console.log(response.data.data);
-      })
-      .catch(function (response) {
-        console.log(response.response);
-      });
-  };
+       method: "get",
+       url: appglobal.api.base_api + appglobal.api.get_events + '?clinician_id=' + clinician_id,
+       headers: { "Content-Type": "multipart/form-data" },
+     })
+       .then(function (response) {
+         setEventlist(response.data.data);
+         console.log(response.data.data);
+       })
+       .catch(function (response) {
+         console.log(response.response);
+       });
+   };
+ 
+   useEffect(()=>{
+     getEvents()
+  },[])
 
   const searchEvents = async () => {
     const token = localStorage.getItem('token')
+    const clinician_id = localStorage.getItem("clinician_id");
     await axios({
       method: "get",
       url:
-        appglobal.api.base_api + appglobal.api.get_events + `?clinician_id=5&q=${searchquery}`,
+        appglobal.api.base_api + appglobal.api.get_events + `?clinician_id=${clinician_id}&q=${searchquery}`,
       headers: { 
         "Content-Type": "multipart/form-data",
          Authorization: "Bearer " + token

@@ -14,7 +14,8 @@ export default function App() {
   const [selectedView, setSelectedview] = useState("month");
   const [show, setShow] = useState(false);
   const [showEvent, setShowevent] = useState(false);
-  const [trigger,setTrigger] = useState(true)
+  const [trigger, setTrigger] = useState(true)
+  const [editable,setEditable] = useState(false)
   const handleClose = () => setShow(false);
   const handleCloseEvent = () => setShowevent(false);
   const handleShow = () => setShow(true);
@@ -43,9 +44,10 @@ export default function App() {
   // Get All event
   const getEvents = async () => {
     const id = localStorage.getItem('id')
-   await axios({
+    const clinician_id = localStorage.getItem("clinician_id");
+    await axios({
       method: "get",
-      url: appglobal.api.base_api + appglobal.api.get_events + '?clinician_id=' + id,
+      url: appglobal.api.base_api + appglobal.api.get_events + '?clinician_id=' + clinician_id,
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then(function (response) {
@@ -57,13 +59,13 @@ export default function App() {
       });
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getEvents()
- },[trigger])
+  }, [trigger])
 
-//  Delete Event
-const deleteEvent = async() =>{
-  const token = localStorage.getItem('token')
+  //  Delete Event
+  const deleteEvent = async () => {
+    const token = localStorage.getItem('token')
     axios({
       method: "delete",
       url: appglobal.api.base_api + appglobal.api.delete_event + calendarlist.id,
@@ -80,15 +82,14 @@ const deleteEvent = async() =>{
         handleClose()
       })
       .catch(function (response) {
-        console.log( "HandleDeleteUser", response)
+        console.log("HandleDeleteUser", response)
         //handle error
       });
 
 
-}
+  }
 
-// Edit Event
- 
+
 
   function customToolbar(toolbar) {
     const goToBack = () => {
@@ -169,16 +170,16 @@ const deleteEvent = async() =>{
       </Container>
     );
   }
-  const EventT = ({event}) => {
-     return (
-       <span>
-         {event.subject}
-         <br/>
-         <span className="spanTime">
-           {timeNow(event.date_from)} - {timeNow(event.date_to)}
-         </span>
-       </span>
-     );
+  const EventT = ({ event }) => {
+    return (
+      <span>
+        {event.subject}
+        <br />
+        <span className="spanTime">
+          {timeNow(event.date_from)} - {timeNow(event.date_to)}
+        </span>
+      </span>
+    );
   };
   function timeNow(timestart) {
     return new Date(timestart).toLocaleTimeString([], {
@@ -190,7 +191,6 @@ const deleteEvent = async() =>{
   function showModal(eventdata) {
     setShow(true);
     setCalendarlist(eventdata);
-    console.log(eventdata);
   }
 
   const eventType = (value) => {
@@ -204,6 +204,7 @@ const deleteEvent = async() =>{
 
   const createEvent = ({ start, end }) => {
     setShowevent(true);
+    setEditable(false)
   };
 
   const localizer = momentLocalizer(moment);
@@ -297,15 +298,15 @@ const deleteEvent = async() =>{
                           <p className="pHostsub">organizer</p>
                         </>
                       );
-                    } catch (e) {}
+                    } catch (e) { }
                   })()}
                 </Col>
                 <Col lg={12}>
-                  <button>Edit</button>
-                  <button onClick={()=>{deleteEvent()}} >Delete</button>
+                  <button onClick={()=>{setEditable(true),setShowevent(true)}} >Edit</button>
+                  <button onClick={() => { deleteEvent() }} >Delete</button>
                 </Col>
                 <Col lg={6}>
-                  
+
                 </Col>
               </Row>
             </Container>
@@ -314,9 +315,12 @@ const deleteEvent = async() =>{
         <Modal show={showEvent} onHide={handleCloseEvent} centered>
           <Modal.Body>
             <Eventadd
-              handleCloseEvent = {handleCloseEvent}
-              trigger = {trigger}
-              setTrigger = {setTrigger}
+              handleCloseEvent={handleCloseEvent}
+              trigger={trigger}
+              setTrigger={setTrigger}
+              editable = {editable}
+              setEditable = {setEditable}
+              calendarlist = {calendarlist}
             />
           </Modal.Body>
         </Modal>

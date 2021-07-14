@@ -9,18 +9,17 @@ import { useFormik, Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import appglobal from "../../services/api.service";
 
-function eventAdd({ handleCloseEvent,trigger,setTrigger }) {
+function eventAdd({ handleCloseEvent, trigger, setTrigger, setEditable, editable, calendarlist }) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [participants, setParticipants] = useState([])
-  const [participantsId,setParticipantsId] = useState([])
-  const [eventType,setEventType] = useState([])
-
+  const [participants, setParticipants] = useState([]);
+  const [participantsId, setParticipantsId] = useState([]);
+  const [eventType, setEventType] = useState( editable !==true ? {value: "Session", label: "Session"}:{ value: calendarlist.event_type, label: calendarlist.event_type});
 
   // Get all Participants
   useEffect(() => {
-
-    const token = localStorage.getItem('token')
+    console.log("CLINICIAN",calendarlist)
+    const token = localStorage.getItem("token");
     axios({
       method: "get",
       url: appglobal.api.base_api + appglobal.api.get_all_clinicians,
@@ -32,71 +31,104 @@ function eventAdd({ handleCloseEvent,trigger,setTrigger }) {
     })
       .then(function (response) {
         //handle success
-        setParticipants(response.data.data)
-        
+        setParticipants(response.data.data);
       })
       .catch(function (response) {
-        console.log(" get all Participants", response)
+        console.log(" get all Participants", response);
       });
   }, []);
 
   // Handle Add event
   const handleAddEvent = (values) => {
-  if(participantsId >= 0){
-    alert("Please add participants")
-  }else{
-    if(participantsId !== 0){
-      const token = localStorage.getItem('token')
-      const id = localStorage.getItem('id')
-      const participantValue = participantsId.map(participantId=>(participantId.value))
-      // console.log(participantValue)
-      // // Send Data Via Form-data Format
-      const formData = new FormData();
-      formData.append("clinician_id", id);
-      formData.append("date_from", moment(startDate).format("YYYY/MM/DD h:mm:ss"));
-      formData.append("date_to", moment(startDate).format("YYYY/MM/DD h:mm:ss"));
-      formData.append("subject", values.event_name);
-      formData.append("location", values.location);
-      formData.append("notes", values.notes);
-      formData.append("event_type", eventType.value);
-      formData.append("description", values.commentary);
-      for (let i = 0; i < participantValue.length; i++) {
-        formData.append(`participants[${i}][clinician_id]`, participantValue[i]);
+    if (participantsId >= 0) {
+      alert("Please add participants");
+    } else {
+
+      const token = localStorage.getItem("token");
+        const id = localStorage.getItem("id");
+        const clinician_id = localStorage.getItem("clinician_id");
+        const participantValue = participantsId.map(
+          (participantId) => participantId.value
+        );
+        const formData = new FormData();
+        formData.append("clinician_id", clinician_id);
+        formData.append(
+          "date_from",
+          moment(startDate).format("YYYY/MM/DD h:mm:ss")
+        );
+        formData.append(
+          "date_to",
+          moment(startDate).format("YYYY/MM/DD h:mm:ss")
+        );
+        formData.append("subject", values.event_name);
+        formData.append("location", values.location);
+        formData.append("notes", values.notes);
+        formData.append("event_type", eventType.value);
+        formData.append("description", values.commentary);
+        for (let i = 0; i < participantValue.length; i++) {
+          formData.append(
+            `participants[${i}][clinician_id]`,
+            participantValue[i]
+          );
+        }
+
+        for (var pair of formData.entries()) {
+          console.log(pair[0]+ ' - ' + pair[1]); 
       }
-  
-  
-      axios({
-        method: "post",
-        url: appglobal.api.base_api + appglobal.api.add_event,
-        data: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: "Bearer " + token,
-        },
-      })
-        .then(function (response) {
-          //handle success
-          console.log(response);
-          setTrigger(!trigger)
-          handleCloseEvent()
+
+      if(editable !== true){
+        // HandleAddEvent
+        axios({
+          method: "post",
+          url: appglobal.api.base_api + appglobal.api.add_event,
+          data: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+          },
         })
-        .catch(function (response) {
-          //handle error
-          console.log(response.response);
-        });
-      
-     }else{
-       alert("Please add participants")
-     }
-  }
-  
+          .then(function (response) {
+            //handle success
+            console.log(response);
+            setTrigger(!trigger);
+            handleCloseEvent();
+          })
+          .catch(function (response) {
+            //handle error
+            console.log(response.response);
+          });
+
+
+      }else{
+        // Handle Edit Event
+        formData.append("_method", "PUT");
+        axios({
+          method: "post",
+          url: appglobal.api.base_api + appglobal.api.update_event + calendarlist.id,
+          data: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+          },
+        })
+          .then(function (response) {
+            //handle success
+            console.log(response);
+            setTrigger(!trigger);
+            handleCloseEvent();
+          })
+          .catch(function (response) {
+            //handle error
+            console.log(response.response);
+          });
+      }
+    }
   };
 
   const options = [
-    { value: 'Session', label: 'Session' },
-    { value: 'Business', label: 'Business' },
-  ]
-
+    { value: "Session", label: "Session" },
+    { value: "Business", label: "Business" },
+  ];
 
   const customStyles = {
     control: (base, state) => ({
@@ -123,14 +155,15 @@ function eventAdd({ handleCloseEvent,trigger,setTrigger }) {
 
   return (
     <Formik
+      enableReinitialize = {true}
       initialValues={{
-        event_name: "",
+        event_name: editable !==true ?"":calendarlist.subject,
 
-        location: "",
+        location: editable !==true ?"":calendarlist.location,
 
-        commentary: "",
+        commentary: editable !==true ?"":calendarlist.description,
 
-        notes: "",
+        notes: editable !==true ?"":calendarlist.notes,
       }}
       validateOnChange={false}
       validateOnBlur={false}
@@ -160,7 +193,7 @@ function eventAdd({ handleCloseEvent,trigger,setTrigger }) {
     >
       {(props) => (
         <>
-          <p className="pModalheader">Create event</p>
+          <p className="pModalheader">{editable !== true ? "Create event" : "Edit Event"}</p>
           <p className="pModalheadersub">
             This section contains all basic details of your events.
           </p>
@@ -173,6 +206,7 @@ function eventAdd({ handleCloseEvent,trigger,setTrigger }) {
                     name="event_name"
                     type="text"
                     className="txtInput"
+                    // defaultValue="aasjahskj"
                   ></Field>
                   <div className="text-danger">
                     <ErrorMessage name="event_name"></ErrorMessage>
@@ -213,11 +247,29 @@ function eventAdd({ handleCloseEvent,trigger,setTrigger }) {
                 </Col>
                 <Col lg={6}>
                   <p className="pModalheadertext">Event Type</p>
-                  <Select defaultValue={{value: 'Session', label: 'Session'}} options={options} styles={customStyles} onChange={(e)=>{setEventType(e)}}  />
+                  <Select
+                    defaultValue={  editable !== true? { value: "Session", label: "Session" }  :{ value: calendarlist.event_type, label: calendarlist.event_type}}
+                    options={options}
+                    styles={customStyles}
+                    onChange={(e) => {
+                      setEventType(e);
+                    }}
+                  />
                 </Col>
                 <Col lg={12}>
                   <p className="pModalheadertext">Participants</p>
-                  <Select onChange={(e)=>{setParticipantsId(e)}} options={participants.map(participant => ({ label: participant.first_name, value: participant.id }))} styles={customStyles} isMulti />
+                  <Select
+                    onChange={(e) => {
+                      setParticipantsId(e);
+                      console.log(e)
+                    }}
+                    options={participants.map((participant) => ({
+                      label: participant.first_name,
+                      value: participant.id,
+                    }))}
+                    styles={customStyles}
+                    isMulti
+                  />
                 </Col>
                 <Col lg={12}>
                   <p className="pModalheadertext">Commentary</p>
@@ -248,6 +300,7 @@ function eventAdd({ handleCloseEvent,trigger,setTrigger }) {
                     <button
                       onClick={() => {
                         handleCloseEvent();
+                        setEditable(false)
                       }}
                       className="btnCancelEvent"
                     >
