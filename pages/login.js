@@ -37,6 +37,7 @@ const handleLogin = (values) => {
         console.log("Clinician Account");
         localStorage.setItem("token", response.data.data.token);
         localStorage.setItem("id", response.data.data.user.id);
+        localStorage.setItem("clinician_id", response.data.data.user.clinician_id);
       } else {
         console.log("No Role");
       }

@@ -18,9 +18,11 @@ function appointment() {
   const [event, setEventlist] = useState([]);
 
   const getEvents = async () => {
+    const id = localStorage.getItem('id')
+    const clinician_id = localStorage.getItem("clinician_id");
     await axios({
        method: "get",
-       url: appglobal.api.base_api + appglobal.api.get_events + '?clinician_id=5',
+       url: appglobal.api.base_api + appglobal.api.get_events + '?clinician_id=' + clinician_id,
        headers: { "Content-Type": "multipart/form-data" },
      })
        .then(function (response) {

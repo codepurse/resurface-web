@@ -173,7 +173,7 @@ function addUser() {
           </Row>
           <Row>
             <Col lg={4}>
-              <p className="pHeaderAddsub">Staf Image</p>
+              <p className="pHeaderAddsub">Staff Image</p>
               <input
                 onChange={(e) => handleFile(e)}
                 ref={inputFileRef}
