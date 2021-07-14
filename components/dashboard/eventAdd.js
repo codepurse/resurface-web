@@ -16,7 +16,7 @@ function eventAdd({ handleCloseEvent, trigger, setTrigger, setEditable, editable
   const [participantsId, setParticipantsId] = useState([]);
   const [eventType, setEventType] = useState( editable !==true ? {value: "Session", label: "Session"}:{ value: calendarlist.event_type, label: calendarlist.event_type});
 
-  // Gett all Participants
+  // Get all Participants
   useEffect(() => {
     console.log("CLINICIAN",calendarlist)
     const token = localStorage.getItem("token");

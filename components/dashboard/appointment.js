@@ -7,7 +7,7 @@ import Eventadd from "../dashboard/eventAdd";
 import axios from "axios";
 import moment from "moment";
 {
-  ///* Fake data */
+  /* Fake data */
 }
 import "../../services/api";
 
@@ -16,6 +16,7 @@ function appointment() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [event, setEventlist] = useState([]);
+  const [searchquery, setSearchQuery] = useState("");
 
   const getEvents = async () => {
     const id = localStorage.getItem('id')
@@ -38,6 +39,34 @@ function appointment() {
      getEvents()
   },[])
 
+  const searchEvents = async () => {
+    const token = localStorage.getItem('token')
+    const clinician_id = localStorage.getItem("clinician_id");
+    await axios({
+      method: "get",
+      url:
+        appglobal.api.base_api + appglobal.api.get_events + `?clinician_id=${clinician_id}&q=${searchquery}`,
+      headers: { 
+        "Content-Type": "multipart/form-data",
+         Authorization: "Bearer " + token
+       },
+    })
+      .then(function (response) {
+        setEventlist(response.data.data);
+        console.log(response.data.data);
+      })
+      .catch(function (response) {
+        console.log(response.response);
+      });
+  };
+
+  useEffect(() => {
+    if(searchquery != ""){
+      searchEvents();
+    }else {
+      getEvents();
+    }
+  }, [searchquery]);
 
   return (
     <>
@@ -51,6 +80,9 @@ function appointment() {
                     type="text"
                     className="txtSearch"
                     placeholder="Search .."
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value)
+                    }}
                   ></input>
                   <button className="btnSearch">
                     <img
@@ -89,13 +121,17 @@ function appointment() {
                         <td>
                           <p>
                             <img src="../Image/icon/duration.png"></img>
-                            {moment(event.date_from).format('MMMM Do YYYY, h:mm:ss a')}
+                            {moment(event.date_from).format(
+                              "MMMM Do YYYY, h:mm:ss a"
+                            )}
                           </p>
                         </td>
                         <td>
                           <p>
                             <img src="../Image/icon/duration.png"></img>
-                            {moment(event.date_to).format('MMMM Do YYYY, h:mm:ss a')}
+                            {moment(event.date_to).format(
+                              "MMMM Do YYYY, h:mm:ss a"
+                            )}
                           </p>
                         </td>
                         <td>
@@ -104,7 +140,9 @@ function appointment() {
                         <td>
                           <p
                             className={
-                              event.event_type == "Business" ? "pBuss" : "pSession"
+                              event.event_type == "Business"
+                                ? "pBuss"
+                                : "pSession"
                             }
                           >
                             {event.event_type}
