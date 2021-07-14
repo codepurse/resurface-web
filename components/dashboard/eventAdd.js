@@ -17,7 +17,7 @@ function eventAdd({ handleCloseEvent }) {
   const [eventType,setEventType] = useState([])
 
 
-  // Gett all Participants
+  // Get all Participants
   useEffect(() => {
 
     const token = localStorage.getItem('token')
