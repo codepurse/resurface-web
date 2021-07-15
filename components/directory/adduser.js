@@ -15,67 +15,133 @@ import axios from "axios";
 import appglobal from "../../services/api.service";
 import style from "../../styles/login.module.scss";
 
-function adduser() {
+function adduser({
+  editableData,
+  setEditableData,
+  edit,
+  setEdit,
+  closeNew,
+  trigger,
+  setTrigger,
+}) {
   const router = useRouter();
-  const [userType,setUserType] = useState(null)
+  const [userType, setUserType] = useState( { value: "Admin", label: "admin" });
   const [locationsId, setLocationsId] = useState([]);
-  const [image,setImage] = useState(null)
-  const handleSubmit = (values) =>{
-    const token = localStorage.getItem("token");
+  const [image, setImage] = useState(null);
+  const handleSubmit = (values) => {
+    if(locationsId.length == 0){
+      alert('Please Add Location')
+    }else{
+      const token = localStorage.getItem("token");
 
-    const locationValue = locationsId.map(
-      (locationId) => locationId.value
-    );
+    const locationValue = locationsId.map((locationId) => locationId.value);
+    const phoneValue = inputFields.map((input) => input.phonenumber);
+    const phoneType = inputFields.map((input) => input.type);
 
     const formData = new FormData();
     formData.append("first_name", values.firstname);
     formData.append("middle_name", values.middlename);
     formData.append("last_name", values.lastname);
+    formData.append("username", "Testing");
     formData.append("email", values.email);
     formData.append("password", values.password);
     formData.append("role", userType.value);
-    formData.append("photo", image);
+    if(image !== null){
+      formData.append("photo", image);
+    }
     for (let i = 0; i < locationValue.length; i++) {
-      formData.append(
-        `locations[${i}][id]`,
-        locationValue[i]
-      );
+      formData.append(`locations[${i}][id]`, locationValue[i]);
+    }
+    for (let i = 0; i < phoneValue.length; i++) {
+      formData.append(`phones[${i}][phone_number]`, phoneValue[i]);
+    }
+    for (let i = 0; i < phoneType.length; i++) {
+      formData.append(`phones[${i}][type]`, phoneType[i]);
+    }
+    if (edit !== true) {
+      // Handle Add
+      axios({
+        method: "post",
+        url: appglobal.api.base_api + appglobal.api.add_clinician,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + token,
+        },
+      })
+        .then(function (response) {
+          //handle success
+          console.log(response);
+          setTrigger(!trigger);
+          closeNew();
+        })
+        .catch(function (error) {
+          //handle error
+          console.log(error.response.data.data.email[0]);
+         alert(error.response.data.data.email[0])
+        });
+    } else {
+      // Handle Edit
+      formData.append("_method", "PUT");
+
+      axios({
+        method: "post",
+        url:
+          appglobal.api.base_api +
+          appglobal.api.update_clinician +
+          editableData.user.id,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + token,
+        },
+      })
+        .then(function (response) {
+          //handle success
+          console.log(response);
+          closeNew();
+        })
+        .catch(function (response) {
+          //handle error
+          console.log(response.response);
+        });
     }
 
-    console.log(inputFields)
-
-
-
     for (var pair of formData.entries()) {
-      console.log(pair[0]+ ' - ' + pair[1]); 
-  }
+      console.log(pair[0] + " - " + pair[1]);
+    }
+    }
+  };
 
-  // axios({
-  //   method: "post",
-  //   url: appglobal.api.base_api + appglobal.api.add_clinician,
-  //   data: formData,
-  //   headers: {
-  //     "Content-Type": "multipart/form-data",
-  //     Authorization: "Bearer " + token,
-  //   },
-  // })
-  //   .then(function (response) {
-  //     //handle success
-  //     console.log(response);
-  //     setTrigger(!trigger);
-  //     handleCloseEvent();
-  //   })
-  //   .catch(function (response) {
-  //     //handle error
-  //     console.log(response.response);
-  //   });
-
-
-  }
+  useEffect(() => {
+    console.log(inputFields);
+  });
 
   const inputFileRef = useRef(null);
   const onBtnClick = () => {
     inputFileRef.current.click();
+  };
+
+  const handleChangeInput = (id, event) => {
+    const newInputFields = inputFields.map((i) => {
+      if (id === i.id) {
+        i[event.target.name] = event.target.value;
+      }
+      return i;
+    });
+    console.log("event", event.target.value);
+    setInputFields(newInputFields);
+  };
+
+  const handleChangeInputselect = (id, event) => {
+    const newInputFields = inputFields.map((i) => {
+      if (id === i.id) {
+        i["type"] = event.label;
+      }
+      return i;
+    });
+
+    setInputFields(newInputFields);
   };
 
   const [inputFields, setInputFields] = useState([
@@ -88,11 +154,14 @@ function adduser() {
       { id: uuidv4(), phonenumber: "", type: "" },
     ]);
   };
-  const handleRemoveFields = id => {
+  const handleRemoveFields = (id) => {
     const values = [...inputFields];
-    values.splice(values.findIndex(value => value.id === id), 1);
+    values.splice(
+      values.findIndex((value) => value.id === id),
+      1
+    );
     setInputFields(values);
-  }
+  };
 
   function setActive(e) {
     $(".ulDashboard>li").removeClass("activeUl");
@@ -152,29 +221,20 @@ function adduser() {
     <Formik
       enableReinitialize={true}
       initialValues={{
-        firstname: "",
-        middlename: "",
-        lastname: "",
-        email: "",
+        firstname: edit !== true ? "" : editableData.first_name,
+        middlename: edit !== true ? "" : editableData.middle_name,
+        lastname: edit !== true ? "" : editableData.last_name,
+        email: edit !== true ? "" : editableData.user.email,
         password: "",
         confirm_password: "",
       }}
       validateOnChange={false}
       validateOnBlur={false}
       validationSchema={yup.object({
-        firstname: yup
-          .string()
-          .required("Firstname Required"),
-        middlename: yup
-          .string()
-          .required("Middlename Required"),
-        lastname: yup
-          .string()
-          .required("Lastname Required"),
-        email: yup
-          .string()
-          .email()
-          .required("Email Required"),
+        firstname: yup.string().required("Firstname Required"),
+        middlename: yup.string().required("Middlename Required"),
+        lastname: yup.string().required("Lastname Required"),
+        email: yup.string().email().required("Email Required"),
         password: yup
           .string()
           .required("Password Required")
@@ -183,26 +243,23 @@ function adduser() {
 
         confirm_password: yup
           .string()
-          .min(8)
           .required("Password Required")
           .when("password", {
             is: (val) => (val && val.length > 0 ? true : false),
-            then: yup.string().oneOf(
-              [yup.ref("password")],
-              "Password does not match"
-            ),
+            then: yup
+              .string()
+              .oneOf([yup.ref("password")], "Password does not match"),
           }),
-
       })}
       onSubmit={(values) => {
-        console.log(values)
-        handleSubmit(values)
+        console.log(values);
+        handleSubmit(values);
       }}
     >
       <Form>
         <Row>
           <Col lg={12}>
-            <p>Add Staff</p>
+            <p>{edit !== true ? "Add Staff" : "Edit Staff"}</p>
             <p>
               In this section be sure to fill all information requested. Do not
               save without completing all required information.
@@ -238,7 +295,14 @@ function adduser() {
                   options={options_type}
                   styles={customStyles}
                   placeholder="Select .."
-                  onChange={(e)=>{setUserType(e)}}
+                  onChange={(e) => {
+                    setUserType(e);
+                  }}
+                  defaultValue={
+                    edit !== true
+                      ? { value: "clinician", label: "Clinician" }
+                      : { value: "NotActive", label: "NotActive" }
+                  }
                 />
               </Col>
               <Col lg={4}>
@@ -247,12 +311,17 @@ function adduser() {
                   options={options_status}
                   styles={customStyles}
                   placeholder="Select .."
+                  defaultValue={
+                    edit !== true
+                      ? { value: "Active", label: "Active" }
+                      : { value: "NotActive", label: "NotActive" }
+                  }
                 />
               </Col>
               <Col lg={4}>
                 <p className="pHeaderAddsub">Location</p>
                 <Select
-                  onChange={(e)=>setLocationsId(e)}
+                  onChange={(e) => setLocationsId(e)}
                   options={options_location}
                   styles={customStyles}
                   placeholder="Select .."
@@ -306,21 +375,17 @@ function adduser() {
               </Col>
               <Col lg={6}>
                 <p className="pHeaderAddsub">Email Address</p>
-                <Field
-                      name="email"
-                      type="text"
-                      className="txtInput"
-                    ></Field>
-                    <div className={style.text_danger}>
-                      <ErrorMessage name="email"></ErrorMessage>
-                    </div>
+                <Field name="email" type="text" className="txtInput"></Field>
+                <div className={style.text_danger}>
+                  <ErrorMessage name="email"></ErrorMessage>
+                </div>
               </Col>
             </Row>
             <Row>
               <Col lg={4}>
                 <p className="pHeaderAddsub">Staf Image</p>
                 <input
-                  onChange={(e) => setImage(e.target.value)}
+                  onChange={(e) => setImage(e.target.files[0])}
                   ref={inputFileRef}
                   id="file-upload"
                   type="file"
@@ -342,9 +407,17 @@ function adduser() {
                   <Col lg={12}>
                     {inputFields.map((inputField) => (
                       <Row>
-                        <Col lg={5}>
+                        <Col lg={5} key={inputField.id}>
                           <p className="pHeaderAddsub">Phone Number</p>
-                          <input type="text" value={inputField.phonenumber} className="txtInput"></input>
+                          <input
+                            type="text"
+                            name="phonenumber"
+                            value={inputField.phonenumber}
+                            onChange={(event) => {
+                              handleChangeInput(inputField.id, event);
+                            }}
+                            className="txtInput"
+                          ></input>
                         </Col>
                         <Col lg={4}>
                           <p className="pHeaderAddsub">Type</p>
@@ -352,10 +425,19 @@ function adduser() {
                             options={options_status}
                             styles={customStyles}
                             placeholder="Select .."
+                            name="type"
+                            onChange={(event) =>
+                              handleChangeInputselect(inputField.id, event)
+                            }
                           />
                         </Col>
                         <Col lg={3}>
-                          <button className="btnDeletePhone" onClick={() => handleRemoveFields(inputField.id)}>Delete</button>
+                          <button
+                            className="btnDeletePhone"
+                            onClick={() => handleRemoveFields(inputField.id)}
+                          >
+                            Delete
+                          </button>
                         </Col>
                       </Row>
                     ))}
@@ -395,7 +477,14 @@ function adduser() {
                 <button type="submit" className="btnSaveEvent">
                   Save
                 </button>
-                <button type="button" onClick={()=>{console.log(inputFields)}} >Cancel</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeNew();
+                  }}
+                >
+                  Cancel
+                </button>
               </Col>
             </Row>
           </Container>

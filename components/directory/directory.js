@@ -29,18 +29,22 @@ const status = (value) => {
 
 function directory() {
   const [show, setShow] = useState(false);
-  const [clinicians,setClinicians] = useState(null)
-  const [clinicianId,setClinicianId] = useState(null)
-  const [deleteUserTrigger,setDeleteUserTrigger] = useState(true)
+  const [clinicians, setClinicians] = useState(null);
+  const [clinicianId, setClinicianId] = useState(null);
+  const [deleteUserTrigger, setDeleteUserTrigger] = useState(true);
+  const [editableData,setEditableData] = useState(null)
+  const [edit,setEdit] = useState(false)
+  const [trigger,setTrigger] = useState(false)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  
 
 
+ 
 
   // Get All User
   useEffect(() => {
-
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
     axios({
       method: "get",
       url: appglobal.api.base_api + appglobal.api.get_all_clinicians,
@@ -53,21 +57,20 @@ function directory() {
       .then(function (response) {
         //handle success
         console.log(response.data.data);
-        setClinicians(response.data.data)
+        setClinicians(response.data.data);
       })
       .catch(function (response) {
-        console.log( "Get All User", response)
+        console.log("Get All User", response);
       });
-  }, [deleteUserTrigger]);
-
-  
+  }, [deleteUserTrigger,trigger]);
 
   // Delete User
-  const handleDeleteUser = (value) =>{
-    const token = localStorage.getItem('token')
+  const handleDeleteUser = (value) => {
+    const token = localStorage.getItem("token");
     axios({
       method: "delete",
-      url: appglobal.api.base_api + appglobal.api.delete_clinician + clinicianId,
+      url:
+        appglobal.api.base_api + appglobal.api.delete_clinician + clinicianId,
       headers: {
         "Content-Type": "multipart/form-data",
         Accept: "application/json",
@@ -77,24 +80,37 @@ function directory() {
       .then(function (response) {
         //handle success
         console.log(response.data);
-        setDeleteUserTrigger(!deleteUserTrigger)
-        handleClose()
+        setDeleteUserTrigger(!deleteUserTrigger);
+        handleClose();
       })
       .catch(function (response) {
-        console.log( "HandleDeleteUser", response)
+        console.log("HandleDeleteUser", response);
         //handle error
       });
-
-  }
-
+  };
 
   function addNew() {
     $(".rowDirectory").hide();
     $(".conAdduser").fadeIn();
+    setTrigger(!trigger)
+  }
+  function closeNew() {
+    $(".rowDirectory").fadeIn();
+    $(".conAdduser").hide();
+    setTrigger(!trigger)
   }
   const myTheme = {
     // Theme object to extends default dark theme.
   };
+
+  function editClinician(event) {
+    $(".rowDirectory").hide();
+    $(".conAdduser").fadeIn();
+    setEditableData(event)
+    setEdit(true)
+    console.log(editableData)
+
+  }
 
   return (
     <>
@@ -124,44 +140,69 @@ function directory() {
                 </tr>
               </thead>
               <tbody>
-                {clinicians !== null && clinicians.map((event) => (
-                  <tr>
-                    <td>
-                      <div className="form-inline">
-                        <img src={event.image}></img>
-                        <span>
-                          {event.first_name}
-                          <br></br>
-                          <span> {event.location}</span>
-                        </span>
-                      </div>
-                    </td>
-                    <td>
-                      <p>{event.user.email}</p>
-                    </td>
-                    <td>
-                      <p className={permission(event.user.roles[0].name)}>{event.user.roles[0].name == "admin" ?"Admin" : "Clinician" }</p>
-                    </td>
-                    <td>
-                      <p className={status(event.status == 1 ? "Active" : event.status == 2 ?"Draft" :"Archive")}>{event.status == 1 ? "Active" : event.status == 2 ?"Draft" :"Archive"}</p>
-                    </td>
-                    <td>
-                      <button onClick={handleShow}>
-                        <img
-                          className="imgAction"
-                          src="Image/icon/delete.png"
-                          onClick={()=>{setClinicianId(event.user_id)}}
-                        ></img>
-                      </button>
-                      <button>
-                        <img
-                          className="imgAction"
-                          src="Image/icon/edit.png"
-                        ></img>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {clinicians !== null &&
+                  clinicians.map((event) => (
+                    <tr>
+                      <td>
+                        <div className="form-inline">
+                          <img src={event.image}></img>
+                          <span>
+                            {event.first_name}
+                            <br></br>
+                            <span> {event.location}</span>
+                          </span>
+                        </div>
+                      </td>
+                      <td>
+                        <p>{event.user.email}</p>
+                      </td>
+                      <td>
+                        <p className={permission(event.user.roles[0].name)}>
+                          {event.user.roles[0].name == "admin"
+                            ? "Admin"
+                            : "Clinician"}
+                        </p>
+                      </td>
+                      <td>
+                        <p
+                          className={status(
+                            event.status == 1
+                              ? "Active"
+                              : event.status == 2
+                              ? "Draft"
+                              : "Archive"
+                          )}
+                        >
+                          {event.status == 1
+                            ? "Active"
+                            : event.status == 2
+                            ? "Draft"
+                            : "Archive"}
+                        </p>
+                      </td>
+                      <td>
+                        <button onClick={handleShow}>
+                          <img
+                            className="imgAction"
+                            src="Image/icon/delete.png"
+                            onClick={() => {
+                              setClinicianId(event.user_id);
+                            }}
+                          ></img>
+                        </button>
+                        <button onClick={()=>{editClinician(event)}}  >
+                          
+                          <img
+                            onClick={() => {
+                              setClinicianId(event.user_id);
+                            }}
+                            className="imgAction"
+                            src="Image/icon/edit.png"
+                          ></img>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </Table>
           </Col>
@@ -179,8 +220,22 @@ function directory() {
                   </p>
                 </Col>
                 <Col lg={12}>
-                  <button onClick={()=>{handleDeleteUser()}} className="btnDeleteAccount">Delete</button>
-                  <button onClick={()=>{handleClose()}}  className="btnDeleteAccount">Cancel</button>
+                  <button
+                    onClick={() => {
+                      handleDeleteUser();
+                    }}
+                    className="btnDeleteAccount"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleClose();
+                    }}
+                    className="btnDeleteAccount"
+                  >
+                    Cancel
+                  </button>
                 </Col>
               </Row>
             </Container>
@@ -188,7 +243,16 @@ function directory() {
         </Modal>
       </Container>
       <Container fluid className="conAdduser">
-        <Adduser></Adduser>
+        <Adduser
+        editableData = {editableData}
+        setEditableData = {setEditableData}
+        edit = {edit}
+        setEdit = {setEdit}
+        closeNew = {closeNew}
+        trigger = {trigger}
+        setTrigger = {setTrigger}
+
+        ></Adduser>
       </Container>
     </>
   );
