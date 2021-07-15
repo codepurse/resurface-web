@@ -139,7 +139,7 @@ function register() {
                   placeholder="Please enter Middlename"
                 // defaultValue="aasjahskj"
                 ></Field>
-                <div className="text-danger">
+                <div className={style.text_danger}>
                   <ErrorMessage name="middleName"></ErrorMessage>
                 </div>
                 <Field
