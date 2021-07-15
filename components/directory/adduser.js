@@ -83,6 +83,10 @@ function adduser() {
 
   }
 
+  useEffect(() => {
+    console.log(inputFields)
+  })
+
   const inputFileRef = useRef(null);
   const onBtnClick = () => {
     inputFileRef.current.click();
@@ -96,6 +100,17 @@ function adduser() {
       return i;
     })
     console.log("event",event.target.value)
+    setInputFields(newInputFields);
+  }
+
+   const handleChangeInputselect = (id, event) => {
+    const newInputFields = inputFields.map(i => {
+      if(id === i.id) {
+       i["type"] = event.label
+      }
+      return i;
+    })
+    
     setInputFields(newInputFields);
   }
 
@@ -371,6 +386,9 @@ function adduser() {
                             options={options_status}
                             styles={customStyles}
                             placeholder="Select .."
+                            name = "type"
+                            onChange={event => handleChangeInputselect(inputField.id, event)}
+                         
                           />
                         </Col>
                         <Col lg={3}>
