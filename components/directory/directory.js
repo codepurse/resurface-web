@@ -32,8 +32,12 @@ function directory() {
   const [clinicians, setClinicians] = useState(null);
   const [clinicianId, setClinicianId] = useState(null);
   const [deleteUserTrigger, setDeleteUserTrigger] = useState(true);
+  const [editableData,setEditableData] = useState(null)
+  const [edit,setEdit] = useState(false)
+  const [trigger,setTrigger] = useState(false)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  
 
 
  
@@ -58,7 +62,7 @@ function directory() {
       .catch(function (response) {
         console.log("Get All User", response);
       });
-  }, [deleteUserTrigger]);
+  }, [deleteUserTrigger,trigger]);
 
   // Delete User
   const handleDeleteUser = (value) => {
@@ -88,14 +92,24 @@ function directory() {
   function addNew() {
     $(".rowDirectory").hide();
     $(".conAdduser").fadeIn();
+    setTrigger(!trigger)
+  }
+  function closeNew() {
+    $(".rowDirectory").fadeIn();
+    $(".conAdduser").hide();
+    setTrigger(!trigger)
   }
   const myTheme = {
     // Theme object to extends default dark theme.
   };
 
-  function editClinician() {
+  function editClinician(event) {
     $(".rowDirectory").hide();
     $(".conAdduser").fadeIn();
+    setEditableData(event)
+    setEdit(true)
+    console.log(editableData)
+
   }
 
   return (
@@ -176,7 +190,7 @@ function directory() {
                             }}
                           ></img>
                         </button>
-                        <button onClick={editClinician}>
+                        <button onClick={()=>{editClinician(event)}}  >
                           
                           <img
                             onClick={() => {
@@ -229,7 +243,16 @@ function directory() {
         </Modal>
       </Container>
       <Container fluid className="conAdduser">
-        <Adduser></Adduser>
+        <Adduser
+        editableData = {editableData}
+        setEditableData = {setEditableData}
+        edit = {edit}
+        setEdit = {setEdit}
+        closeNew = {closeNew}
+        trigger = {trigger}
+        setTrigger = {setTrigger}
+
+        ></Adduser>
       </Container>
     </>
   );
