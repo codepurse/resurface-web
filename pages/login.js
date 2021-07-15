@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect, useRef } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import Header from "../components/header";
 import { useFormik, Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import appglobal from "../services/api.service";
@@ -56,6 +57,8 @@ function login() {
   };
 
   return (
+  <>
+    <Header></Header>
     <Formik
       enableReinitialize={true}
       initialValues={{
@@ -130,6 +133,8 @@ function login() {
         </div>
       </div>
     </Formik>
+  </>
+    
   );
 }
 
