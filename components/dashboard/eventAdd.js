@@ -9,7 +9,7 @@ import { useFormik, Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import appglobal from "../../services/api.service";
 
-function eventAdd({ handleCloseEvent, trigger, setTrigger, setEditable, editable, calendarlist }) {
+function eventAdd({ handleCloseEvent, trigger, setTrigger, setEditable, editable, calendarlist,handleClose }) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [participants, setParticipants] = useState([]);
@@ -58,7 +58,7 @@ function eventAdd({ handleCloseEvent, trigger, setTrigger, setEditable, editable
         );
         formData.append(
           "date_to",
-          moment(startDate).format("YYYY/MM/DD h:mm:ss")
+          moment(endDate).format("YYYY/MM/DD h:mm:ss")
         );
         formData.append("subject", values.event_name);
         formData.append("location", values.location);
@@ -91,7 +91,7 @@ function eventAdd({ handleCloseEvent, trigger, setTrigger, setEditable, editable
             //handle success
             console.log(response);
             setTrigger(!trigger);
-            handleCloseEvent();
+            handleClose();
           })
           .catch(function (response) {
             //handle error
@@ -115,7 +115,7 @@ function eventAdd({ handleCloseEvent, trigger, setTrigger, setEditable, editable
             //handle success
             console.log(response);
             setTrigger(!trigger);
-            handleCloseEvent();
+            handleClose();
           })
           .catch(function (response) {
             //handle error
@@ -191,7 +191,6 @@ function eventAdd({ handleCloseEvent, trigger, setTrigger, setEditable, editable
         handleAddEvent(values);
       }}
     >
-      {(props) => (
         <>
           <p className="pModalheader">{editable !== true ? "Create event" : "Edit Event"}</p>
           <p className="pModalheadersub">
@@ -298,9 +297,9 @@ function eventAdd({ handleCloseEvent, trigger, setTrigger, setEditable, editable
                 <Col lg={12}>
                   <div className="form-inline float-right">
                     <button
+                    type="button"
                       onClick={() => {
-                        handleCloseEvent();
-                        setEditable(false)
+                        handleClose();
                       }}
                       className="btnCancelEvent"
                     >
@@ -315,7 +314,6 @@ function eventAdd({ handleCloseEvent, trigger, setTrigger, setEditable, editable
             </Form>
           </Container>
         </>
-      )}
     </Formik>
   );
 }

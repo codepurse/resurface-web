@@ -17,6 +17,8 @@ function appointment() {
   const handleShow = () => setShow(true);
   const [event, setEventlist] = useState([]);
   const [searchquery, setSearchQuery] = useState("");
+  const [trigger, setTrigger] = useState(true)
+  
 
   const getEvents = async () => {
     const id = localStorage.getItem('id')
@@ -37,7 +39,7 @@ function appointment() {
  
    useEffect(()=>{
      getEvents()
-  },[])
+  },[trigger])
 
   const searchEvents = async () => {
     const token = localStorage.getItem('token')
@@ -169,7 +171,11 @@ function appointment() {
       </Row>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Body>
-          <Eventadd></Eventadd>
+          <Eventadd
+          handleClose = {handleClose}
+          setTrigger = {setTrigger}
+          trigger =  {trigger}
+          ></Eventadd>
         </Modal.Body>
       </Modal>
     </>
