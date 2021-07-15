@@ -8,35 +8,38 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import style from "../styles/login.module.scss";
 
-function forgotPassword() {
+function resetPassword() {
   const router = useRouter();
 
- // Forgot Password Function
-const handleForgotPassword = (values) => {
-  // Send Data Via Form-data Format
-  const formData = new FormData();
-  formData.append("email", values.email);
+  // Reset Password Function
+  const handleResetPassword = (values) => {
+    // Send Data Via Form-data Format
+    const formData = new FormData();
+    formData.append("email", values.email);
+    formData.append("password", values.password);
 
-  axios({
-    method: "post",
-    url: appglobal.api.base_api + appglobal.api.forgot_password,
-    data: formData,
-    headers: { "Content-Type": "multipart/form-data" },
-  })
-    .then(function (response) {
-      //handle success
-      console.log(response);
+    axios({
+      method: "post",
+      url: appglobal.api.base_api + reset_password,
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
     })
-    .catch(function (response) {
-      //handle error
-      console.log(response);
-    });
-};
+      .then(function (response) {
+        //handle success
+        console.log(response.data.data)
+      })
+      .catch(function (response) {
+        //handle error
+        console.log(response.response)
+      });
+  };
+
   return (
     <Formik
       enableReinitialize={true}
       initialValues={{
         email: "",
+        password: "",
       }}
       validateOnChange={false}
       validateOnBlur={false}
@@ -46,9 +49,14 @@ const handleForgotPassword = (values) => {
 
           .email()
           .required("Email Required"),
+        password: yup
+          .string()
+          .required("Password Required")
+          .min(8, "Password is too short - should be 8 chars minimum.")
+          .matches(/(?=.*[0-9])/, "Password must contain a number."),
       })}
       onSubmit={(values) => {
-        handleForgotPassword(values);
+        handleResetPassword(values);
       }}
     >
       <div className={style.bg}>
@@ -70,18 +78,25 @@ const handleForgotPassword = (values) => {
                     placeholder="Please enter Email Address"
                     // defaultValue="aasjahskj"
                   ></Field>
-                   <div className={style.text_danger}>
+                  <div className={style.text_danger}>
                     <ErrorMessage name="email"></ErrorMessage>
                   </div>
                 </div>
+                <Field
+                  name="password"
+                  type="password"
+                  className="txtInput"
+                  placeholder="Please enter Password"
+                  // defaultValue="aasjahskj"
+                ></Field>
+                <div className={style.text_danger}>
+                  <ErrorMessage name="password"></ErrorMessage>
+                </div>
 
                 <button type="submit" className={style.button}>
-                  Submit
+                  Reset Password
                 </button>
-
-                <Link href="/login">
-                  <div className={style.text}>Already have an account? Login</div>
-                </Link>
+             
               </Form>
             </div>
           </div>
@@ -91,4 +106,4 @@ const handleForgotPassword = (values) => {
   );
 }
 
-export default forgotPassword;
+export default resetPassword;
