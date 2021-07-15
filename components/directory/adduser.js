@@ -17,15 +17,13 @@ import style from "../../styles/login.module.scss";
 
 function adduser() {
   const router = useRouter();
-  const [userType,setUserType] = useState(null)
+  const [userType, setUserType] = useState(null);
   const [locationsId, setLocationsId] = useState([]);
-  const [image,setImage] = useState(null)
-  const handleSubmit = (values) =>{
+  const [image, setImage] = useState(null);
+  const handleSubmit = (values) => {
     const token = localStorage.getItem("token");
 
-    const locationValue = locationsId.map(
-      (locationId) => locationId.value
-    );
+    const locationValue = locationsId.map((locationId) => locationId.value);
 
     const formData = new FormData();
     formData.append("first_name", values.firstname);
@@ -36,42 +34,35 @@ function adduser() {
     formData.append("role", userType.value);
     formData.append("photo", image);
     for (let i = 0; i < locationValue.length; i++) {
-      formData.append(
-        `locations[${i}][id]`,
-        locationValue[i]
-      );
+      formData.append(`locations[${i}][id]`, locationValue[i]);
     }
 
-    console.log(inputFields)
-
-
+    console.log(inputFields);
 
     for (var pair of formData.entries()) {
-      console.log(pair[0]+ ' - ' + pair[1]); 
-  }
+      console.log(pair[0] + " - " + pair[1]);
+    }
 
-  // axios({
-  //   method: "post",
-  //   url: appglobal.api.base_api + appglobal.api.add_clinician,
-  //   data: formData,
-  //   headers: {
-  //     "Content-Type": "multipart/form-data",
-  //     Authorization: "Bearer " + token,
-  //   },
-  // })
-  //   .then(function (response) {
-  //     //handle success
-  //     console.log(response);
-  //     setTrigger(!trigger);
-  //     handleCloseEvent();
-  //   })
-  //   .catch(function (response) {
-  //     //handle error
-  //     console.log(response.response);
-  //   });
-
-
-  }
+    // axios({
+    //   method: "post",
+    //   url: appglobal.api.base_api + appglobal.api.add_clinician,
+    //   data: formData,
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //     Authorization: "Bearer " + token,
+    //   },
+    // })
+    //   .then(function (response) {
+    //     //handle success
+    //     console.log(response);
+    //     setTrigger(!trigger);
+    //     handleCloseEvent();
+    //   })
+    //   .catch(function (response) {
+    //     //handle error
+    //     console.log(response.response);
+    //   });
+  };
 
   const inputFileRef = useRef(null);
   const onBtnClick = () => {
@@ -88,11 +79,25 @@ function adduser() {
       { id: uuidv4(), phonenumber: "", type: "" },
     ]);
   };
-  const handleRemoveFields = id => {
+  const handleRemoveFields = (id) => {
     const values = [...inputFields];
-    values.splice(values.findIndex(value => value.id === id), 1);
+    values.splice(
+      values.findIndex((value) => value.id === id),
+      1
+    );
     setInputFields(values);
-  }
+  };
+
+  const handleChangeInput = (id, event) => {
+    const newInputFields = inputFields.map((i) => {
+      if (id === i.id) {
+        i[event.target.name] = event.target.value;
+      }
+      return i;
+    });
+
+    setInputFields(newInputFields);
+  };
 
   function setActive(e) {
     $(".ulDashboard>li").removeClass("activeUl");
@@ -162,19 +167,10 @@ function adduser() {
       validateOnChange={false}
       validateOnBlur={false}
       validationSchema={yup.object({
-        firstname: yup
-          .string()
-          .required("Firstname Required"),
-        middlename: yup
-          .string()
-          .required("Middlename Required"),
-        lastname: yup
-          .string()
-          .required("Lastname Required"),
-        email: yup
-          .string()
-          .email()
-          .required("Email Required"),
+        firstname: yup.string().required("Firstname Required"),
+        middlename: yup.string().required("Middlename Required"),
+        lastname: yup.string().required("Lastname Required"),
+        email: yup.string().email().required("Email Required"),
         password: yup
           .string()
           .required("Password Required")
@@ -187,16 +183,14 @@ function adduser() {
           .required("Password Required")
           .when("password", {
             is: (val) => (val && val.length > 0 ? true : false),
-            then: yup.string().oneOf(
-              [yup.ref("password")],
-              "Password does not match"
-            ),
+            then: yup
+              .string()
+              .oneOf([yup.ref("password")], "Password does not match"),
           }),
-
       })}
       onSubmit={(values) => {
-        console.log(values)
-        handleSubmit(values)
+        console.log(values);
+        handleSubmit(values);
       }}
     >
       <Form>
@@ -238,7 +232,9 @@ function adduser() {
                   options={options_type}
                   styles={customStyles}
                   placeholder="Select .."
-                  onChange={(e)=>{setUserType(e)}}
+                  onChange={(e) => {
+                    setUserType(e);
+                  }}
                 />
               </Col>
               <Col lg={4}>
@@ -252,7 +248,7 @@ function adduser() {
               <Col lg={4}>
                 <p className="pHeaderAddsub">Location</p>
                 <Select
-                  onChange={(e)=>setLocationsId(e)}
+                  onChange={(e) => setLocationsId(e)}
                   options={options_location}
                   styles={customStyles}
                   placeholder="Select .."
@@ -306,14 +302,10 @@ function adduser() {
               </Col>
               <Col lg={6}>
                 <p className="pHeaderAddsub">Email Address</p>
-                <Field
-                      name="email"
-                      type="text"
-                      className="txtInput"
-                    ></Field>
-                    <div className={style.text_danger}>
-                      <ErrorMessage name="email"></ErrorMessage>
-                    </div>
+                <Field name="email" type="text" className="txtInput"></Field>
+                <div className={style.text_danger}>
+                  <ErrorMessage name="email"></ErrorMessage>
+                </div>
               </Col>
             </Row>
             <Row>
@@ -342,9 +334,17 @@ function adduser() {
                   <Col lg={12}>
                     {inputFields.map((inputField) => (
                       <Row>
-                        <Col lg={5}>
+                        <Col lg={5} key={inputField.id}>
                           <p className="pHeaderAddsub">Phone Number</p>
-                          <input type="text" value={inputField.phonenumber} className="txtInput"></input>
+                          <input
+                            name="phonenumber"
+                            type="text"
+                            value={inputField.phonenumber}
+                            onChange={(event) =>
+                              handleChangeInput(inputField.id, event)
+                            }
+                            className="txtInput"
+                          ></input>
                         </Col>
                         <Col lg={4}>
                           <p className="pHeaderAddsub">Type</p>
@@ -355,7 +355,12 @@ function adduser() {
                           />
                         </Col>
                         <Col lg={3}>
-                          <button className="btnDeletePhone" onClick={() => handleRemoveFields(inputField.id)}>Delete</button>
+                          <button
+                            className="btnDeletePhone"
+                            onClick={() => handleRemoveFields(inputField.id)}
+                          >
+                            Delete
+                          </button>
                         </Col>
                       </Row>
                     ))}
@@ -395,7 +400,14 @@ function adduser() {
                 <button type="submit" className="btnSaveEvent">
                   Save
                 </button>
-                <button type="button" onClick={()=>{console.log(inputFields)}} >Cancel</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    console.log(inputFields);
+                  }}
+                >
+                  Cancel
+                </button>
               </Col>
             </Row>
           </Container>
