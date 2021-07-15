@@ -26,11 +26,15 @@ function adduser() {
     const locationValue = locationsId.map(
       (locationId) => locationId.value
     );
+    const phoneValue = inputFields.map(
+      (input) => input.phonenumber
+    );
 
     const formData = new FormData();
     formData.append("first_name", values.firstname);
     formData.append("middle_name", values.middlename);
     formData.append("last_name", values.lastname);
+    formData.append("username", "Testing");
     formData.append("email", values.email);
     formData.append("password", values.password);
     formData.append("role", userType.value);
@@ -41,8 +45,14 @@ function adduser() {
         locationValue[i]
       );
     }
+    for (let i = 0; i < phoneValue.length; i++) {
+      formData.append(
+        `phones[${i}][phone_number]`,
+        phoneValue[i]
+      );
+    }
+    formData.append("phones[0][type]", "Personal");
 
-    console.log(inputFields)
 
 
 
@@ -50,25 +60,25 @@ function adduser() {
       console.log(pair[0]+ ' - ' + pair[1]); 
   }
 
-  // axios({
-  //   method: "post",
-  //   url: appglobal.api.base_api + appglobal.api.add_clinician,
-  //   data: formData,
-  //   headers: {
-  //     "Content-Type": "multipart/form-data",
-  //     Authorization: "Bearer " + token,
-  //   },
-  // })
-  //   .then(function (response) {
-  //     //handle success
-  //     console.log(response);
-  //     setTrigger(!trigger);
-  //     handleCloseEvent();
-  //   })
-  //   .catch(function (response) {
-  //     //handle error
-  //     console.log(response.response);
-  //   });
+  axios({
+    method: "post",
+    url: appglobal.api.base_api + appglobal.api.add_clinician,
+    data: formData,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: "Bearer " + token,
+    },
+  })
+    .then(function (response) {
+      //handle success
+      console.log(response);
+      setTrigger(!trigger);
+      handleCloseEvent();
+    })
+    .catch(function (response) {
+      //handle error
+      console.log(response.response);
+    });
 
 
   }
@@ -77,6 +87,17 @@ function adduser() {
   const onBtnClick = () => {
     inputFileRef.current.click();
   };
+
+  const handleChangeInput = (id, event) => {
+    const newInputFields = inputFields.map(i => {
+      if(id === i.id) {
+        i[event.target.name] = event.target.value
+      }
+      return i;
+    })
+    console.log("event",event.target.value)
+    setInputFields(newInputFields);
+  }
 
   const [inputFields, setInputFields] = useState([
     { id: uuidv4(), phonenumber: "", type: "" },
@@ -183,8 +204,6 @@ function adduser() {
 
         confirm_password: yup
           .string()
-          .min(8)
-          .required("Password Required")
           .when("password", {
             is: (val) => (val && val.length > 0 ? true : false),
             then: yup.string().oneOf(
@@ -320,7 +339,7 @@ function adduser() {
               <Col lg={4}>
                 <p className="pHeaderAddsub">Staf Image</p>
                 <input
-                  onChange={(e) => setImage(e.target.value)}
+                  onChange={(e) => setImage(e.target.files[0])}
                   ref={inputFileRef}
                   id="file-upload"
                   type="file"
@@ -342,9 +361,9 @@ function adduser() {
                   <Col lg={12}>
                     {inputFields.map((inputField) => (
                       <Row>
-                        <Col lg={5}>
+                        <Col lg={5} key={inputField.id}>
                           <p className="pHeaderAddsub">Phone Number</p>
-                          <input type="text" value={inputField.phonenumber} className="txtInput"></input>
+                          <input type="text" name = "phonenumber" value={inputField.phonenumber} onChange={event =>{ handleChangeInput(inputField.id, event)}} className="txtInput"></input>
                         </Col>
                         <Col lg={4}>
                           <p className="pHeaderAddsub">Type</p>
@@ -395,7 +414,7 @@ function adduser() {
                 <button type="submit" className="btnSaveEvent">
                   Save
                 </button>
-                <button type="button" onClick={()=>{console.log(inputFields)}} >Cancel</button>
+                <button type="button" onClick={()=>{console.log(image)}} >Cancel</button>
               </Col>
             </Row>
           </Container>
