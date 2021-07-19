@@ -1,7 +1,14 @@
 module.exports = appglobal = {
   api: {
-    // base_api: "http://localhost:8000",
-    base_api:"http://resurface-load-balancer-973411924.ap-southeast-1.elb.amazonaws.com",
+    // Localhost
+    base_api: "http://localhost:8000",
+    // //// Old
+    // base_api:"http://resurface-load-balancer-973411924.ap-southeast-1.elb.amazonaws.com",
+    // Production
+    // base_api:"http://app.resurfacehub.com/ ",
+    // Staging
+    // base_api:"http://staging.resurfacehub.com/",
+
     login: "/api/auth/login",
     register:"/api/auth/signup",
     logout:"/api/auth/logout",
@@ -15,5 +22,7 @@ module.exports = appglobal = {
     add_event:"/api/auth/events",
     delete_event:"/api/auth/events/",
     update_event:"/api/auth/events/",
+    add_location:"/api/auth/locations ",
+    get_all_location:"/api/auth/locations "
   },
 };

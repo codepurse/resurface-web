@@ -44,6 +44,10 @@ function login() {
             "clinician_id",
             response.data.data.user.clinician_id
           );
+          localStorage.setItem(
+            "Name",
+            response.data.data.user.full_name
+          );
           router.push('/')
         } else {
           console.log("No Role");
