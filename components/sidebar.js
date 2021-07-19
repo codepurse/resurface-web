@@ -89,6 +89,13 @@ function sidebar() {
                 ></img>
                 <span>Clinician directory</span>
               </li>
+               <li onClick = {setPage} id = "divLocation">
+                <img
+                  src="Image/icon/placeholder.png"
+                  className="img-fluid imgSidebar"
+                ></img>
+                <span>Location directory</span>
+              </li>
             </ul>
           </Col>
         </Row>
