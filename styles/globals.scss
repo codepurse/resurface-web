@@ -874,8 +874,10 @@ textarea {
 
 	tbody {
 		tr {
+		
 
 			td {
+				width: 15%;
 				vertical-align: middle;
 
 
@@ -887,6 +889,13 @@ textarea {
 				}
 
 			}
+		}
+		button {
+			border: 2px solid $border-color-white;
+			background-color: #F9F9FB;
+			border-radius: 5px;
+			padding: 5px;
+
 		}
 	}
 }
@@ -1606,6 +1615,7 @@ textarea {
 	tbody {
 		tr {
 			td {
+				width: 15%;
 				
 				p {
 					font-size: 14px;
@@ -1615,7 +1625,16 @@ textarea {
 				}
 			}
 		}
+		button {
+			border: 2px solid $border-color-white;
+			background-color: #F9F9FB;
+			border-radius: 5px;
+			padding: 5px;
+
+		}
 	}
+
+	
 }
 
 

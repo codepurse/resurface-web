@@ -15,6 +15,12 @@ function index() {
   const [newmess, setNewmess] = React.useState(2);
   const [appointment, setAppointment] = React.useState(0);
 
+  useEffect(()=>{
+    const test = 12;
+    const full_name = localStorage.getItem("Name")
+    setFname(full_name)
+  },[])
+
   function setActive(e) {
     $(".ulDashboard>li").removeClass("activeUl");
     $(e.currentTarget).addClass("activeUl");
