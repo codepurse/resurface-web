@@ -6,15 +6,104 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import countryList from "react-select-country-list";
 import TimezoneSelect from "react-timezone-select";
+import axios from "axios";
+import appglobal from "../../services/api.service";
+import { useFormik, Formik, Form, Field, ErrorMessage } from "formik";
+import * as yup from "yup";
+
 /* Fake data */
 import "../../services/api";
 
 function emr() {
   const [show, setShow] = useState(false);
+  const [locations, setLocations] = useState([])
   const [selectedTimezone, setSelectedTimezone] = useState({});
-  const [startDate, setStartDate] = useState("");
+  const [editable, setEditable] = useState(false)
+  const [trigger,setTrigger] = useState(false)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  // Get location
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios({
+      method: "get",
+      url: appglobal.api.base_api + appglobal.api.get_all_location,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then(function (response) {
+        //handle success
+        console.log('Location', response.data.data)
+        setLocations(response.data.data)
+      })
+      .catch(function (response) {
+        console.log("Get All User", response);
+      });
+
+  }, [trigger])
+
+  // HandleSubmitLocation 
+
+  const handleSubmit = (values) => {
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
+    formData.append("city", values.city_name);
+    formData.append("state_id", values.state_id);
+    formData.append("state_name", values.state_name);
+    formData.append("county", values.county);
+    formData.append("timezone", selectedTimezone.value);
+    if (editable !== true) {
+      // handle Add Location
+      axios({
+        method: "post",
+        url: appglobal.api.base_api + appglobal.api.add_location,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + token,
+        },
+      })
+        .then(function (response) {
+          //handle success
+          console.log(response);
+          handleClose();
+          setTrigger(!trigger)
+        })
+        .catch(function (response) {
+          //handle error
+          console.log(response.response);
+        });
+
+
+    } else {
+      // Handle Edit Location
+      formData.append("_method", "PUT");
+      axios({
+        method: "post",
+        url: appglobal.api.base_api + appglobal.api.update_event + calendarlist.id,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + token,
+        },
+      })
+        .then(function (response) {
+          //handle success
+          console.log(response);
+          setTrigger(!trigger);
+          handleClose();
+        })
+        .catch(function (response) {
+          //handle error
+          console.log(response.response);
+        });
+    }
+
+  };
 
   const customStyles = {
     control: (base, state) => ({
@@ -75,26 +164,29 @@ function emr() {
                   <th>City</th>
                   <th>State</th>
                   <th>State name</th>
-                  <th>Country</th>
+                  <th>county</th>
                   <th>Timezone</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
-                {emr_list.map((event) => (
+                {locations.map((event) => (
                   <tr>
                     <td>
-                      <p></p>
+                      <p>{event.city}</p>
                     </td>
                     <td>
-                      <p></p>
+                      <p>{event.state_id}</p>
                     </td>
                     <td>
-                      <p></p>
+                      <p>{event.state_name}</p>
                     </td>
                     <td>
-                      <p></p>
+                      <p>{event.county}</p>
                     </td>
-                    <td></td>
+                    <td>{event.timezone}</td>
+                    
+                    
                   </tr>
                 ))}
               </tbody>
@@ -103,46 +195,112 @@ function emr() {
         </Row>
       </Container>
       <Modal size="sm" show={show} onHide={handleClose} centered>
-        <Modal.Body>
-          <p className="pModalheader">Create location</p>
-          <p className="pModalheadersub">Fill up all the missing fields.</p>
-          <Container className="modal-details">
-            <Row>
-              <Col lg={12}>
-                <p className="pModalheadertext">City</p>
-                <input type="text" className="txtInput"></input>
-                <p className="pModalheadertext">State Id</p>
-                <input type="text" className="txtInput"></input>
-                <p className="pModalheadertext">State Name</p>
-                <input type="text" className="txtInput"></input>
-                <p className="pModalheadertext">Country</p>
-                <Select options={options} styles={customStyles} />
-                <p className="pModalheadertext">Time Zone</p>
-                <TimezoneSelect
-                  value={selectedTimezone}
-                  onChange={setSelectedTimezone}
-                  styles={customStyles}
-                />
-              </Col>
-              <Col lg={6}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    handleClose();
-                  }}
-                  className="btnCancelLocation"
-                >
-                  Cancel
-                </button>
-              </Col>
-              <Col lg={6}>
-                <button type="submit" className="btnSaveLocation">
-                  Save
-                </button>
-              </Col>
-            </Row>
-          </Container>
-        </Modal.Body>
+        <Formik
+          enableReinitialize={true}
+          initialValues={{
+            city_name: "",
+            state_id: "",
+            state_name: "",
+            county:""
+          }}
+          validateOnChange={false}
+          validateOnBlur={false}
+          validationSchema={yup.object({
+            city_name: yup
+              .string()
+
+              .required("Please Enter City"),
+              state_id: yup
+              .string()
+
+              .required("Please Enter State Id"),
+              state_name: yup
+              .string()
+
+              .required("Please Enter State Name"),
+              county: yup
+              .string()
+
+              .required("Please Enter County"),
+          })}
+          onSubmit={(values) => {
+            // alert(JSON.stringify(values));
+            handleSubmit(values);
+          }}
+        >
+
+          <Modal.Body>
+            <p className="pModalheader">Create location</p>
+            <p className="pModalheadersub">Fill up all the missing fields.</p>
+            <Container className="modal-details">
+            <Form>
+              <Row>
+                <Col lg={12}>
+                  <p className="pModalheadertext">City</p>
+                  <Field
+                    name="city_name"
+                    type="text"
+                    className="txtInput"
+                  ></Field>
+                  <div className="text-danger">
+                    <ErrorMessage name="city_name"></ErrorMessage>
+                  </div>
+                  <p className="pModalheadertext">State Id</p>
+                  <Field
+                    name="state_id"
+                    type="text"
+                    className="txtInput"
+                  ></Field>
+                  <div className="text-danger">
+                    <ErrorMessage name="state_id"></ErrorMessage>
+                  </div>
+                  <p className="pModalheadertext">State Name</p>
+                  <Field
+                    name="state_name"
+                    type="text"
+                    className="txtInput"
+                  ></Field>
+                  <div className="text-danger">
+                    <ErrorMessage name="state_name"></ErrorMessage>
+                  </div>
+                  <p className="pModalheadertext">County</p>
+                  {/* <Select options={options} styles={customStyles} onChange={e=>console.log(e)} /> */}
+                  <Field
+                    name="county"
+                    type="text"
+                    className="txtInput"
+                  ></Field>
+                  <div className="text-danger">
+                    <ErrorMessage name="county"></ErrorMessage>
+                  </div>
+                  <p className="pModalheadertext">Time Zone</p>
+                  <TimezoneSelect
+                    value={selectedTimezone}
+                    onChange={e=>setSelectedTimezone(e)}
+                    styles={customStyles}
+                  />
+                </Col>
+                <Col lg={6}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleClose();
+                    }}
+                    className="btnCancelLocation"
+                  >
+                    Cancel
+                  </button>
+                </Col>
+                <Col lg={6}>
+                  <button type="submit" className="btnSaveLocation">
+                    Save
+                  </button>
+                </Col>
+              </Row>
+              </Form>
+            </Container>
+          </Modal.Body>
+        </Formik>
       </Modal>
     </>
   );

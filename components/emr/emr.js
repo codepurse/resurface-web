@@ -7,15 +7,19 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import { useTable, useExpanded } from 'react-table';
 import AddFamily from './AddFamily'
+import AddClient from './AddClient'
 
 /* Fake data */
 import "../../services/api";
 
 function emr() {
   const [show, setShow] = useState(false);
+  const [showClients, setShowClients] = useState(false);
   const [startDate, setStartDate] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseClients = () => setShowClients(false);
+  const handleShowClients = () => setShowClients(true);
   const options = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
@@ -77,7 +81,7 @@ function emr() {
         </Col>
         <Col lg={6}>
           <div className="form-inline float-right">
-            <button>Add New Client</button>
+            <button onClick={()=>handleShowClients()} >Add New Client</button>
             <button onClick={() => handleShow()} >Add New Family</button>
           </div>
         </Col>
@@ -162,9 +166,20 @@ function emr() {
         </Row>
       </Container>
 
+      {/* Add Family Modal */}
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Body>
-         <AddFamily/>
+         <AddFamily
+          handleClose = {handleClose}
+         />
+        </Modal.Body>
+      </Modal>
+      {/* Add Client Modal */}
+      <Modal show={showClients} onHide={handleCloseClients} centered>
+        <Modal.Body>
+         <AddClient
+          handleCloseClients = {handleCloseClients}
+         />
         </Modal.Body>
       </Modal>
     </>

@@ -23,6 +23,7 @@ module.exports = appglobal = {
     delete_event:"/api/auth/events/",
     update_event:"/api/auth/events/",
     add_location:"/api/auth/locations ",
-    get_all_location:"/api/auth/locations "
+    get_all_location:"/api/auth/locations ",
+    add_family:"/api/auth/families"
   },
 };
