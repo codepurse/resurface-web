@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import { useTable, useExpanded } from 'react-table';
+import AddFamily from './AddFamily'
 
 /* Fake data */
 import "../../services/api";
@@ -77,7 +78,7 @@ function emr() {
         <Col lg={6}>
           <div className="form-inline float-right">
             <button>Add New Client</button>
-            <button>Add New Family</button>
+            <button onClick={() => handleShow()} >Add New Family</button>
           </div>
         </Col>
       </Row>
@@ -121,45 +122,51 @@ function emr() {
           </Container>
         </Col>
       </Row>
-     <Container fluid className = "conEmrtable">
-     <Row>
-        <Col lg = {12}>
-        <Table className = "tableEmr" responsive borderless>
-          <thead>
-            <tr>
-              <th>Client</th>
-              <th>Location</th>
-              <th>Created Date</th>
-              <th>Members Count</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-              {emr_list.map((event) => (
+      <Container fluid className="conEmrtable">
+        <Row>
+          <Col lg={12}>
+            <Table className="tableEmr" responsive borderless>
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Location</th>
+                  <th>Created Date</th>
+                  <th>Members Count</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {emr_list.map((event) => (
                   <tr>
-                      <td>
-                          <p>{event.family}</p>
-                      </td>
-                      <td>
-                          <p>{event.location}</p>
-                      </td>
-                      <td>
-                          <p>{newdate(event.date_created).toLocaleDateString(
+                    <td>
+                      <p>{event.family}</p>
+                    </td>
+                    <td>
+                      <p>{event.location}</p>
+                    </td>
+                    <td>
+                      <p>{newdate(event.date_created).toLocaleDateString(
                         "en-US",
                         options_date
                       )}</p>
-                      </td>
-                      <td>
-                          <p>{event.count}</p>
-                      </td>
-                      <td></td>
+                    </td>
+                    <td>
+                      <p>{event.count}</p>
+                    </td>
+                    <td></td>
                   </tr>
-              ))}
-          </tbody>
-        </Table>
-        </Col>
-      </Row>
-     </Container>
+                ))}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Container>
+
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Body>
+         <AddFamily/>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

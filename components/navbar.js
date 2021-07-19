@@ -13,6 +13,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { HamburgerArrowReverse } from "react-animated-burgers";
 
 function navbar() {
+  const [name,setName] = useState('s')
   const locale = "en";
   const [today, setDate] = React.useState(new Date());
   const day = today.toLocaleDateString(locale, { weekday: "long" });
@@ -43,6 +44,11 @@ function navbar() {
       clearInterval(timer);
     };
   }, []);
+  useEffect(()=>{
+    const test = 12;
+    const full_name = localStorage.getItem("Name")
+    setName(full_name)
+  },[])
   return (
     <>
       <Container fluid className="divNavbar">
@@ -59,19 +65,19 @@ function navbar() {
             <div className="divTime">
               <p>{date}</p>
             </div>
-            <DropdownButton id="dropdown-basic-button" title="Jason Brumback">
+            <DropdownButton id="dropdown-basic-button" title={name}>
               <Dropdown.Item href="#/action-1">My profile</Dropdown.Item>
               <Dropdown.Item href="#/action-2">Support</Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item href="#/action-3">Logout</Dropdown.Item>
             </DropdownButton>
-            <Image
+            {/* <Image
               fluid
               src="Image/profile.jpg"
               alt="Resurface Logo"
               width={35}
               id="imgProfile"
-            />
+            /> */}
           </Col>
         </Row>
       </Container>
