@@ -27,7 +27,7 @@ function login() {
     })
       .then(function (response) {
         //handle success
-        console.log(response.data.data);
+        // console.log(response.data.data);
 
         // Login to dashboard with admin role
         if (response.data.data.user.roles[0] == "admin") {
