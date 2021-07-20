@@ -1,13 +1,13 @@
 module.exports = appglobal = {
   api: {
     // Localhost
-    base_api: "http://localhost:8000",
+    // base_api: "http://localhost:8000",
     // //// Old
     // base_api:"http://resurface-load-balancer-973411924.ap-southeast-1.elb.amazonaws.com",
     // Production
     // base_api:"http://app.resurfacehub.com/ ",
     // Staging
-    // base_api:"http://staging.resurfacehub.com/",
+    base_api:"https://staging.resurfacehub.com/",
 
     login: "/api/auth/login",
     register:"/api/auth/signup",
