@@ -7,7 +7,7 @@ module.exports = appglobal = {
     // Production
     // base_api:"http://app.resurfacehub.com/ ",
     // Staging
-    base_api:"https://staging.resurfacehub.com/",
+    base_api:"https://staging.resurfacehub.com",
 
     login: "/api/auth/login",
     register:"/api/auth/signup",
