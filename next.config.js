@@ -1,6 +1,7 @@
-const path = require('path')
+const path = require('path');
+const withTM = require('next-transpile-modules')(['react-timezone-select']);
 
-module.exports = {
+module.exports = withTM({
   reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true,
@@ -8,4 +9,4 @@ module.exports = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
-}
+})

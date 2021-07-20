@@ -7,15 +7,26 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import { useTable, useExpanded } from 'react-table';
 import AddFamily from './AddFamily'
+import AddClient from './AddClient'
+import axios from "axios";
+import appglobal from "../../services/api.service";
+import moment from "moment";
 
 /* Fake data */
 import "../../services/api";
 
 function emr() {
+  const [families,setFamilies] = useState([])
+  const [family,setFamily] = useState(null)
   const [show, setShow] = useState(false);
+  const [showClients, setShowClients] = useState(false);
+  const [deleteConfirmationShow,setDeleteConfirmationShow] = useState(false)
   const [startDate, setStartDate] = useState("");
+  const [trigger,setTrigger] = useState(false)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseClients = () => setShowClients(false);
+  const handleShowClients = () => setShowClients(true);
   const options = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
@@ -32,6 +43,7 @@ function emr() {
     var new_date = new Date(datetable);
     return new_date;
   }
+
 
   const customStyles = {
     control: (base, state) => ({
@@ -65,6 +77,52 @@ function emr() {
     },
   };
 
+  // Get All families
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios({
+      method: "post",
+      url: appglobal.api.base_api + appglobal.api.get_all_family,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then(function (response) {
+        //handle success
+        setFamilies(response.data.data)
+        console.log("families", response.data.data);
+      })
+      .catch(function (response) {
+        console.log("Get All User", response);
+      });
+  }, [trigger]);
+
+  // Handle Delete Family
+  const handleDeleteFamily = (value) => {
+    // const token = localStorage.getItem("token");
+    // axios({
+    //   method: "delete",
+    //   url: appglobal.api.base_api + appglobal.api.delete_location + family.id,
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //     Accept: "application/json",
+    //     Authorization: "Bearer " + token,
+    //   },
+    // })
+    //   .then(function (response) {
+    //     //handle success
+    //     console.log(response.data);
+    //   })
+    //   .catch(function (response) {
+    //     console.log("handleDeleteLocation", response);
+    //     //handle error
+    //   });
+    console.log(family.id)
+  };
+
   return (
     <>
       <Row>
@@ -77,7 +135,7 @@ function emr() {
         </Col>
         <Col lg={6}>
           <div className="form-inline float-right">
-            <button>Add New Client</button>
+            <button onClick={()=>handleShowClients()} >Add New Client</button>
             <button onClick={() => handleShow()} >Add New Family</button>
           </div>
         </Col>
@@ -128,7 +186,7 @@ function emr() {
             <Table className="tableEmr" responsive borderless>
               <thead>
                 <tr>
-                  <th>Client</th>
+                  <th>Family</th>
                   <th>Location</th>
                   <th>Created Date</th>
                   <th>Members Count</th>
@@ -136,24 +194,48 @@ function emr() {
                 </tr>
               </thead>
               <tbody>
-                {emr_list.map((event) => (
+                {families.map((event) => (
                   <tr>
                     <td>
-                      <p>{event.family}</p>
+                      <p>{event.family_name}</p>
                     </td>
                     <td>
-                      <p>{event.location}</p>
+                      <p>{event.city}</p>
                     </td>
                     <td>
-                      <p>{newdate(event.date_created).toLocaleDateString(
-                        "en-US",
-                        options_date
-                      )}</p>
+                      <p>{moment(event.created_at).format("YYYY/MM/DD")}</p>
                     </td>
                     <td>
                       <p>{event.count}</p>
                     </td>
-                    <td></td>
+                    <td>
+                      <button
+                        onClick={() => {
+                          setDeleteConfirmationShow(true);
+                          setFamily(event);
+                        }}
+                      >
+                        <img
+                          className="imgAction"
+                          src="Image/icon/delete.png"
+                        ></img>
+                      </button>
+                      <button
+                        onClick={() => {
+                          setEditable(true);
+                          handleShow();
+                          setLocationId(event.id);
+                          setEditableLocation(event);
+                          setSelectedTimezone({})
+                        }}
+                      >
+                        <img
+                         
+                          className="imgAction"
+                          src="Image/icon/edit.png"
+                        ></img>
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -162,9 +244,58 @@ function emr() {
         </Row>
       </Container>
 
+      {/* Add Family Modal */}
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Body>
-         <AddFamily/>
+         <AddFamily
+          handleClose = {handleClose}
+         />
+        </Modal.Body>
+      </Modal>
+      {/* Add Client Modal */}
+      <Modal show={showClients} onHide={handleCloseClients} centered>
+        <Modal.Body>
+         <AddClient
+          handleCloseClients = {handleCloseClients}
+         />
+        </Modal.Body>
+      </Modal>
+
+      {/* Delete Confirmation */}
+      <Modal show={deleteConfirmationShow} onHide={()=>setDeleteConfirmationShow(false)} centered>
+        <Modal.Body>
+          <Container>
+            <Row>
+              <Col lg={12}>
+                <p className="pModalTitle">
+                  <img src="Image/icon/trash.png"></img>Delete account
+                </p>
+                <p className="pModalTitleSub">
+                  Are you sure you want to delete this Family Details?
+                </p>
+              </Col>
+              <Col lg={12}>
+                <button
+                  onClick={() => {
+                    handleDeleteFamily();
+                    setDeleteConfirmationShow(false);
+                    setTrigger(!trigger);
+                  }}
+                  className="btnDeleteAccount"
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={() => {
+                    setDeleteConfirmationShow(false);
+                  }}
+                  className="btnDeleteAccount"
+                >
+                  Cancel
+                </button>
+              </Col>
+            </Row>
+          </Container>
         </Modal.Body>
       </Modal>
     </>

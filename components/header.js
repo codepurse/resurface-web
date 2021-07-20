@@ -8,6 +8,7 @@ export class header extends Component {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <title>Resurface</title>
         <link rel="stylesheet" href="Css/index.css"></link>
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
         <link
           rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"

@@ -874,8 +874,10 @@ textarea {
 
 	tbody {
 		tr {
+		
 
 			td {
+				width: 15%;
 				vertical-align: middle;
 
 
@@ -887,6 +889,13 @@ textarea {
 				}
 
 			}
+		}
+		button {
+			border: 2px solid $border-color-white;
+			background-color: #F9F9FB;
+			border-radius: 5px;
+			padding: 5px;
+
 		}
 	}
 }
@@ -1544,3 +1553,105 @@ textarea {
 	font-family: 'Inter';
 	margin-top: 5px;
 }
+
+.divLocation {
+	padding-left: 270px;
+	display: none;
+	margin-top: 85px;
+	p {
+		font-size: 35px;
+		font-family: 'Inter';
+		color: $font-color-black;
+		font-weight: 800;
+		margin-bottom: 3px;
+
+		&:not(:first-child) {
+			font-size: 14px;
+			font-weight: 500;
+			font-family: 'Inter';
+			color: $font-color-gray;
+			width: 500px;
+			display: block;
+		}
+	}
+	button {
+		padding: 7px 16px;
+		border: 2px solid #F5F5F5;
+		border-radius: 8px;
+		background-color: #fafafa;
+		color: $font-color-blue;
+		font-family: 'Roboto';
+		margin-top: 12px;
+		margin-right: 5px;
+		margin-left: 15px;
+		outline: none !important;
+
+		img {
+			margin-right: 8px;
+		}
+
+		&:hover {
+			box-shadow: rgba(0, 49, 113, 0.1) 0px 6px 24px 0px, rgba(0, 49, 113, 0.1) 0px 0px 0px 1px;
+
+		}
+	}
+}
+
+.tableLocation  {
+	margin-top: -4px;
+
+	thead {
+		tr {
+			th {
+				font-family: 'Inter';
+				padding: 15px;
+				font-size: 14px;
+				font-weight: 600 !important;
+				background-color: #F9F9FB;
+				border-bottom: 2px solid #EEEEEE !important;
+			}
+		}
+	}
+	tbody {
+		tr {
+			td {
+				width: 15%;
+				
+				p {
+					font-size: 14px;
+					color: #424242;
+					font-family: "Roboto";
+					font-weight: 500;
+				}
+			}
+		}
+		button {
+			border: 2px solid $border-color-white;
+			background-color: #F9F9FB;
+			border-radius: 5px;
+			padding: 5px;
+
+		}
+	}
+
+	
+}
+
+
+.btnCancelLocation,
+		.btnSaveLocation {
+			padding: 7px 13px;
+			border: 2px solid #F5F5F5;
+			border-radius: 8px;
+			background-color: #fafafa;
+			color: $font-color-blue;
+			font-family: 'Roboto';
+			margin-top: 12px;
+			outline: none !important;
+			width: 100%;
+
+			&:hover {
+				box-shadow: rgba(0, 49, 113, 0.1) 0px 6px 24px 0px, rgba(0, 49, 113, 0.1) 0px 0px 0px 1px;
+
+			}
+		}
