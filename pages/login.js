@@ -26,13 +26,22 @@ function login() {
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then(function (response) {
-        //handle success
-        // console.log(response.data.data);
+        //handle successs
+        console.log(response.data.data);
 
         // Login to dashboard with admin role
         if (response.data.data.user.roles[0] == "admin") {
           console.log("Admin Account");
           localStorage.setItem("token", response.data.data.token);
+          localStorage.setItem("id", response.data.data.user.id);
+          localStorage.setItem(
+            "clinician_id",
+            response.data.data.user.clinician_id
+          );
+          localStorage.setItem(
+            "Name",
+            response.data.data.user.full_name
+          );
           router.push('/')
         }
         // Login to Dashboard with Clinician Role
