@@ -69,7 +69,7 @@ function navbar() {
               <Dropdown.Item href="#/action-1">My profile</Dropdown.Item>
               <Dropdown.Item href="#/action-2">Support</Dropdown.Item>
               <Dropdown.Divider />
-              <Dropdown.Item href="#/action-3">Logout</Dropdown.Item>
+              <Dropdown.Item onClick={()=>{localStorage.clear();}} href="#/action-3">Logout</Dropdown.Item>
             </DropdownButton>
             {/* <Image
               fluid
